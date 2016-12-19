@@ -114,8 +114,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\ChallangeMeAmiController.cs" />
-    <Compile Include="Controllers\ChallengeMeTester2Controller.cs" />
     <Compile Include="Controllers\ChallengeMeTesterController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
