@@ -1,0 +1,15 @@
+ChallengeMeServer/ChallengeMeServer/bin/ApplicationInsights.config
+ChallengeMeServer/ChallengeMeServer/bin/ChallengeMeServer.dll.config
+ChallengeMeServer/ChallengeMeServer/bin/Microsoft.AI.DependencyCollector.xml
+ChallengeMeServer/ChallengeMeServer/bin/Microsoft.AI.ServerTelemetryChannel.xml
+ChallengeMeServer/ChallengeMeServer/bin/Microsoft.AI.Web.xml
+ChallengeMeServer/ChallengeMeServer/bin/Microsoft.AI.WindowsServer.xml
+ChallengeMeServer/ChallengeMeServer/bin/Microsoft.ApplicationInsights.xml
+ChallengeMeServer/ChallengeMeServer/bin/Newtonsoft.Json.xml
+ChallengeMeServer/ChallengeMeServer/bin/System.Net.Http.Formatting.xml
+ChallengeMeServer/ChallengeMeServer/bin/System.Web.Http.WebHost.xml
+ChallengeMeServer/ChallengeMeServer/bin/System.Web.Http.xml
+ChallengeMeServer/ChallengeMeServer/bin/roslyn/Microsoft.CSharp.Core.targets
+ChallengeMeServer/ChallengeMeServer/bin/roslyn/Microsoft.VisualBasic.Core.targets
+ChallengeMeServer/ChallengeMeServer/bin/roslyn/VBCSCompiler.exe.config
+ChallengeMeServer/ChallengeMeServer/obj/Debug/ChallengeMeServer.csproj.FileListAbsolute.txt
