@@ -12,7 +12,7 @@ namespace ChallengeMeServer.Controllers
         // GET: api/ChallengeMeTester
         public IEnumerable<string> Get()
         {
-            return new string[] { "value1", "value2" };
+            return new string[] { "amirani", "ako" };
         }
 
         // GET: api/ChallengeMeTester/5
