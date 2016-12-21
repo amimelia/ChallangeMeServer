@@ -13,3 +13,5 @@ ChallengeMeServer/ChallengeMeServer/bin/roslyn/Microsoft.CSharp.Core.targets
 ChallengeMeServer/ChallengeMeServer/bin/roslyn/Microsoft.VisualBasic.Core.targets
 ChallengeMeServer/ChallengeMeServer/bin/roslyn/VBCSCompiler.exe.config
 ChallengeMeServer/ChallengeMeServer/obj/Debug/ChallengeMeServer.csproj.FileListAbsolute.txt
+ChallengeMeServer/.vs/config/applicationhost.config
+ChallengeMeServer/ChallengeMeServer/Web.config
