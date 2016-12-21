@@ -12,6 +12,7 @@ namespace ChallengeMeServer.Controllers
         // GET: api/ChallengeMeTester
         public IEnumerable<string> Get()
         {
+
             return new string[] { "amirani", "ako" };
         }
 

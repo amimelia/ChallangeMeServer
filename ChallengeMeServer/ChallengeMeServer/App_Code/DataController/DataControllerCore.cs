@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace ChallengeMeServer.App_Code.DataController
+namespace ChallengeMeServer.DataController
 {
     public class DataControllerCore
     {
