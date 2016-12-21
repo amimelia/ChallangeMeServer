@@ -18,6 +18,15 @@ namespace ChallengeMeServer.Controllers
         // GET: api/ChallengeMeTester/5
         public string Get(int id)
         {
+            using (var db = new ChallengeMeEntities())
+            {
+                db.users.Add(new user
+                {
+                    UserID = id,
+                    UserName = "ako"
+                });
+                db.SaveChanges();
+            }
             return "value";
         }
 
