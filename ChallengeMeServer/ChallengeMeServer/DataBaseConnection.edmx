@@ -1,0 +1,719 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ChallengeMeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'ChallengeMe.dbo.challenge_settings' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="challenge_settings">
+          <Property Name="ChallengeID" Type="int" />
+          <Property Name="SettingName" Type="varchar" MaxLength="150" />
+          <Property Name="SettingValue" Type="varchar" MaxLength="200" />
+        </EntityType>-->
+        <EntityType Name="challenges">
+          <Key>
+            <PropertyRef Name="ChallengeID" />
+          </Key>
+          <Property Name="ChallengeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ChallengeType" Type="varchar" MaxLength="100" />
+          <Property Name="ChallengeName" Type="varchar" MaxLength="100" />
+          <Property Name="ChallengeHashTag" Type="varchar" MaxLength="100" />
+          <Property Name="ChallengeStatus" Type="varchar" MaxLength="100" />
+          <Property Name="ChallengeCreateDate" Type="date" />
+          <Property Name="ChallengeCreateBy" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'ChallengeMe.dbo.challenges_and_posts' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="challenges_and_posts">
+          <Property Name="ChallengesAndUsersID" Type="int" />
+          <Property Name="PostID" Type="int" />
+        </EntityType>-->
+        <EntityType Name="challenges_and_users">
+          <Key>
+            <PropertyRef Name="ChallengesAndUsersID" />
+          </Key>
+          <Property Name="ChallengesAndUsersID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ChallengeStatus" Type="varchar" MaxLength="100" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="ChallengeID" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'ChallengeMe.dbo.notification_users' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="notification_users">
+          <Property Name="NotificationState" Type="varchar" MaxLength="100" />
+          <Property Name="NotificationID" Type="int" />
+          <Property Name="UserID" Type="int" />
+        </EntityType>-->
+        <EntityType Name="notifications">
+          <Key>
+            <PropertyRef Name="NotificationID" />
+          </Key>
+          <Property Name="NotificationID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NotificationDescription" Type="varchar" MaxLength="300" />
+          <Property Name="NotificationCreateDate" Type="date" />
+          <Property Name="NotificationStatus" Type="varchar" MaxLength="200" />
+          <Property Name="ChallengeID" Type="int" />
+          <Property Name="PostID" Type="int" />
+          <Property Name="UserID" Type="int" />
+        </EntityType>
+        <EntityType Name="post_comments">
+          <Key>
+            <PropertyRef Name="PostCommentID" />
+          </Key>
+          <Property Name="PostCommentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PostCommentDiscription" Type="varchar" MaxLength="400" />
+          <Property Name="PostCommentLike" Type="int" />
+          <Property Name="PostCommentCreateDate" Type="date" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="PostID" Type="int" />
+        </EntityType>
+        <EntityType Name="posts">
+          <Key>
+            <PropertyRef Name="PostID" />
+          </Key>
+          <Property Name="PostID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PostContent" Type="varchar" MaxLength="400" />
+          <Property Name="PostDiscription" Type="varchar" MaxLength="300" />
+          <Property Name="PostLikes" Type="int" />
+          <Property Name="PostCreateDate" Type="date" />
+          <Property Name="ChallengeID" Type="int" />
+          <Property Name="UserID" Type="int" />
+        </EntityType>
+        <EntityType Name="profile_info">
+          <Key>
+            <PropertyRef Name="ProfileInfoID" />
+          </Key>
+          <Property Name="ProfileInfoID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProfilePicture" Type="varchar" MaxLength="300" />
+          <Property Name="Name" Type="varchar" MaxLength="100" />
+          <Property Name="LastName" Type="varchar" MaxLength="100" />
+          <Property Name="BirthDate" Type="date" />
+          <Property Name="Gender" Type="bit" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'ChallengeMe.dbo.user_followers' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="user_followers">
+          <Property Name="UserID" Type="int" />
+          <Property Name="UserFollowerID" Type="int" />
+        </EntityType>-->
+        <EntityType Name="users">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="varchar" MaxLength="100" />
+          <Property Name="UserPassword" Type="varchar" MaxLength="100" />
+          <Property Name="UserStatus" Type="varchar" MaxLength="50" />
+          <Property Name="UserCreateDate" Type="date" />
+          <Property Name="ProfileInfoID" Type="int" />
+        </EntityType>
+        <Association Name="fk_challenge_to_user">
+          <End Role="users" Type="Self.users" Multiplicity="0..1" />
+          <End Role="challenges" Type="Self.challenges" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="challenges">
+              <PropertyRef Name="ChallengeCreateBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <!--Errors Found During Generation:
+error 6004: The table 'ChallengeMe.dbo.challenges_and_posts' is referenced by a relationship, but cannot be found.
+        <Association Name="fk_challengeAndPost_to_challengeAndUser" />-->
+        <!--Errors Found During Generation:
+error 6004: The table 'ChallengeMe.dbo.challenges_and_posts' is referenced by a relationship, but cannot be found.
+        <Association Name="fk_challengeAndPost_to_post" />-->
+        <Association Name="fk_challengeAndUser_to_challenge">
+          <End Role="challenges" Type="Self.challenges" Multiplicity="0..1" />
+          <End Role="challenges_and_users" Type="Self.challenges_and_users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="challenges">
+              <PropertyRef Name="ChallengeID" />
+            </Principal>
+            <Dependent Role="challenges_and_users">
+              <PropertyRef Name="ChallengeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_challengeAndUser_to_user">
+          <End Role="users" Type="Self.users" Multiplicity="0..1" />
+          <End Role="challenges_and_users" Type="Self.challenges_and_users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="challenges_and_users">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <!--Errors Found During Generation:
+error 6004: The table 'ChallengeMe.dbo.challenge_settings' is referenced by a relationship, but cannot be found.
+        <Association Name="fk_challengesetting_to_challenge" />-->
+        <Association Name="fk_notification_to_challenge">
+          <End Role="challenges" Type="Self.challenges" Multiplicity="0..1" />
+          <End Role="notifications" Type="Self.notifications" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="challenges">
+              <PropertyRef Name="ChallengeID" />
+            </Principal>
+            <Dependent Role="notifications">
+              <PropertyRef Name="ChallengeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_notification_to_post">
+          <End Role="posts" Type="Self.posts" Multiplicity="0..1" />
+          <End Role="notifications" Type="Self.notifications" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="posts">
+              <PropertyRef Name="PostID" />
+            </Principal>
+            <Dependent Role="notifications">
+              <PropertyRef Name="PostID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_notification_to_user">
+          <End Role="users" Type="Self.users" Multiplicity="0..1" />
+          <End Role="notifications" Type="Self.notifications" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="notifications">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <!--Errors Found During Generation:
+error 6004: The table 'ChallengeMe.dbo.notification_users' is referenced by a relationship, but cannot be found.
+        <Association Name="fk_notificationUser_to_notification" />-->
+        <!--Errors Found During Generation:
+error 6004: The table 'ChallengeMe.dbo.notification_users' is referenced by a relationship, but cannot be found.
+        <Association Name="fk_notificationUser_to_user" />-->
+        <Association Name="fk_post_to_challenge">
+          <End Role="challenges" Type="Self.challenges" Multiplicity="0..1" />
+          <End Role="posts" Type="Self.posts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="challenges">
+              <PropertyRef Name="ChallengeID" />
+            </Principal>
+            <Dependent Role="posts">
+              <PropertyRef Name="ChallengeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_post_to_user">
+          <End Role="users" Type="Self.users" Multiplicity="0..1" />
+          <End Role="posts" Type="Self.posts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="posts">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_postcomment_to_post">
+          <End Role="posts" Type="Self.posts" Multiplicity="0..1" />
+          <End Role="post_comments" Type="Self.post_comments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="posts">
+              <PropertyRef Name="PostID" />
+            </Principal>
+            <Dependent Role="post_comments">
+              <PropertyRef Name="PostID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_postcomment_to_user">
+          <End Role="users" Type="Self.users" Multiplicity="0..1" />
+          <End Role="post_comments" Type="Self.post_comments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="post_comments">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_profile_to_user">
+          <End Role="profile_info" Type="Self.profile_info" Multiplicity="0..1" />
+          <End Role="users" Type="Self.users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="profile_info">
+              <PropertyRef Name="ProfileInfoID" />
+            </Principal>
+            <Dependent Role="users">
+              <PropertyRef Name="ProfileInfoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <!--Errors Found During Generation:
+error 6004: The table 'ChallengeMe.dbo.user_followers' is referenced by a relationship, but cannot be found.
+        <Association Name="fk_userFolloews_to_user" />-->
+        <EntityContainer Name="ChallengeMeModelStoreContainer">
+          <EntitySet Name="challenges" EntityType="Self.challenges" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="challenges_and_users" EntityType="Self.challenges_and_users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="notifications" EntityType="Self.notifications" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="post_comments" EntityType="Self.post_comments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="posts" EntityType="Self.posts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="profile_info" EntityType="Self.profile_info" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="fk_challenge_to_user" Association="Self.fk_challenge_to_user">
+            <End Role="users" EntitySet="users" />
+            <End Role="challenges" EntitySet="challenges" />
+          </AssociationSet>
+          <AssociationSet Name="fk_challengeAndUser_to_challenge" Association="Self.fk_challengeAndUser_to_challenge">
+            <End Role="challenges" EntitySet="challenges" />
+            <End Role="challenges_and_users" EntitySet="challenges_and_users" />
+          </AssociationSet>
+          <AssociationSet Name="fk_challengeAndUser_to_user" Association="Self.fk_challengeAndUser_to_user">
+            <End Role="users" EntitySet="users" />
+            <End Role="challenges_and_users" EntitySet="challenges_and_users" />
+          </AssociationSet>
+          <AssociationSet Name="fk_notification_to_challenge" Association="Self.fk_notification_to_challenge">
+            <End Role="challenges" EntitySet="challenges" />
+            <End Role="notifications" EntitySet="notifications" />
+          </AssociationSet>
+          <AssociationSet Name="fk_notification_to_post" Association="Self.fk_notification_to_post">
+            <End Role="posts" EntitySet="posts" />
+            <End Role="notifications" EntitySet="notifications" />
+          </AssociationSet>
+          <AssociationSet Name="fk_notification_to_user" Association="Self.fk_notification_to_user">
+            <End Role="users" EntitySet="users" />
+            <End Role="notifications" EntitySet="notifications" />
+          </AssociationSet>
+          <AssociationSet Name="fk_post_to_challenge" Association="Self.fk_post_to_challenge">
+            <End Role="challenges" EntitySet="challenges" />
+            <End Role="posts" EntitySet="posts" />
+          </AssociationSet>
+          <AssociationSet Name="fk_post_to_user" Association="Self.fk_post_to_user">
+            <End Role="users" EntitySet="users" />
+            <End Role="posts" EntitySet="posts" />
+          </AssociationSet>
+          <AssociationSet Name="fk_postcomment_to_post" Association="Self.fk_postcomment_to_post">
+            <End Role="posts" EntitySet="posts" />
+            <End Role="post_comments" EntitySet="post_comments" />
+          </AssociationSet>
+          <AssociationSet Name="fk_postcomment_to_user" Association="Self.fk_postcomment_to_user">
+            <End Role="users" EntitySet="users" />
+            <End Role="post_comments" EntitySet="post_comments" />
+          </AssociationSet>
+          <AssociationSet Name="fk_profile_to_user" Association="Self.fk_profile_to_user">
+            <End Role="profile_info" EntitySet="profile_info" />
+            <End Role="users" EntitySet="users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ChallengeMeModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="challenge">
+          <Key>
+            <PropertyRef Name="ChallengeID" />
+          </Key>
+          <Property Name="ChallengeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ChallengeType" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ChallengeName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ChallengeHashTag" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ChallengeStatus" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ChallengeCreateDate" Type="DateTime" Precision="0" />
+          <Property Name="ChallengeCreateBy" Type="Int32" />
+          <NavigationProperty Name="user" Relationship="Self.fk_challenge_to_user" FromRole="challenges" ToRole="users" />
+          <NavigationProperty Name="challenges_and_users" Relationship="Self.fk_challengeAndUser_to_challenge" FromRole="challenges" ToRole="challenges_and_users" />
+          <NavigationProperty Name="notifications" Relationship="Self.fk_notification_to_challenge" FromRole="challenges" ToRole="notifications" />
+          <NavigationProperty Name="posts" Relationship="Self.fk_post_to_challenge" FromRole="challenges" ToRole="posts" />
+        </EntityType>
+        <EntityType Name="challenges_and_users">
+          <Key>
+            <PropertyRef Name="ChallengesAndUsersID" />
+          </Key>
+          <Property Name="ChallengesAndUsersID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ChallengeStatus" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="ChallengeID" Type="Int32" />
+          <NavigationProperty Name="challenge" Relationship="Self.fk_challengeAndUser_to_challenge" FromRole="challenges_and_users" ToRole="challenges" />
+          <NavigationProperty Name="user" Relationship="Self.fk_challengeAndUser_to_user" FromRole="challenges_and_users" ToRole="users" />
+        </EntityType>
+        <EntityType Name="notification">
+          <Key>
+            <PropertyRef Name="NotificationID" />
+          </Key>
+          <Property Name="NotificationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NotificationDescription" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="NotificationCreateDate" Type="DateTime" Precision="0" />
+          <Property Name="NotificationStatus" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="ChallengeID" Type="Int32" />
+          <Property Name="PostID" Type="Int32" />
+          <Property Name="UserID" Type="Int32" />
+          <NavigationProperty Name="challenge" Relationship="Self.fk_notification_to_challenge" FromRole="notifications" ToRole="challenges" />
+          <NavigationProperty Name="post" Relationship="Self.fk_notification_to_post" FromRole="notifications" ToRole="posts" />
+          <NavigationProperty Name="user" Relationship="Self.fk_notification_to_user" FromRole="notifications" ToRole="users" />
+        </EntityType>
+        <EntityType Name="post_comments">
+          <Key>
+            <PropertyRef Name="PostCommentID" />
+          </Key>
+          <Property Name="PostCommentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PostCommentDiscription" Type="String" MaxLength="400" FixedLength="false" Unicode="false" />
+          <Property Name="PostCommentLike" Type="Int32" />
+          <Property Name="PostCommentCreateDate" Type="DateTime" Precision="0" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="PostID" Type="Int32" />
+          <NavigationProperty Name="post" Relationship="Self.fk_postcomment_to_post" FromRole="post_comments" ToRole="posts" />
+          <NavigationProperty Name="user" Relationship="Self.fk_postcomment_to_user" FromRole="post_comments" ToRole="users" />
+        </EntityType>
+        <EntityType Name="post">
+          <Key>
+            <PropertyRef Name="PostID" />
+          </Key>
+          <Property Name="PostID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PostContent" Type="String" MaxLength="400" FixedLength="false" Unicode="false" />
+          <Property Name="PostDiscription" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="PostLikes" Type="Int32" />
+          <Property Name="PostCreateDate" Type="DateTime" Precision="0" />
+          <Property Name="ChallengeID" Type="Int32" />
+          <Property Name="UserID" Type="Int32" />
+          <NavigationProperty Name="challenge" Relationship="Self.fk_post_to_challenge" FromRole="posts" ToRole="challenges" />
+          <NavigationProperty Name="notifications" Relationship="Self.fk_notification_to_post" FromRole="posts" ToRole="notifications" />
+          <NavigationProperty Name="post_comments" Relationship="Self.fk_postcomment_to_post" FromRole="posts" ToRole="post_comments" />
+          <NavigationProperty Name="user" Relationship="Self.fk_post_to_user" FromRole="posts" ToRole="users" />
+        </EntityType>
+        <EntityType Name="profile_info">
+          <Key>
+            <PropertyRef Name="ProfileInfoID" />
+          </Key>
+          <Property Name="ProfileInfoID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProfilePicture" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="BirthDate" Type="DateTime" Precision="0" />
+          <Property Name="Gender" Type="Boolean" />
+          <NavigationProperty Name="users" Relationship="Self.fk_profile_to_user" FromRole="profile_info" ToRole="users" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="UserPassword" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="UserStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UserCreateDate" Type="DateTime" Precision="0" />
+          <Property Name="ProfileInfoID" Type="Int32" />
+          <NavigationProperty Name="challenges" Relationship="Self.fk_challenge_to_user" FromRole="users" ToRole="challenges" />
+          <NavigationProperty Name="challenges_and_users" Relationship="Self.fk_challengeAndUser_to_user" FromRole="users" ToRole="challenges_and_users" />
+          <NavigationProperty Name="notifications" Relationship="Self.fk_notification_to_user" FromRole="users" ToRole="notifications" />
+          <NavigationProperty Name="post_comments" Relationship="Self.fk_postcomment_to_user" FromRole="users" ToRole="post_comments" />
+          <NavigationProperty Name="posts" Relationship="Self.fk_post_to_user" FromRole="users" ToRole="posts" />
+          <NavigationProperty Name="profile_info" Relationship="Self.fk_profile_to_user" FromRole="users" ToRole="profile_info" />
+        </EntityType>
+        <Association Name="fk_challenge_to_user">
+          <End Role="users" Type="Self.user" Multiplicity="0..1" />
+          <End Role="challenges" Type="Self.challenge" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="challenges">
+              <PropertyRef Name="ChallengeCreateBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_challengeAndUser_to_challenge">
+          <End Role="challenges" Type="Self.challenge" Multiplicity="0..1" />
+          <End Role="challenges_and_users" Type="Self.challenges_and_users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="challenges">
+              <PropertyRef Name="ChallengeID" />
+            </Principal>
+            <Dependent Role="challenges_and_users">
+              <PropertyRef Name="ChallengeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_notification_to_challenge">
+          <End Role="challenges" Type="Self.challenge" Multiplicity="0..1" />
+          <End Role="notifications" Type="Self.notification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="challenges">
+              <PropertyRef Name="ChallengeID" />
+            </Principal>
+            <Dependent Role="notifications">
+              <PropertyRef Name="ChallengeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_post_to_challenge">
+          <End Role="challenges" Type="Self.challenge" Multiplicity="0..1" />
+          <End Role="posts" Type="Self.post" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="challenges">
+              <PropertyRef Name="ChallengeID" />
+            </Principal>
+            <Dependent Role="posts">
+              <PropertyRef Name="ChallengeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_challengeAndUser_to_user">
+          <End Role="users" Type="Self.user" Multiplicity="0..1" />
+          <End Role="challenges_and_users" Type="Self.challenges_and_users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="challenges_and_users">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_notification_to_post">
+          <End Role="posts" Type="Self.post" Multiplicity="0..1" />
+          <End Role="notifications" Type="Self.notification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="posts">
+              <PropertyRef Name="PostID" />
+            </Principal>
+            <Dependent Role="notifications">
+              <PropertyRef Name="PostID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_notification_to_user">
+          <End Role="users" Type="Self.user" Multiplicity="0..1" />
+          <End Role="notifications" Type="Self.notification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="notifications">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_postcomment_to_post">
+          <End Role="posts" Type="Self.post" Multiplicity="0..1" />
+          <End Role="post_comments" Type="Self.post_comments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="posts">
+              <PropertyRef Name="PostID" />
+            </Principal>
+            <Dependent Role="post_comments">
+              <PropertyRef Name="PostID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_postcomment_to_user">
+          <End Role="users" Type="Self.user" Multiplicity="0..1" />
+          <End Role="post_comments" Type="Self.post_comments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="post_comments">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_post_to_user">
+          <End Role="users" Type="Self.user" Multiplicity="0..1" />
+          <End Role="posts" Type="Self.post" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="posts">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_profile_to_user">
+          <End Role="profile_info" Type="Self.profile_info" Multiplicity="0..1" />
+          <End Role="users" Type="Self.user" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="profile_info">
+              <PropertyRef Name="ProfileInfoID" />
+            </Principal>
+            <Dependent Role="users">
+              <PropertyRef Name="ProfileInfoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ChallengeMeEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="challenges" EntityType="Self.challenge" />
+          <EntitySet Name="challenges_and_users" EntityType="Self.challenges_and_users" />
+          <EntitySet Name="notifications" EntityType="Self.notification" />
+          <EntitySet Name="post_comments" EntityType="Self.post_comments" />
+          <EntitySet Name="posts" EntityType="Self.post" />
+          <EntitySet Name="profile_info" EntityType="Self.profile_info" />
+          <EntitySet Name="users" EntityType="Self.user" />
+          <AssociationSet Name="fk_challenge_to_user" Association="Self.fk_challenge_to_user">
+            <End Role="users" EntitySet="users" />
+            <End Role="challenges" EntitySet="challenges" />
+          </AssociationSet>
+          <AssociationSet Name="fk_challengeAndUser_to_challenge" Association="Self.fk_challengeAndUser_to_challenge">
+            <End Role="challenges" EntitySet="challenges" />
+            <End Role="challenges_and_users" EntitySet="challenges_and_users" />
+          </AssociationSet>
+          <AssociationSet Name="fk_notification_to_challenge" Association="Self.fk_notification_to_challenge">
+            <End Role="challenges" EntitySet="challenges" />
+            <End Role="notifications" EntitySet="notifications" />
+          </AssociationSet>
+          <AssociationSet Name="fk_post_to_challenge" Association="Self.fk_post_to_challenge">
+            <End Role="challenges" EntitySet="challenges" />
+            <End Role="posts" EntitySet="posts" />
+          </AssociationSet>
+          <AssociationSet Name="fk_challengeAndUser_to_user" Association="Self.fk_challengeAndUser_to_user">
+            <End Role="users" EntitySet="users" />
+            <End Role="challenges_and_users" EntitySet="challenges_and_users" />
+          </AssociationSet>
+          <AssociationSet Name="fk_notification_to_post" Association="Self.fk_notification_to_post">
+            <End Role="posts" EntitySet="posts" />
+            <End Role="notifications" EntitySet="notifications" />
+          </AssociationSet>
+          <AssociationSet Name="fk_notification_to_user" Association="Self.fk_notification_to_user">
+            <End Role="users" EntitySet="users" />
+            <End Role="notifications" EntitySet="notifications" />
+          </AssociationSet>
+          <AssociationSet Name="fk_postcomment_to_post" Association="Self.fk_postcomment_to_post">
+            <End Role="posts" EntitySet="posts" />
+            <End Role="post_comments" EntitySet="post_comments" />
+          </AssociationSet>
+          <AssociationSet Name="fk_postcomment_to_user" Association="Self.fk_postcomment_to_user">
+            <End Role="users" EntitySet="users" />
+            <End Role="post_comments" EntitySet="post_comments" />
+          </AssociationSet>
+          <AssociationSet Name="fk_post_to_user" Association="Self.fk_post_to_user">
+            <End Role="users" EntitySet="users" />
+            <End Role="posts" EntitySet="posts" />
+          </AssociationSet>
+          <AssociationSet Name="fk_profile_to_user" Association="Self.fk_profile_to_user">
+            <End Role="profile_info" EntitySet="profile_info" />
+            <End Role="users" EntitySet="users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ChallengeMeModelStoreContainer" CdmEntityContainer="ChallengeMeEntities">
+          <EntitySetMapping Name="challenges">
+            <EntityTypeMapping TypeName="ChallengeMeModel.challenge">
+              <MappingFragment StoreEntitySet="challenges">
+                <ScalarProperty Name="ChallengeID" ColumnName="ChallengeID" />
+                <ScalarProperty Name="ChallengeType" ColumnName="ChallengeType" />
+                <ScalarProperty Name="ChallengeName" ColumnName="ChallengeName" />
+                <ScalarProperty Name="ChallengeHashTag" ColumnName="ChallengeHashTag" />
+                <ScalarProperty Name="ChallengeStatus" ColumnName="ChallengeStatus" />
+                <ScalarProperty Name="ChallengeCreateDate" ColumnName="ChallengeCreateDate" />
+                <ScalarProperty Name="ChallengeCreateBy" ColumnName="ChallengeCreateBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="challenges_and_users">
+            <EntityTypeMapping TypeName="ChallengeMeModel.challenges_and_users">
+              <MappingFragment StoreEntitySet="challenges_and_users">
+                <ScalarProperty Name="ChallengesAndUsersID" ColumnName="ChallengesAndUsersID" />
+                <ScalarProperty Name="ChallengeStatus" ColumnName="ChallengeStatus" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="ChallengeID" ColumnName="ChallengeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="notifications">
+            <EntityTypeMapping TypeName="ChallengeMeModel.notification">
+              <MappingFragment StoreEntitySet="notifications">
+                <ScalarProperty Name="NotificationID" ColumnName="NotificationID" />
+                <ScalarProperty Name="NotificationDescription" ColumnName="NotificationDescription" />
+                <ScalarProperty Name="NotificationCreateDate" ColumnName="NotificationCreateDate" />
+                <ScalarProperty Name="NotificationStatus" ColumnName="NotificationStatus" />
+                <ScalarProperty Name="ChallengeID" ColumnName="ChallengeID" />
+                <ScalarProperty Name="PostID" ColumnName="PostID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="post_comments">
+            <EntityTypeMapping TypeName="ChallengeMeModel.post_comments">
+              <MappingFragment StoreEntitySet="post_comments">
+                <ScalarProperty Name="PostCommentID" ColumnName="PostCommentID" />
+                <ScalarProperty Name="PostCommentDiscription" ColumnName="PostCommentDiscription" />
+                <ScalarProperty Name="PostCommentLike" ColumnName="PostCommentLike" />
+                <ScalarProperty Name="PostCommentCreateDate" ColumnName="PostCommentCreateDate" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="PostID" ColumnName="PostID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="posts">
+            <EntityTypeMapping TypeName="ChallengeMeModel.post">
+              <MappingFragment StoreEntitySet="posts">
+                <ScalarProperty Name="PostID" ColumnName="PostID" />
+                <ScalarProperty Name="PostContent" ColumnName="PostContent" />
+                <ScalarProperty Name="PostDiscription" ColumnName="PostDiscription" />
+                <ScalarProperty Name="PostLikes" ColumnName="PostLikes" />
+                <ScalarProperty Name="PostCreateDate" ColumnName="PostCreateDate" />
+                <ScalarProperty Name="ChallengeID" ColumnName="ChallengeID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="profile_info">
+            <EntityTypeMapping TypeName="ChallengeMeModel.profile_info">
+              <MappingFragment StoreEntitySet="profile_info">
+                <ScalarProperty Name="ProfileInfoID" ColumnName="ProfileInfoID" />
+                <ScalarProperty Name="ProfilePicture" ColumnName="ProfilePicture" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="users">
+            <EntityTypeMapping TypeName="ChallengeMeModel.user">
+              <MappingFragment StoreEntitySet="users">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserPassword" ColumnName="UserPassword" />
+                <ScalarProperty Name="UserStatus" ColumnName="UserStatus" />
+                <ScalarProperty Name="UserCreateDate" ColumnName="UserCreateDate" />
+                <ScalarProperty Name="ProfileInfoID" ColumnName="ProfileInfoID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
