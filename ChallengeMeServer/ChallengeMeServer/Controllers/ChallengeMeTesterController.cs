@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
 
 namespace ChallengeMeServer.Controllers
@@ -19,6 +20,7 @@ namespace ChallengeMeServer.Controllers
         // GET: api/ChallengeMeTester/5
         public string Get(int id)
         {
+            var principal = RequestContext.Principal;
             using (var db = new ChallengeMeEntities())
             {
                 db.users.Add(new user
@@ -28,7 +30,8 @@ namespace ChallengeMeServer.Controllers
                 });
                 db.SaveChanges();
             }
-            return "value";
+
+            return HttpContext.Current.Request.UserHostAddress;
         }
 
         // POST: api/ChallengeMeTester
