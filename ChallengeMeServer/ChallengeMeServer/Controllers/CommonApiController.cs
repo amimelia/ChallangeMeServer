@@ -15,7 +15,7 @@ namespace ChallengeMeServer.Controllers
     {
         public static HttpResponseMessage ValidRequest = new HttpResponseMessage();
 
-        public HttpResponseMessage ValidateRequest(ChallangeMeRequest request)
+        public HttpResponseMessage ValidateRequest(ChallengeMeRequest request)
         {
             Client user = AccountManager.Current.GetClientByToken(request.TokenKey);
             if (user == AccountManager.InvalidClientToken || 

@@ -6,9 +6,9 @@ using System.Web;
 
 namespace ChallengeMeServer.Controllers.Web
 {
-    public class ChallangeMeRequest
+    public class ChallengeMeRequest
     {
-        public ChallangeMeRequest(Guid token, int? challangeId)
+        public ChallengeMeRequest(Guid token, int? challangeId)
         {
             TokenKey = token;
         }

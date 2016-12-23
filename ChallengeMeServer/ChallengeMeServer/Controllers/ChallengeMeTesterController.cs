@@ -29,8 +29,9 @@ namespace ChallengeMeServer.Controllers
         [System.Web.Http.HttpGet]
         public string PostChallangeMeRequest(Guid tokenKey, int challangeId)
         {
-            var challangeMeRequest = new ChallangeMeRequest(tokenKey, challangeId);
+            var challangeMeRequest = new ChallengeMeRequest(tokenKey, challangeId);
             var validationResponse = ValidateRequest(challangeMeRequest);
+
             return validationResponse != CommonApiController.ValidRequest ? "invalid" : "success";
         }
 

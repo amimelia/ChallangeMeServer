@@ -143,9 +143,14 @@
     <Compile Include="challenges_and_users.cs">
       <DependentUpon>DataBaseConnection.tt</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\ChallengeHandlerController.cs" />
     <Compile Include="Controllers\ChallengeMeTesterController.cs" />
     <Compile Include="Controllers\CommonApiController.cs" />
-    <Compile Include="Controllers\Web\ChallangeMeRequest.cs" />
+    <Compile Include="Controllers\NewsFeedController.cs" />
+    <Compile Include="Controllers\ShareContentController.cs" />
+    <Compile Include="Controllers\SignUpController.cs" />
+    <Compile Include="Controllers\SingleUserController.cs" />
+    <Compile Include="Controllers\Web\ChallengeMeRequest.cs" />
     <Compile Include="Controllers\Web\HttpRequestHelper.cs" />
     <Compile Include="DataBaseConnection.Context.cs">
       <AutoGen>True</AutoGen>
