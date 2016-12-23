@@ -136,7 +136,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="ChallangeMe\App_Code\Clients\Client.cs" />
     <Compile Include="ChallangeMe\App_Code\DataAccess\DataControllerCore.cs" />
-    <Compile Include="ChallangeMe\App_Code\Managers\AccauntManager.cs" />
+    <Compile Include="ChallangeMe\App_Code\Managers\AccountManager.cs" />
     <Compile Include="challenge.cs">
       <DependentUpon>DataBaseConnection.tt</DependentUpon>
     </Compile>

@@ -26,7 +26,14 @@ namespace ChallengeMeServer.ChallangeMe.App_Code.DataAccess
                 return db.users.FirstOrDefault(x => x.UserID == userId);
             }
         }
-
+        public user GetUser(String userName,String password)
+        {
+            using (var db = new ChallengeMeEntities())
+            {
+            }
+            return new user();
+            
+        }
         public void RegisterNewUser()
         {
             
