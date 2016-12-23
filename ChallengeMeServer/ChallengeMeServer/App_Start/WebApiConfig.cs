@@ -20,6 +20,11 @@ namespace ChallengeMeServer
                 defaults: new { id = RouteParameter.Optional }
             );
 
+            config.Routes.MapHttpRoute(
+                name: "PostRequest",
+                routeTemplate: "api/{controller}/{action}/{tokenKey}/{challangeId}"
+            );
+
         }
     }
 }

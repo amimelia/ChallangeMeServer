@@ -8,8 +8,8 @@ namespace ChallengeMeServer.DataController
     public class DataControllerCore
     {
         static readonly DataControllerCore _dataControllerCore = new DataControllerCore();
-
-        public static DataControllerCore DataController
+        
+        public static DataControllerCore Current
         {
             get
             {

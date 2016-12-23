@@ -133,8 +133,10 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Code\DataAccess\DataControllerCore.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="ChallangeMe\App_Code\Clients\Client.cs" />
+    <Compile Include="ChallangeMe\App_Code\DataAccess\DataControllerCore.cs" />
+    <Compile Include="ChallangeMe\App_Code\Managers\AccauntManager.cs" />
     <Compile Include="challenge.cs">
       <DependentUpon>DataBaseConnection.tt</DependentUpon>
     </Compile>
@@ -142,6 +144,9 @@
       <DependentUpon>DataBaseConnection.tt</DependentUpon>
     </Compile>
     <Compile Include="Controllers\ChallengeMeTesterController.cs" />
+    <Compile Include="Controllers\CommonApiController.cs" />
+    <Compile Include="Controllers\Web\ChallangeMeRequest.cs" />
+    <Compile Include="Controllers\Web\HttpRequestHelper.cs" />
     <Compile Include="DataBaseConnection.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -197,6 +202,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="App_Code\" />
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
   </ItemGroup>
