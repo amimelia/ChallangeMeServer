@@ -30,9 +30,8 @@ namespace ChallengeMeServer.ChallangeMe.App_Code.DataAccess
         {
             using (var db = new ChallengeMeEntities())
             {
+                return db.users.SingleOrDefault(x => x.UserName == userName && x.UserPassword == password);
             }
-            return new user();
-            
         }
         public void RegisterNewUser()
         {

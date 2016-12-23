@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using ChallengeMeServer.Controllers.Web;
+using ChallengeMeServer.Managers;
 
 namespace ChallengeMeServer.Controllers
 {
@@ -16,7 +17,7 @@ namespace ChallengeMeServer.Controllers
         [System.Web.Http.HttpGet]
         public Guid SignIn(String userName, String password)
         {
-            return Guid.NewGuid();
+            return AccountManager.Current.CheckSignInValidation(userName,password,Request);
         }
     }
 }
