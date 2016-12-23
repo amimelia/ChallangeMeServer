@@ -133,7 +133,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Code\DataController\DataControllerCore.cs" />
+    <Content Include="App_Code\DataAccess\DataControllerCore.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="challenge.cs">
       <DependentUpon>DataBaseConnection.tt</DependentUpon>

@@ -26,7 +26,7 @@ namespace ChallengeMeServer.Controllers
                 db.users.Add(new user
                 {
                     UserID = id,
-                    UserName = "ako"
+                    UserName = "gela"
                 });
                 db.SaveChanges();
             }
