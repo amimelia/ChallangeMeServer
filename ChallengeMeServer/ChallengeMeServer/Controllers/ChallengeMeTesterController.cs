@@ -31,9 +31,7 @@ namespace ChallengeMeServer.Controllers
         {
             var challangeMeRequest = new ChallangeMeRequest(tokenKey, challangeId);
             var validationResponse = ValidateRequest(challangeMeRequest);
-            if (validationResponse != CommonApiController.Valid_Request)
-                return "invalid";
-            return "success";
+            return validationResponse != CommonApiController.ValidRequest ? "invalid" : "success";
         }
 
         // POST: api/ChallengeMeTester

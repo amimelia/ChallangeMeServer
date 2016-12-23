@@ -13,12 +13,12 @@ namespace ChallengeMeServer.Controllers
 {
     public abstract class CommonApiController : ApiController
     {
-        public static HttpResponseMessage Valid_Request = new HttpResponseMessage();
+        public static HttpResponseMessage ValidRequest = new HttpResponseMessage();
 
         public HttpResponseMessage ValidateRequest(ChallangeMeRequest request)
         {
-            Client user = AccauntManager.Current.GetClientByToken(request.TokenKey);
-            if (user == AccauntManager.INVALID_CLIENT_TOKEN || 
+            Client user = AccountManager.Current.GetClientByToken(request.TokenKey);
+            if (user == AccountManager.InvalidClientToken || 
                 user.IpAddress != HttpRequestHelper.GetClientIpString(this.Request))
             {
                 return Request.CreateResponse(HttpStatusCode.Unauthorized);
@@ -27,11 +27,11 @@ namespace ChallengeMeServer.Controllers
             request.Client = user;
 
             if (!request.HasChallangeId())
-                return Valid_Request;
+                return ValidRequest;
 
             //TODO check challange id from challange manager
 
-            return Valid_Request;
+            return ValidRequest;
         }
     }
 }
