@@ -9,31 +9,16 @@ namespace ChallengeMeServer.Controllers
 {
     public class ChallengeHandlerController : ApiController
     {
-        // GET: api/ChallengeHandler
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
 
-        // GET: api/ChallengeHandler/5
-        public string Get(int id)
-        {
-            return "value";
-        }
 
-        // POST: api/ChallengeHandler
-        public void Post([FromBody]string value)
-        {
-        }
 
-        // PUT: api/ChallengeHandler/5
-        public void Put(int id, [FromBody]string value)
+        // GET: api/SignUp
+        [ActionName("CreateChallange")]
+        [System.Web.Http.AcceptVerbs("GET", "POST")]
+        [System.Web.Http.HttpGet]
+        public Guid SignIn(String userName, String password)
         {
-        }
-
-        // DELETE: api/ChallengeHandler/5
-        public void Delete(int id)
-        {
+            return null;
         }
     }
 }

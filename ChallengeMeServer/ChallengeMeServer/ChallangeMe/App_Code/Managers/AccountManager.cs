@@ -47,5 +47,15 @@ namespace ChallengeMeServer.Managers
             });
             return tokenKey;
         }
+
+        internal void AddUserFollower(Client client, int userToFollowId)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void RemoveUserFollower(Client client, int userToFollowId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -23,6 +23,7 @@ namespace ChallengeMeServer.Controllers
             {
                 return Request.CreateResponse(HttpStatusCode.Unauthorized);
             }
+
             request.Client = user;
             if (!request.HasChallangeId())
                 return ValidRequest;
