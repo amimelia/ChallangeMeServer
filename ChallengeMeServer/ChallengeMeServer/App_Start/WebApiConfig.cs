@@ -25,6 +25,9 @@ namespace ChallengeMeServer
                 routeTemplate: "api/{controller}/{action}/{tokenKey}/{challangeId}"
             );
 
+            var appXmlType = config.Formatters.XmlFormatter.SupportedMediaTypes.FirstOrDefault(t => t.MediaType == "application/xml");
+            config.Formatters.XmlFormatter.SupportedMediaTypes.Remove(appXmlType);
+
         }
     }
 }
