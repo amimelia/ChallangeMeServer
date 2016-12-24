@@ -57,5 +57,15 @@ namespace ChallengeMeServer.Managers
         {
             throw new NotImplementedException();
         }
+
+        internal void UpdateUserBasicInfo(Client client, string userName, string userFirstName, string userLastName)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal Client GetInfoForUser(Client client, int targetUser)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

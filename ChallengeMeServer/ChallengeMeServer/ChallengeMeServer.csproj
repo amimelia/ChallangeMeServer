@@ -137,6 +137,9 @@
     <Compile Include="ChallangeMe\App_Code\Clients\Client.cs" />
     <Compile Include="ChallangeMe\App_Code\DataAccess\DataControllerCore.cs" />
     <Compile Include="ChallangeMe\App_Code\Managers\AccountManager.cs" />
+    <Compile Include="ChallangeMe\App_Code\Managers\ChallangeManager.cs" />
+    <Compile Include="ChallangeMe\App_Code\Managers\NewsFeedManager.cs" />
+    <Compile Include="ChallangeMe\App_Code\Managers\NotificationsManager.cs" />
     <Compile Include="challenge.cs">
       <DependentUpon>DataBaseConnection.tt</DependentUpon>
     </Compile>
@@ -150,6 +153,7 @@
     <Compile Include="Controllers\ShareContentController.cs" />
     <Compile Include="Controllers\SignUpController.cs" />
     <Compile Include="Controllers\SingleUserController.cs" />
+    <Compile Include="Controllers\Web\ChallangeMeException.cs" />
     <Compile Include="Controllers\Web\ChallengeMeRequest.cs" />
     <Compile Include="Controllers\Web\HttpRequestHelper.cs" />
     <Compile Include="DataBaseConnection.Context.cs">
@@ -170,6 +174,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\FeedInfo.cs" />
+    <Compile Include="Models\PostInfo.cs" />
+    <Compile Include="Models\UserInfo.cs" />
     <Compile Include="notification.cs">
       <DependentUpon>DataBaseConnection.tt</DependentUpon>
     </Compile>
@@ -209,7 +216,6 @@
   <ItemGroup>
     <Folder Include="App_Code\" />
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
