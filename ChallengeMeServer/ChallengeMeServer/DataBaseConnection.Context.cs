@@ -32,5 +32,9 @@ namespace ChallengeMeServer
         public virtual DbSet<post> posts { get; set; }
         public virtual DbSet<profile_info> profile_info { get; set; }
         public virtual DbSet<user> users { get; set; }
+        public virtual DbSet<challenge_settings> challenge_settings { get; set; }
+        public virtual DbSet<challenges_and_posts> challenges_and_posts { get; set; }
+        public virtual DbSet<notification_users> notification_users { get; set; }
+        public virtual DbSet<user_followers> user_followers { get; set; }
     }
 }

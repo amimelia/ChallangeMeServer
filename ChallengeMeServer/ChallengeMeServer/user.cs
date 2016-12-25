@@ -22,6 +22,8 @@ namespace ChallengeMeServer
             this.notifications = new HashSet<notification>();
             this.post_comments = new HashSet<post_comments>();
             this.posts = new HashSet<post>();
+            this.notification_users = new HashSet<notification_users>();
+            this.user_followers = new HashSet<user_followers>();
         }
     
         public int UserID { get; set; }
@@ -42,5 +44,9 @@ namespace ChallengeMeServer
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<post> posts { get; set; }
         public virtual profile_info profile_info { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<notification_users> notification_users { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<user_followers> user_followers { get; set; }
     }
 }

@@ -4,85 +4,85 @@
     <EntitySetMapping Name="challenges">
       <EntityTypeMapping TypeName="ChallengeMeModel.challenge">
         <MappingFragment StoreEntitySet="challenges">
-          <ScalarProperty Name="ChallengeID" ColumnName="ChallengeID" />
-          <ScalarProperty Name="ChallengeType" ColumnName="ChallengeType" />
-          <ScalarProperty Name="ChallengeName" ColumnName="ChallengeName" />
-          <ScalarProperty Name="ChallengeHashTag" ColumnName="ChallengeHashTag" />
-          <ScalarProperty Name="ChallengeStatus" ColumnName="ChallengeStatus" />
-          <ScalarProperty Name="ChallengeCreateDate" ColumnName="ChallengeCreateDate" />
           <ScalarProperty Name="ChallengeCreateBy" ColumnName="ChallengeCreateBy" />
+          <ScalarProperty Name="ChallengeCreateDate" ColumnName="ChallengeCreateDate" />
+          <ScalarProperty Name="ChallengeStatus" ColumnName="ChallengeStatus" />
+          <ScalarProperty Name="ChallengeHashTag" ColumnName="ChallengeHashTag" />
+          <ScalarProperty Name="ChallengeName" ColumnName="ChallengeName" />
+          <ScalarProperty Name="ChallengeType" ColumnName="ChallengeType" />
+          <ScalarProperty Name="ChallengeID" ColumnName="ChallengeID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="challenges_and_users">
       <EntityTypeMapping TypeName="ChallengeMeModel.challenges_and_users">
         <MappingFragment StoreEntitySet="challenges_and_users">
-          <ScalarProperty Name="ChallengesAndUsersID" ColumnName="ChallengesAndUsersID" />
-          <ScalarProperty Name="ChallengeStatus" ColumnName="ChallengeStatus" />
-          <ScalarProperty Name="UserID" ColumnName="UserID" />
           <ScalarProperty Name="ChallengeID" ColumnName="ChallengeID" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="ChallengeStatus" ColumnName="ChallengeStatus" />
+          <ScalarProperty Name="ChallengesAndUsersID" ColumnName="ChallengesAndUsersID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="notifications">
       <EntityTypeMapping TypeName="ChallengeMeModel.notification">
         <MappingFragment StoreEntitySet="notifications">
-          <ScalarProperty Name="NotificationID" ColumnName="NotificationID" />
-          <ScalarProperty Name="NotificationDescription" ColumnName="NotificationDescription" />
-          <ScalarProperty Name="NotificationCreateDate" ColumnName="NotificationCreateDate" />
-          <ScalarProperty Name="NotificationStatus" ColumnName="NotificationStatus" />
-          <ScalarProperty Name="ChallengeID" ColumnName="ChallengeID" />
-          <ScalarProperty Name="PostID" ColumnName="PostID" />
           <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="PostID" ColumnName="PostID" />
+          <ScalarProperty Name="ChallengeID" ColumnName="ChallengeID" />
+          <ScalarProperty Name="NotificationStatus" ColumnName="NotificationStatus" />
+          <ScalarProperty Name="NotificationCreateDate" ColumnName="NotificationCreateDate" />
+          <ScalarProperty Name="NotificationDescription" ColumnName="NotificationDescription" />
+          <ScalarProperty Name="NotificationID" ColumnName="NotificationID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="post_comments">
       <EntityTypeMapping TypeName="ChallengeMeModel.post_comments">
         <MappingFragment StoreEntitySet="post_comments">
-          <ScalarProperty Name="PostCommentID" ColumnName="PostCommentID" />
-          <ScalarProperty Name="PostCommentDiscription" ColumnName="PostCommentDiscription" />
-          <ScalarProperty Name="PostCommentLike" ColumnName="PostCommentLike" />
-          <ScalarProperty Name="PostCommentCreateDate" ColumnName="PostCommentCreateDate" />
-          <ScalarProperty Name="UserID" ColumnName="UserID" />
           <ScalarProperty Name="PostID" ColumnName="PostID" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="PostCommentCreateDate" ColumnName="PostCommentCreateDate" />
+          <ScalarProperty Name="PostCommentLike" ColumnName="PostCommentLike" />
+          <ScalarProperty Name="PostCommentDiscription" ColumnName="PostCommentDiscription" />
+          <ScalarProperty Name="PostCommentID" ColumnName="PostCommentID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="posts">
       <EntityTypeMapping TypeName="ChallengeMeModel.post">
         <MappingFragment StoreEntitySet="posts">
-          <ScalarProperty Name="PostID" ColumnName="PostID" />
-          <ScalarProperty Name="PostContent" ColumnName="PostContent" />
-          <ScalarProperty Name="PostDiscription" ColumnName="PostDiscription" />
-          <ScalarProperty Name="PostLikes" ColumnName="PostLikes" />
-          <ScalarProperty Name="PostCreateDate" ColumnName="PostCreateDate" />
-          <ScalarProperty Name="ChallengeID" ColumnName="ChallengeID" />
           <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="ChallengeID" ColumnName="ChallengeID" />
+          <ScalarProperty Name="PostCreateDate" ColumnName="PostCreateDate" />
+          <ScalarProperty Name="PostLikes" ColumnName="PostLikes" />
+          <ScalarProperty Name="PostDiscription" ColumnName="PostDiscription" />
+          <ScalarProperty Name="PostContent" ColumnName="PostContent" />
+          <ScalarProperty Name="PostID" ColumnName="PostID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="profile_info">
       <EntityTypeMapping TypeName="ChallengeMeModel.profile_info">
         <MappingFragment StoreEntitySet="profile_info">
-          <ScalarProperty Name="ProfileInfoID" ColumnName="ProfileInfoID" />
-          <ScalarProperty Name="ProfilePicture" ColumnName="ProfilePicture" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="LastName" ColumnName="LastName" />
-          <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
           <ScalarProperty Name="Gender" ColumnName="Gender" />
+          <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="ProfilePicture" ColumnName="ProfilePicture" />
+          <ScalarProperty Name="ProfileInfoID" ColumnName="ProfileInfoID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="users">
       <EntityTypeMapping TypeName="ChallengeMeModel.user">
         <MappingFragment StoreEntitySet="users">
-          <ScalarProperty Name="UserID" ColumnName="UserID" />
-          <ScalarProperty Name="UserName" ColumnName="UserName" />
-          <ScalarProperty Name="UserPassword" ColumnName="UserPassword" />
-          <ScalarProperty Name="UserStatus" ColumnName="UserStatus" />
-          <ScalarProperty Name="UserCreateDate" ColumnName="UserCreateDate" />
           <ScalarProperty Name="ProfileInfoID" ColumnName="ProfileInfoID" />
+          <ScalarProperty Name="UserCreateDate" ColumnName="UserCreateDate" />
+          <ScalarProperty Name="UserStatus" ColumnName="UserStatus" />
+          <ScalarProperty Name="UserPassword" ColumnName="UserPassword" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -14,6 +14,12 @@ namespace ChallengeMeServer
     
     public partial class challenges_and_users
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public challenges_and_users()
+        {
+            this.challenges_and_posts = new HashSet<challenges_and_posts>();
+        }
+    
         public int ChallengesAndUsersID { get; set; }
         public string ChallengeStatus { get; set; }
         public Nullable<int> UserID { get; set; }
@@ -21,5 +27,7 @@ namespace ChallengeMeServer
     
         public virtual challenge challenge { get; set; }
         public virtual user user { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<challenges_and_posts> challenges_and_posts { get; set; }
     }
 }

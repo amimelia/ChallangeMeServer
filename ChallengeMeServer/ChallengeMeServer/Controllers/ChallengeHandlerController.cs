@@ -18,7 +18,7 @@ namespace ChallengeMeServer.Controllers
         [System.Web.Http.HttpGet]
         public Guid SignIn(String userName, String password)
         {
-            return null;
+            return new Guid();
         }
     }
 }

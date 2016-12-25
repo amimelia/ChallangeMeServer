@@ -16,7 +16,7 @@ warning 6013: The table/view 'ChallengeMe.dbo.challenge_settings' does not have 
     <Property Name="ChallengeName" Type="varchar" MaxLength="100" />
     <Property Name="ChallengeHashTag" Type="varchar" MaxLength="100" />
     <Property Name="ChallengeStatus" Type="varchar" MaxLength="100" />
-    <Property Name="ChallengeCreateDate" Type="date" />
+    <Property Name="ChallengeCreateDate" Type="datetime" />
     <Property Name="ChallengeCreateBy" Type="int" />
   </EntityType>
   <!--Errors Found During Generation:
@@ -47,7 +47,7 @@ warning 6013: The table/view 'ChallengeMe.dbo.notification_users' does not have 
     </Key>
     <Property Name="NotificationID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="NotificationDescription" Type="varchar" MaxLength="300" />
-    <Property Name="NotificationCreateDate" Type="date" />
+    <Property Name="NotificationCreateDate" Type="datetime" />
     <Property Name="NotificationStatus" Type="varchar" MaxLength="200" />
     <Property Name="ChallengeID" Type="int" />
     <Property Name="PostID" Type="int" />
@@ -60,7 +60,7 @@ warning 6013: The table/view 'ChallengeMe.dbo.notification_users' does not have 
     <Property Name="PostCommentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="PostCommentDiscription" Type="varchar" MaxLength="400" />
     <Property Name="PostCommentLike" Type="int" />
-    <Property Name="PostCommentCreateDate" Type="date" />
+    <Property Name="PostCommentCreateDate" Type="datetime" />
     <Property Name="UserID" Type="int" />
     <Property Name="PostID" Type="int" />
   </EntityType>
@@ -72,7 +72,7 @@ warning 6013: The table/view 'ChallengeMe.dbo.notification_users' does not have 
     <Property Name="PostContent" Type="varchar" MaxLength="400" />
     <Property Name="PostDiscription" Type="varchar" MaxLength="300" />
     <Property Name="PostLikes" Type="int" />
-    <Property Name="PostCreateDate" Type="date" />
+    <Property Name="PostCreateDate" Type="datetime" />
     <Property Name="ChallengeID" Type="int" />
     <Property Name="UserID" Type="int" />
   </EntityType>
@@ -84,7 +84,7 @@ warning 6013: The table/view 'ChallengeMe.dbo.notification_users' does not have 
     <Property Name="ProfilePicture" Type="varchar" MaxLength="300" />
     <Property Name="Name" Type="varchar" MaxLength="100" />
     <Property Name="LastName" Type="varchar" MaxLength="100" />
-    <Property Name="BirthDate" Type="date" />
+    <Property Name="BirthDate" Type="datetime" />
     <Property Name="Gender" Type="bit" />
   </EntityType>
   <!--Errors Found During Generation:
@@ -101,7 +101,7 @@ warning 6013: The table/view 'ChallengeMe.dbo.user_followers' does not have a pr
     <Property Name="UserName" Type="varchar" MaxLength="100" />
     <Property Name="UserPassword" Type="varchar" MaxLength="100" />
     <Property Name="UserStatus" Type="varchar" MaxLength="50" />
-    <Property Name="UserCreateDate" Type="date" />
+    <Property Name="UserCreateDate" Type="datetime" />
     <Property Name="ProfileInfoID" Type="int" />
   </EntityType>
   <Association Name="fk_challenge_to_user">
