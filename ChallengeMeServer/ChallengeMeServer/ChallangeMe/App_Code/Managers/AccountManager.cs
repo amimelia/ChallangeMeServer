@@ -4,9 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Web;
-using ChallengeMeServer.ChallangeMe.App_Code.DataAccess;
+using ChallengeMeServer.ChallengeMe.App_Code.DataAccess;
 using ChallengeMeServer.Controllers.Web;
 using Microsoft.ApplicationInsights.Extensibility.Implementation;
+using ChallengeMeServer.Models;
 
 namespace ChallengeMeServer.Managers
 {
@@ -35,11 +36,11 @@ namespace ChallengeMeServer.Managers
         }
 
 
-        public Guid CheckSignInValidation(String userName, String password, HttpRequestMessage request)
+        public Guid CheckSignInValidation(string userName, string password, HttpRequestMessage request)
         {
             var user = DataControllerCore.Current.GetUser(userName, password);
             if (user == null) return InvalidCreditials;
-            var tokenKey = Guid.NewGuid();
+            var tokenKey = Guid.NewGuid(); //dasatestia
             _onlineClients.Add(tokenKey, new Client
             {
                 UserID = user.UserID,
@@ -65,9 +66,15 @@ namespace ChallengeMeServer.Managers
             throw new NotImplementedException();
         }
 
-        internal Client GetInfoForUser(Client client, int targetUser)
+        internal UserInfo GetUserInfo(int targetUserID)
         {
-            throw new NotImplementedException();
+            FeedInfo feedInfo = DataControllerCore.Current.GetPostsForUser(targetUserID);
+            ProfileInfo profileInfo = DataControllerCore.Current.GetProfileInfo(targetUserID);
+            return new Models.UserInfo
+            {
+                NewsFeed = feedInfo,
+                Profile = profileInfo
+            };
         }
     }
 }

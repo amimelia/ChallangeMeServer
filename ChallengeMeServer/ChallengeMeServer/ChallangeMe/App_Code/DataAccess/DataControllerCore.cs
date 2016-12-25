@@ -6,24 +6,24 @@ using ChallengeMeServer.Clients;
 using ChallengeMeServer.Models;
 using Microsoft.ApplicationInsights.Extensibility.Implementation;
 
-namespace ChallengeMeServer.ChallangeMe.App_Code.DataAccess
+namespace ChallengeMeServer.ChallengeMe.App_Code.DataAccess
 {
     public class DataControllerCore
     {
         public static DataControllerCore Current { get; } = new DataControllerCore();
         private static List<PostCommentInfo> _fillPostCommentList(List<post_comments> list)
         {
-            var l = new List<PostCommentInfo>();
+            var postCommentInfo = new List<PostCommentInfo>();
             list.ForEach(x =>
             {
-                l.Add(new PostCommentInfo
+                postCommentInfo.Add(new PostCommentInfo
                 {
                     PostCommentContent = x.PostCommentContent,
-                    PostCommentDiscription = x.PostCommentDiscription,
+                    PostCommentDescription = x.PostCommentDiscription,
                     PostCommentLike = x.PostCommentLike
                 });
             });
-            return l;
+            return postCommentInfo;
         }
 
         private Object _lockObject = new Object();
@@ -50,12 +50,31 @@ namespace ChallengeMeServer.ChallangeMe.App_Code.DataAccess
                 return db.users.SingleOrDefault(x => x.UserName == userName && x.UserPassword == password);
             }
         }
+
+        public ProfileInfo GetProfileInfo(int targetUserID)
+        {
+            ProfileInfo profileInfo;
+            using (var db = new ChallengeMeEntities())
+            {
+                var profile_info = db.users.ToList().SingleOrDefault(user => user.UserID == targetUserID).profile_info;
+                profileInfo = new ProfileInfo
+                {
+                    Name = profile_info.Name,
+                    LastName = profile_info.LastName,
+                    BirthDate = profile_info.BirthDate,
+                    Gender = profile_info.Gender,
+                    ProfilePicture = profile_info.ProfilePicture
+                };
+            }
+            return profileInfo;
+        }
+
         public void RegisterNewUser()
         {
 
         }
 
-        
+
         public void AddUserFollower(int followerId, int userId)
         {
             using (var db = new ChallengeMeEntities())
@@ -73,8 +92,8 @@ namespace ChallengeMeServer.ChallangeMe.App_Code.DataAccess
         {
             using (var db = new ChallengeMeEntities())
             {
-                db.user_followers.Remove(
-                    db.user_followers.FirstOrDefault(x => x.UserID == userId && x.UserFollowerID == followerId));
+                var userToUnfollow = db.user_followers.FirstOrDefault(x => x.UserID == userId && x.UserFollowerID == followerId);
+                if (userToUnfollow != null) db.user_followers.Remove(userToUnfollow);
                 db.SaveChanges();
             }
         }
@@ -84,14 +103,14 @@ namespace ChallengeMeServer.ChallangeMe.App_Code.DataAccess
             var posts = new List<PostInfo>();
             using (var db = new ChallengeMeEntities())
             {
-                db.posts.ToList().ForEach(x=>
+                db.posts.ToList().ForEach(x =>
                 {
                     if (x.UserID == targetUser)
                     {
                         posts.Add(new PostInfo
                         {
                             PostContent = x.PostContent,
-                            PostDiscription = x.PostContent,
+                            PostDescription = x.PostContent,
                             PostLikes = x.PostLikes,
                             PostCreateDate = x.PostCreateDate,
                             PostComments = _fillPostCommentList(x.post_comments.ToList())
@@ -99,8 +118,7 @@ namespace ChallengeMeServer.ChallangeMe.App_Code.DataAccess
                     }
                 });
             }
-            //posts.Sort();
-            //ToDo dasortva unda datetimeis mixedvit
+            posts = posts.OrderBy(p => p.PostCreateDate).ToList();
             return new FeedInfo
             {
                 Posts = posts

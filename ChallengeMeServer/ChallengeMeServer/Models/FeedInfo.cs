@@ -7,6 +7,6 @@ namespace ChallengeMeServer.Models
 {
     public class FeedInfo
     {
-        public List<PostInfo> Posts;
+        public List<PostInfo> Posts { get; set; }
     }
 }

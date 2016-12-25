@@ -17,14 +17,14 @@ namespace ChallengeMeServer.Controllers
 
         public HttpResponseMessage ValidateRequest(ChallengeMeRequest request)
         {
-            var user = AccountManager.Current.GetClientByToken(request.TokenKey);
-            if (user == AccountManager.InvalidClientToken || 
-                user.IpAddress != HttpRequestHelper.GetClientIpString(this.Request))
+            var client = AccountManager.Current.GetClientByToken(request.TokenKey);
+            if (client == AccountManager.InvalidClientToken || 
+                client.IpAddress != HttpRequestHelper.GetClientIpString(Request))
             {
                 return Request.CreateResponse(HttpStatusCode.Unauthorized);
             }
 
-            request.Client = user;
+            request.Client = client;
             if (!request.HasChallangeId())
                 return ValidRequest;
 

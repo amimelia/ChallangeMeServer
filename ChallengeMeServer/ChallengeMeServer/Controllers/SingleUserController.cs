@@ -57,7 +57,7 @@ namespace ChallengeMeServer.Controllers
         [ActionName("GetUserInfo")]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
-        public UserInfo GetUserInfo(Guid tokenKey, int targetUser)
+        public UserInfo GetUserInfo(Guid tokenKey, int targetUserID)
         {
             var challangeMeRequest = new ChallengeMeRequest(tokenKey, null);
             var validationResponse = ValidateRequest(challangeMeRequest);
@@ -67,19 +67,7 @@ namespace ChallengeMeServer.Controllers
                 throw new ChallangeMeException("invalid.access.token").GetException(Request);
             }
 
-            Client targetClient = null;
-
-            try
-            {
-                targetClient = AccountManager.Current.GetInfoForUser(challangeMeRequest.Client, targetUser);
-            }
-            catch (Exception ex)
-            {
-                throw new ChallangeMeException(ex).GetException(Request);
-            }
-
-            var infoForUser = new UserInfo(targetClient);  
-            return infoForUser;
+            return AccountManager.Current.GetUserInfo(targetUserID);
         }
 
         [ActionName("UpdateUserInfo")]
@@ -104,6 +92,12 @@ namespace ChallengeMeServer.Controllers
             }
             
             return null;
+        }
+
+        // TODO: mosafiqrebelia chkviani search
+        public List<UserSearchResultInfo> SearchResults()
+        {
+            throw new NotImplementedException();
         }
 
     }

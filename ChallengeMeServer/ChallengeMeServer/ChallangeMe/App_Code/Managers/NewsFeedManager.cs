@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using ChallengeMeServer.ChallangeMe.App_Code.DataAccess;
+using ChallengeMeServer.ChallengeMe.App_Code.DataAccess;
 using ChallengeMeServer.Clients;
 using ChallengeMeServer.Models;
 
