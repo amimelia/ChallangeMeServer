@@ -14,7 +14,7 @@ namespace ChallengeMeServer
     
     public partial class user_followers
     {
-        public int UserID { get; set; }
+        public Nullable<int> UserID { get; set; }
         public Nullable<int> UserFollowerID { get; set; }
         public int UsersFollowersID { get; set; }
     

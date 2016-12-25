@@ -17,10 +17,10 @@ namespace ChallengeMeServer
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public challenge()
         {
+            this.challenge_settings = new HashSet<challenge_settings>();
             this.challenges_and_users = new HashSet<challenges_and_users>();
             this.notifications = new HashSet<notification>();
             this.posts = new HashSet<post>();
-            this.challenge_settings = new HashSet<challenge_settings>();
         }
     
         public int ChallengeID { get; set; }
@@ -31,6 +31,8 @@ namespace ChallengeMeServer
         public Nullable<System.DateTime> ChallengeCreateDate { get; set; }
         public Nullable<int> ChallengeCreateBy { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<challenge_settings> challenge_settings { get; set; }
         public virtual user user { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<challenges_and_users> challenges_and_users { get; set; }
@@ -38,7 +40,5 @@ namespace ChallengeMeServer
         public virtual ICollection<notification> notifications { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<post> posts { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<challenge_settings> challenge_settings { get; set; }
     }
 }

@@ -4,11 +4,40 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using ChallengeMeServer.ChallangeMe.App_Code.Managers;
+using ChallengeMeServer.Controllers.Web;
+using ChallengeMeServer.Models;
 
 namespace ChallengeMeServer.Controllers
 {
-    public class NewsFeedController : ApiController
+    public class NewsFeedController : CommonApiController
     {
+
+        [ActionName("GetUserPosts")]
+        [System.Web.Http.AcceptVerbs("GET", "POST")]
+        [System.Web.Http.HttpGet]
+        public FeedInfo GetUserPosts(Guid tokenKey, int targetUser)
+        {
+            var challangeMeRequest = new ChallengeMeRequest(tokenKey, null);
+            var validationResponse = ValidateRequest(challangeMeRequest);
+
+            if (validationResponse != ValidRequest)
+            {
+                throw new ChallangeMeException("invalid.access.token").GetException(Request);
+            }
+
+            FeedInfo postsForUser = null;
+            try
+            {
+                postsForUser = NewsFeedManager.Current.GetPostsForUser(challangeMeRequest.Client, targetUser);
+            }
+            catch (Exception ex)
+            {
+                throw new ChallangeMeException(ex).GetException(Request);
+            }
+            return postsForUser;
+        }
+
         // GET: api/NewsFeed
         public IEnumerable<string> Get()
         {

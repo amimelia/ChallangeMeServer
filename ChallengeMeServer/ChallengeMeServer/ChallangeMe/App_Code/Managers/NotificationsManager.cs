@@ -13,6 +13,7 @@ namespace ChallengeMeServer.ChallangeMe.App_Code.Managers
 
         internal void AddUserFollowNotification(Client client, int userToFollowId)
         {
+
             throw new NotImplementedException();
         }
     }

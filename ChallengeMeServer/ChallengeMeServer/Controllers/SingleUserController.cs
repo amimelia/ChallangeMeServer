@@ -53,32 +53,6 @@ namespace ChallengeMeServer.Controllers
             return null;
         }
 
-        [ActionName("GetUserPosts")]
-        [System.Web.Http.AcceptVerbs("GET", "POST")]
-        [System.Web.Http.HttpGet]
-        public FeedInfo GetUserPosts(Guid tokenKey, int targetUser)
-        {
-            var challangeMeRequest = new ChallengeMeRequest(tokenKey, null);
-            var validationResponse = ValidateRequest(challangeMeRequest);
-
-            if (validationResponse != ValidRequest)
-            {
-                throw new ChallangeMeException("invalid.access.token").GetException(Request);
-            }
-
-            FeedInfo postsForUser = null;
-
-            try
-            {
-                postsForUser = NewsFeedManager.Current.GetPostsForUser(challangeMeRequest.Client, targetUser);
-            }
-            catch (Exception ex)
-            {
-                throw new ChallangeMeException(ex).GetException(Request);
-            }
-
-            return postsForUser;
-        }
 
         [ActionName("GetUserInfo")]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
@@ -104,7 +78,7 @@ namespace ChallengeMeServer.Controllers
                 throw new ChallangeMeException(ex).GetException(Request);
             }
 
-            UserInfo infoForUser = new UserInfo(targetClient);  
+            var infoForUser = new UserInfo(targetClient);  
             return infoForUser;
         }
 

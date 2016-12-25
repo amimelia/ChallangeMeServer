@@ -8,11 +8,11 @@ namespace ChallengeMeServer.Models
 {
     public class UserInfo
     {
-        private Client targetClient;
+        private Client _targetClient;
 
         public UserInfo(Client targetClient)
         {
-            this.targetClient = targetClient;
+            this._targetClient = targetClient;
         }
     }
 }

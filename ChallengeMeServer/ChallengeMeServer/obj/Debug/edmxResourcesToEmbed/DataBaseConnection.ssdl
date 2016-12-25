@@ -7,7 +7,7 @@
     <Property Name="ChallengeID" Type="int" />
     <Property Name="SettingName" Type="varchar" MaxLength="150" />
     <Property Name="SettingValue" Type="varchar" MaxLength="200" />
-    <Property Name="ChallengeSettingsID" Type="int" Nullable="false" />
+    <Property Name="ChallengeSettingsID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
   </EntityType>
   <EntityType Name="challenges">
     <Key>
@@ -27,7 +27,7 @@
     </Key>
     <Property Name="ChallengesAndUsersID" Type="int" />
     <Property Name="PostID" Type="int" />
-    <Property Name="ChallengesAndPostsID" Type="int" Nullable="false" />
+    <Property Name="ChallengesAndPostsID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
   </EntityType>
   <EntityType Name="challenges_and_users">
     <Key>
@@ -45,7 +45,7 @@
     <Property Name="NotificationState" Type="varchar" MaxLength="100" />
     <Property Name="NotificationID" Type="int" />
     <Property Name="UserID" Type="int" />
-    <Property Name="NotificationUsersID" Type="int" Nullable="false" />
+    <Property Name="NotificationUsersID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
   </EntityType>
   <EntityType Name="notifications">
     <Key>
@@ -69,6 +69,7 @@
     <Property Name="PostCommentCreateDate" Type="datetime" />
     <Property Name="UserID" Type="int" />
     <Property Name="PostID" Type="int" />
+    <Property Name="PostCommentContent" Type="varchar" MaxLength="400" />
   </EntityType>
   <EntityType Name="posts">
     <Key>
@@ -97,9 +98,9 @@
     <Key>
       <PropertyRef Name="UsersFollowersID" />
     </Key>
-    <Property Name="UserID" Type="int" Nullable="false" />
+    <Property Name="UserID" Type="int" />
     <Property Name="UserFollowerID" Type="int" />
-    <Property Name="UsersFollowersID" Type="int" Nullable="false" />
+    <Property Name="UsersFollowersID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
   </EntityType>
   <EntityType Name="users">
     <Key>
@@ -305,7 +306,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="fk_userFolloews_to_user">
-    <End Role="users" Type="Self.users" Multiplicity="1" />
+    <End Role="users" Type="Self.users" Multiplicity="0..1" />
     <End Role="user_followers" Type="Self.user_followers" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="users">

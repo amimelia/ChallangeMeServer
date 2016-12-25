@@ -1,6 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="ChallengeMeModelStoreContainer" CdmEntityContainer="ChallengeMeEntities">
+    <EntitySetMapping Name="challenge_settings">
+      <EntityTypeMapping TypeName="ChallengeMeModel.challenge_settings">
+        <MappingFragment StoreEntitySet="challenge_settings">
+          <ScalarProperty Name="ChallengeSettingsID" ColumnName="ChallengeSettingsID" />
+          <ScalarProperty Name="SettingValue" ColumnName="SettingValue" />
+          <ScalarProperty Name="SettingName" ColumnName="SettingName" />
+          <ScalarProperty Name="ChallengeID" ColumnName="ChallengeID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="challenges">
       <EntityTypeMapping TypeName="ChallengeMeModel.challenge">
         <MappingFragment StoreEntitySet="challenges">
@@ -14,6 +24,15 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="challenges_and_posts">
+      <EntityTypeMapping TypeName="ChallengeMeModel.challenges_and_posts">
+        <MappingFragment StoreEntitySet="challenges_and_posts">
+          <ScalarProperty Name="ChallengesAndPostsID" ColumnName="ChallengesAndPostsID" />
+          <ScalarProperty Name="PostID" ColumnName="PostID" />
+          <ScalarProperty Name="ChallengesAndUsersID" ColumnName="ChallengesAndUsersID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="challenges_and_users">
       <EntityTypeMapping TypeName="ChallengeMeModel.challenges_and_users">
         <MappingFragment StoreEntitySet="challenges_and_users">
@@ -21,6 +40,16 @@
           <ScalarProperty Name="UserID" ColumnName="UserID" />
           <ScalarProperty Name="ChallengeStatus" ColumnName="ChallengeStatus" />
           <ScalarProperty Name="ChallengesAndUsersID" ColumnName="ChallengesAndUsersID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="notification_users">
+      <EntityTypeMapping TypeName="ChallengeMeModel.notification_users">
+        <MappingFragment StoreEntitySet="notification_users">
+          <ScalarProperty Name="NotificationUsersID" ColumnName="NotificationUsersID" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="NotificationID" ColumnName="NotificationID" />
+          <ScalarProperty Name="NotificationState" ColumnName="NotificationState" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -40,6 +69,7 @@
     <EntitySetMapping Name="post_comments">
       <EntityTypeMapping TypeName="ChallengeMeModel.post_comments">
         <MappingFragment StoreEntitySet="post_comments">
+          <ScalarProperty Name="PostCommentContent" ColumnName="PostCommentContent" />
           <ScalarProperty Name="PostID" ColumnName="PostID" />
           <ScalarProperty Name="UserID" ColumnName="UserID" />
           <ScalarProperty Name="PostCommentCreateDate" ColumnName="PostCommentCreateDate" />
@@ -74,6 +104,15 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="user_followers">
+      <EntityTypeMapping TypeName="ChallengeMeModel.user_followers">
+        <MappingFragment StoreEntitySet="user_followers">
+          <ScalarProperty Name="UsersFollowersID" ColumnName="UsersFollowersID" />
+          <ScalarProperty Name="UserFollowerID" ColumnName="UserFollowerID" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="users">
       <EntityTypeMapping TypeName="ChallengeMeModel.user">
         <MappingFragment StoreEntitySet="users">
@@ -82,44 +121,6 @@
           <ScalarProperty Name="UserStatus" ColumnName="UserStatus" />
           <ScalarProperty Name="UserPassword" ColumnName="UserPassword" />
           <ScalarProperty Name="UserName" ColumnName="UserName" />
-          <ScalarProperty Name="UserID" ColumnName="UserID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="challenge_settings">
-      <EntityTypeMapping TypeName="ChallengeMeModel.challenge_settings">
-        <MappingFragment StoreEntitySet="challenge_settings">
-          <ScalarProperty Name="ChallengeSettingsID" ColumnName="ChallengeSettingsID" />
-          <ScalarProperty Name="SettingValue" ColumnName="SettingValue" />
-          <ScalarProperty Name="SettingName" ColumnName="SettingName" />
-          <ScalarProperty Name="ChallengeID" ColumnName="ChallengeID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="challenges_and_posts">
-      <EntityTypeMapping TypeName="ChallengeMeModel.challenges_and_posts">
-        <MappingFragment StoreEntitySet="challenges_and_posts">
-          <ScalarProperty Name="ChallengesAndPostsID" ColumnName="ChallengesAndPostsID" />
-          <ScalarProperty Name="PostID" ColumnName="PostID" />
-          <ScalarProperty Name="ChallengesAndUsersID" ColumnName="ChallengesAndUsersID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="notification_users">
-      <EntityTypeMapping TypeName="ChallengeMeModel.notification_users">
-        <MappingFragment StoreEntitySet="notification_users">
-          <ScalarProperty Name="NotificationUsersID" ColumnName="NotificationUsersID" />
-          <ScalarProperty Name="UserID" ColumnName="UserID" />
-          <ScalarProperty Name="NotificationID" ColumnName="NotificationID" />
-          <ScalarProperty Name="NotificationState" ColumnName="NotificationState" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="user_followers">
-      <EntityTypeMapping TypeName="ChallengeMeModel.user_followers">
-        <MappingFragment StoreEntitySet="user_followers">
-          <ScalarProperty Name="UsersFollowersID" ColumnName="UsersFollowersID" />
-          <ScalarProperty Name="UserFollowerID" ColumnName="UserFollowerID" />
           <ScalarProperty Name="UserID" ColumnName="UserID" />
         </MappingFragment>
       </EntityTypeMapping>

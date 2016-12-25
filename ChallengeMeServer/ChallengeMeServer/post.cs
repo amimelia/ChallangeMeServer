@@ -17,9 +17,9 @@ namespace ChallengeMeServer
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public post()
         {
+            this.challenges_and_posts = new HashSet<challenges_and_posts>();
             this.notifications = new HashSet<notification>();
             this.post_comments = new HashSet<post_comments>();
-            this.challenges_and_posts = new HashSet<challenges_and_posts>();
         }
     
         public int PostID { get; set; }
@@ -32,11 +32,11 @@ namespace ChallengeMeServer
     
         public virtual challenge challenge { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<challenges_and_posts> challenges_and_posts { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<notification> notifications { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<post_comments> post_comments { get; set; }
         public virtual user user { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<challenges_and_posts> challenges_and_posts { get; set; }
     }
 }

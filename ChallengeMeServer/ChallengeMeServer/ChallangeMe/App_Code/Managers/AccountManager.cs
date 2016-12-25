@@ -57,7 +57,7 @@ namespace ChallengeMeServer.Managers
         internal void RemoveUserFollower(Client client, int userToFollowId)
         {
             DataControllerCore.Current.RemoveUserFollower(client.UserID, userToFollowId);
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         internal void UpdateUserBasicInfo(Client client, string userName, string userFirstName, string userLastName)
