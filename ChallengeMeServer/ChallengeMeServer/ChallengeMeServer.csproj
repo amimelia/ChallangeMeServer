@@ -143,7 +143,13 @@
     <Compile Include="challenge.cs">
       <DependentUpon>DataBaseConnection.tt</DependentUpon>
     </Compile>
+    <Compile Include="challenges_and_posts.cs">
+      <DependentUpon>DataBaseConnection.tt</DependentUpon>
+    </Compile>
     <Compile Include="challenges_and_users.cs">
+      <DependentUpon>DataBaseConnection.tt</DependentUpon>
+    </Compile>
+    <Compile Include="challenge_settings.cs">
       <DependentUpon>DataBaseConnection.tt</DependentUpon>
     </Compile>
     <Compile Include="Controllers\ChallengeHandlerController.cs" />
@@ -180,6 +186,9 @@
     <Compile Include="notification.cs">
       <DependentUpon>DataBaseConnection.tt</DependentUpon>
     </Compile>
+    <Compile Include="notification_users.cs">
+      <DependentUpon>DataBaseConnection.tt</DependentUpon>
+    </Compile>
     <Compile Include="post.cs">
       <DependentUpon>DataBaseConnection.tt</DependentUpon>
     </Compile>
@@ -191,6 +200,9 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="user.cs">
+      <DependentUpon>DataBaseConnection.tt</DependentUpon>
+    </Compile>
+    <Compile Include="user_followers.cs">
       <DependentUpon>DataBaseConnection.tt</DependentUpon>
     </Compile>
   </ItemGroup>

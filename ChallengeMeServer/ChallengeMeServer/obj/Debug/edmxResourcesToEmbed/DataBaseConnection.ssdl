@@ -1,12 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="ChallengeMeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-  <!--Errors Found During Generation:
-warning 6013: The table/view 'ChallengeMe.dbo.challenge_settings' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="challenge_settings">
-          <Property Name="ChallengeID" Type="int" />
-          <Property Name="SettingName" Type="varchar" MaxLength="150" />
-          <Property Name="SettingValue" Type="varchar" MaxLength="200" />
-        </EntityType>-->
+  <EntityType Name="challenge_settings">
+    <Key>
+      <PropertyRef Name="ChallengeSettingsID" />
+    </Key>
+    <Property Name="ChallengeID" Type="int" />
+    <Property Name="SettingName" Type="varchar" MaxLength="150" />
+    <Property Name="SettingValue" Type="varchar" MaxLength="200" />
+    <Property Name="ChallengeSettingsID" Type="int" Nullable="false" />
+  </EntityType>
   <EntityType Name="challenges">
     <Key>
       <PropertyRef Name="ChallengeID" />
@@ -19,12 +21,14 @@ warning 6013: The table/view 'ChallengeMe.dbo.challenge_settings' does not have 
     <Property Name="ChallengeCreateDate" Type="datetime" />
     <Property Name="ChallengeCreateBy" Type="int" />
   </EntityType>
-  <!--Errors Found During Generation:
-warning 6013: The table/view 'ChallengeMe.dbo.challenges_and_posts' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="challenges_and_posts">
-          <Property Name="ChallengesAndUsersID" Type="int" />
-          <Property Name="PostID" Type="int" />
-        </EntityType>-->
+  <EntityType Name="challenges_and_posts">
+    <Key>
+      <PropertyRef Name="ChallengesAndPostsID" />
+    </Key>
+    <Property Name="ChallengesAndUsersID" Type="int" />
+    <Property Name="PostID" Type="int" />
+    <Property Name="ChallengesAndPostsID" Type="int" Nullable="false" />
+  </EntityType>
   <EntityType Name="challenges_and_users">
     <Key>
       <PropertyRef Name="ChallengesAndUsersID" />
@@ -34,13 +38,15 @@ warning 6013: The table/view 'ChallengeMe.dbo.challenges_and_posts' does not hav
     <Property Name="UserID" Type="int" />
     <Property Name="ChallengeID" Type="int" />
   </EntityType>
-  <!--Errors Found During Generation:
-warning 6013: The table/view 'ChallengeMe.dbo.notification_users' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="notification_users">
-          <Property Name="NotificationState" Type="varchar" MaxLength="100" />
-          <Property Name="NotificationID" Type="int" />
-          <Property Name="UserID" Type="int" />
-        </EntityType>-->
+  <EntityType Name="notification_users">
+    <Key>
+      <PropertyRef Name="NotificationUsersID" />
+    </Key>
+    <Property Name="NotificationState" Type="varchar" MaxLength="100" />
+    <Property Name="NotificationID" Type="int" />
+    <Property Name="UserID" Type="int" />
+    <Property Name="NotificationUsersID" Type="int" Nullable="false" />
+  </EntityType>
   <EntityType Name="notifications">
     <Key>
       <PropertyRef Name="NotificationID" />
@@ -87,12 +93,14 @@ warning 6013: The table/view 'ChallengeMe.dbo.notification_users' does not have 
     <Property Name="BirthDate" Type="datetime" />
     <Property Name="Gender" Type="bit" />
   </EntityType>
-  <!--Errors Found During Generation:
-warning 6013: The table/view 'ChallengeMe.dbo.user_followers' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="user_followers">
-          <Property Name="UserID" Type="int" />
-          <Property Name="UserFollowerID" Type="int" />
-        </EntityType>-->
+  <EntityType Name="user_followers">
+    <Key>
+      <PropertyRef Name="UsersFollowersID" />
+    </Key>
+    <Property Name="UserID" Type="int" Nullable="false" />
+    <Property Name="UserFollowerID" Type="int" />
+    <Property Name="UsersFollowersID" Type="int" Nullable="false" />
+  </EntityType>
   <EntityType Name="users">
     <Key>
       <PropertyRef Name="UserID" />
@@ -116,12 +124,30 @@ warning 6013: The table/view 'ChallengeMe.dbo.user_followers' does not have a pr
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <!--Errors Found During Generation:
-error 6004: The table 'ChallengeMe.dbo.challenges_and_posts' is referenced by a relationship, but cannot be found.
-        <Association Name="fk_challengeAndPost_to_challengeAndUser" />-->
-  <!--Errors Found During Generation:
-error 6004: The table 'ChallengeMe.dbo.challenges_and_posts' is referenced by a relationship, but cannot be found.
-        <Association Name="fk_challengeAndPost_to_post" />-->
+  <Association Name="fk_challengeAndPost_to_challengeAndUser">
+    <End Role="challenges_and_users" Type="Self.challenges_and_users" Multiplicity="0..1" />
+    <End Role="challenges_and_posts" Type="Self.challenges_and_posts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="challenges_and_users">
+        <PropertyRef Name="ChallengesAndUsersID" />
+      </Principal>
+      <Dependent Role="challenges_and_posts">
+        <PropertyRef Name="ChallengesAndUsersID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_challengeAndPost_to_post">
+    <End Role="posts" Type="Self.posts" Multiplicity="0..1" />
+    <End Role="challenges_and_posts" Type="Self.challenges_and_posts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="posts">
+        <PropertyRef Name="PostID" />
+      </Principal>
+      <Dependent Role="challenges_and_posts">
+        <PropertyRef Name="PostID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="fk_challengeAndUser_to_challenge">
     <End Role="challenges" Type="Self.challenges" Multiplicity="0..1" />
     <End Role="challenges_and_users" Type="Self.challenges_and_users" Multiplicity="*" />
@@ -146,9 +172,18 @@ error 6004: The table 'ChallengeMe.dbo.challenges_and_posts' is referenced by a 
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <!--Errors Found During Generation:
-error 6004: The table 'ChallengeMe.dbo.challenge_settings' is referenced by a relationship, but cannot be found.
-        <Association Name="fk_challengesetting_to_challenge" />-->
+  <Association Name="fk_challengesetting_to_challenge">
+    <End Role="challenges" Type="Self.challenges" Multiplicity="0..1" />
+    <End Role="challenge_settings" Type="Self.challenge_settings" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="challenges">
+        <PropertyRef Name="ChallengeID" />
+      </Principal>
+      <Dependent Role="challenge_settings">
+        <PropertyRef Name="ChallengeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="fk_notification_to_challenge">
     <End Role="challenges" Type="Self.challenges" Multiplicity="0..1" />
     <End Role="notifications" Type="Self.notifications" Multiplicity="*" />
@@ -185,12 +220,30 @@ error 6004: The table 'ChallengeMe.dbo.challenge_settings' is referenced by a re
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <!--Errors Found During Generation:
-error 6004: The table 'ChallengeMe.dbo.notification_users' is referenced by a relationship, but cannot be found.
-        <Association Name="fk_notificationUser_to_notification" />-->
-  <!--Errors Found During Generation:
-error 6004: The table 'ChallengeMe.dbo.notification_users' is referenced by a relationship, but cannot be found.
-        <Association Name="fk_notificationUser_to_user" />-->
+  <Association Name="fk_notificationUser_to_notification">
+    <End Role="notifications" Type="Self.notifications" Multiplicity="0..1" />
+    <End Role="notification_users" Type="Self.notification_users" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="notifications">
+        <PropertyRef Name="NotificationID" />
+      </Principal>
+      <Dependent Role="notification_users">
+        <PropertyRef Name="NotificationID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_notificationUser_to_user">
+    <End Role="users" Type="Self.users" Multiplicity="0..1" />
+    <End Role="notification_users" Type="Self.notification_users" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="users">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="notification_users">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="fk_post_to_challenge">
     <End Role="challenges" Type="Self.challenges" Multiplicity="0..1" />
     <End Role="posts" Type="Self.posts" Multiplicity="*" />
@@ -251,20 +304,41 @@ error 6004: The table 'ChallengeMe.dbo.notification_users' is referenced by a re
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <!--Errors Found During Generation:
-error 6004: The table 'ChallengeMe.dbo.user_followers' is referenced by a relationship, but cannot be found.
-        <Association Name="fk_userFolloews_to_user" />-->
+  <Association Name="fk_userFolloews_to_user">
+    <End Role="users" Type="Self.users" Multiplicity="1" />
+    <End Role="user_followers" Type="Self.user_followers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="users">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="user_followers">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <EntityContainer Name="ChallengeMeModelStoreContainer">
+    <EntitySet Name="challenge_settings" EntityType="Self.challenge_settings" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="challenges" EntityType="Self.challenges" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="challenges_and_posts" EntityType="Self.challenges_and_posts" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="challenges_and_users" EntityType="Self.challenges_and_users" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="notification_users" EntityType="Self.notification_users" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="notifications" EntityType="Self.notifications" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="post_comments" EntityType="Self.post_comments" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="posts" EntityType="Self.posts" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="profile_info" EntityType="Self.profile_info" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="user_followers" EntityType="Self.user_followers" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="fk_challenge_to_user" Association="Self.fk_challenge_to_user">
       <End Role="users" EntitySet="users" />
       <End Role="challenges" EntitySet="challenges" />
+    </AssociationSet>
+    <AssociationSet Name="fk_challengeAndPost_to_challengeAndUser" Association="Self.fk_challengeAndPost_to_challengeAndUser">
+      <End Role="challenges_and_users" EntitySet="challenges_and_users" />
+      <End Role="challenges_and_posts" EntitySet="challenges_and_posts" />
+    </AssociationSet>
+    <AssociationSet Name="fk_challengeAndPost_to_post" Association="Self.fk_challengeAndPost_to_post">
+      <End Role="posts" EntitySet="posts" />
+      <End Role="challenges_and_posts" EntitySet="challenges_and_posts" />
     </AssociationSet>
     <AssociationSet Name="fk_challengeAndUser_to_challenge" Association="Self.fk_challengeAndUser_to_challenge">
       <End Role="challenges" EntitySet="challenges" />
@@ -273,6 +347,10 @@ error 6004: The table 'ChallengeMe.dbo.user_followers' is referenced by a relati
     <AssociationSet Name="fk_challengeAndUser_to_user" Association="Self.fk_challengeAndUser_to_user">
       <End Role="users" EntitySet="users" />
       <End Role="challenges_and_users" EntitySet="challenges_and_users" />
+    </AssociationSet>
+    <AssociationSet Name="fk_challengesetting_to_challenge" Association="Self.fk_challengesetting_to_challenge">
+      <End Role="challenges" EntitySet="challenges" />
+      <End Role="challenge_settings" EntitySet="challenge_settings" />
     </AssociationSet>
     <AssociationSet Name="fk_notification_to_challenge" Association="Self.fk_notification_to_challenge">
       <End Role="challenges" EntitySet="challenges" />
@@ -285,6 +363,14 @@ error 6004: The table 'ChallengeMe.dbo.user_followers' is referenced by a relati
     <AssociationSet Name="fk_notification_to_user" Association="Self.fk_notification_to_user">
       <End Role="users" EntitySet="users" />
       <End Role="notifications" EntitySet="notifications" />
+    </AssociationSet>
+    <AssociationSet Name="fk_notificationUser_to_notification" Association="Self.fk_notificationUser_to_notification">
+      <End Role="notifications" EntitySet="notifications" />
+      <End Role="notification_users" EntitySet="notification_users" />
+    </AssociationSet>
+    <AssociationSet Name="fk_notificationUser_to_user" Association="Self.fk_notificationUser_to_user">
+      <End Role="users" EntitySet="users" />
+      <End Role="notification_users" EntitySet="notification_users" />
     </AssociationSet>
     <AssociationSet Name="fk_post_to_challenge" Association="Self.fk_post_to_challenge">
       <End Role="challenges" EntitySet="challenges" />
@@ -305,6 +391,10 @@ error 6004: The table 'ChallengeMe.dbo.user_followers' is referenced by a relati
     <AssociationSet Name="fk_profile_to_user" Association="Self.fk_profile_to_user">
       <End Role="profile_info" EntitySet="profile_info" />
       <End Role="users" EntitySet="users" />
+    </AssociationSet>
+    <AssociationSet Name="fk_userFolloews_to_user" Association="Self.fk_userFolloews_to_user">
+      <End Role="users" EntitySet="users" />
+      <End Role="user_followers" EntitySet="user_followers" />
     </AssociationSet>
   </EntityContainer>
 </Schema>
