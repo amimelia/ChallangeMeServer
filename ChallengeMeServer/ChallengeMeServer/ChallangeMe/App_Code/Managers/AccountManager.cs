@@ -8,6 +8,7 @@ using ChallengeMeServer.ChallengeMe.App_Code.DataAccess;
 using ChallengeMeServer.Controllers.Web;
 using Microsoft.ApplicationInsights.Extensibility.Implementation;
 using ChallengeMeServer.Models;
+using System.Text.RegularExpressions;
 
 namespace ChallengeMeServer.Managers
 {
@@ -70,11 +71,31 @@ namespace ChallengeMeServer.Managers
         {
             FeedInfo feedInfo = DataControllerCore.Current.GetPostsForUser(targetUserID);
             ProfileInfo profileInfo = DataControllerCore.Current.GetProfileInfo(targetUserID);
-            return new Models.UserInfo
+            return new UserInfo
             {
                 NewsFeed = feedInfo,
                 Profile = profileInfo
             };
+        }
+
+        internal List<UserSearchResultInfo> GetSearchResults(string searchRequest)
+        {
+            List<UserSearchResultInfo> searchResults = new List<UserSearchResultInfo>();
+            searchRequest = searchRequest.Trim();  // ikidebs tavshi da boloshi spacebs
+            int numberOfSpaces = Regex.Matches(searchRequest, "[ ]+").Count;  // edzebs space(eb)s ( " " da "   " orive aris erti match)
+            if(numberOfSpaces <= 1)
+            {
+                string[] requests = Regex.Split(searchRequest, "[ ]+");
+                requests.ToList().ForEach(request =>
+                {
+                    List<profile_info> searchResultsForRequest = DataControllerCore.Current.GetSearchResults(request);
+                    //dasatestia
+                    var searchInfoResultsForRequest = searchResultsForRequest.Select(userProfile =>
+                        new UserSearchResultInfo(userProfile));
+                    searchResults.AddRange(searchInfoResultsForRequest);
+                });
+            }
+            return searchResults;
         }
     }
 }

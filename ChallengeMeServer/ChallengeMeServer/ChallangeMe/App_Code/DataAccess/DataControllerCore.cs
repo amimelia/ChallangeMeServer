@@ -11,20 +11,7 @@ namespace ChallengeMeServer.ChallengeMe.App_Code.DataAccess
     public class DataControllerCore
     {
         public static DataControllerCore Current { get; } = new DataControllerCore();
-        private static List<PostCommentInfo> _fillPostCommentList(List<post_comments> list)
-        {
-            var postCommentInfo = new List<PostCommentInfo>();
-            list.ForEach(x =>
-            {
-                postCommentInfo.Add(new PostCommentInfo
-                {
-                    PostCommentContent = x.PostCommentContent,
-                    PostCommentDescription = x.PostCommentDiscription,
-                    PostCommentLike = x.PostCommentLike
-                });
-            });
-            return postCommentInfo;
-        }
+       
 
         private Object _lockObject = new Object();
 
@@ -51,20 +38,27 @@ namespace ChallengeMeServer.ChallengeMe.App_Code.DataAccess
             }
         }
 
+        //dasatestia
+        public List<profile_info> GetSearchResults(string searchRequest)
+        {
+            // TODO: top ramdenime
+            List<profile_info> listOfRelevantUsers;
+            using (var db = new ChallengeMeEntities())
+            {
+                listOfRelevantUsers = db.profile_info.Where(userProfile => userProfile.Name.Contains(searchRequest)
+                    || userProfile.LastName.Contains(searchRequest)).ToList();
+            }
+            return listOfRelevantUsers;
+        }
+
+
         public ProfileInfo GetProfileInfo(int targetUserID)
         {
             ProfileInfo profileInfo;
             using (var db = new ChallengeMeEntities())
             {
                 var profile_info = db.users.ToList().SingleOrDefault(user => user.UserID == targetUserID).profile_info;
-                profileInfo = new ProfileInfo
-                {
-                    Name = profile_info.Name,
-                    LastName = profile_info.LastName,
-                    BirthDate = profile_info.BirthDate,
-                    Gender = profile_info.Gender,
-                    ProfilePicture = profile_info.ProfilePicture
-                };
+                profileInfo = new ProfileInfo(profile_info);
             }
             return profileInfo;
         }
@@ -100,29 +94,13 @@ namespace ChallengeMeServer.ChallengeMe.App_Code.DataAccess
 
         public FeedInfo GetPostsForUser(int targetUser)
         {
-            var posts = new List<PostInfo>();
+            FeedInfo feedInfo;
             using (var db = new ChallengeMeEntities())
             {
-                db.posts.ToList().ForEach(x =>
-                {
-                    if (x.UserID == targetUser)
-                    {
-                        posts.Add(new PostInfo
-                        {
-                            PostContent = x.PostContent,
-                            PostDescription = x.PostContent,
-                            PostLikes = x.PostLikes,
-                            PostCreateDate = x.PostCreateDate,
-                            PostComments = _fillPostCommentList(x.post_comments.ToList())
-                        });
-                    }
-                });
+                var posts = db.posts.Where(post => post.UserID == targetUser).ToList();
+                feedInfo = new FeedInfo(posts);
             }
-            posts = posts.OrderBy(p => p.PostCreateDate).ToList();
-            return new FeedInfo
-            {
-                Posts = posts
-            };
+            return feedInfo;
         }
     }
 }

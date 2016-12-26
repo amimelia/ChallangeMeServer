@@ -95,9 +95,20 @@ namespace ChallengeMeServer.Controllers
         }
 
         // TODO: mosafiqrebelia chkviani search
-        public List<UserSearchResultInfo> SearchResults()
+        [ActionName("SearchResults")]
+        [System.Web.Http.AcceptVerbs("GET", "POST")]
+        [System.Web.Http.HttpGet]
+        public List<UserSearchResultInfo> SearchResults(Guid tokenKey, string searchRequest)
         {
-            throw new NotImplementedException();
+            var challangeMeRequest = new ChallengeMeRequest(tokenKey, null);
+            var validationResponse = ValidateRequest(challangeMeRequest);
+
+            if (validationResponse != ValidRequest)
+            {
+                throw new ChallangeMeException("invalid.access.token").GetException(Request);
+            }
+
+            return AccountManager.Current.GetSearchResults(searchRequest);
         }
 
     }
