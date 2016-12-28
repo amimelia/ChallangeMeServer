@@ -105,10 +105,9 @@ namespace ChallengeMeServer.Managers
             DataControllerCore.Current.SetLikeToPost(targetPostId);
         }
 
-        internal FeedInfo GetUserPosts(Client client, int targetUserId)
+        internal void WritePostComment(Client client, int targetPostId, string postCommentContent, string postCommentDescription)
         {
-            FeedInfo feedInfo = new FeedInfo(DataControllerCore.Current.GetPostsForUser(targetUserId));
-            return feedInfo;
+            DataControllerCore.Current.CreatePostComment(client.UserID,targetPostId,postCommentContent,postCommentDescription);
         }
     }
 }

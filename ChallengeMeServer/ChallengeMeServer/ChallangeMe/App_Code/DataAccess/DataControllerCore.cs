@@ -131,5 +131,24 @@ namespace ChallengeMeServer.ChallengeMe.App_Code.DataAccess
                 db.SaveChanges();
             }
         }
+
+        public void CreatePostComment(int clientUserId, int targetPostId, string postCommentContent, string postCommentDescription)
+        {
+            using (var db = new ChallengeMeEntities())
+            {
+                db.post_comments.Add(new post_comments
+                {
+                    PostCommentContent = postCommentContent,
+                    PostCommentCreateDate = DateTime.Now,
+                    PostCommentDiscription = postCommentDescription,
+                    PostID = targetPostId,
+                    UserID = clientUserId,
+                    user = db.users.SingleOrDefault(user=>user.UserID==clientUserId),
+                    PostCommentLike = 0,
+                    post = db.posts.SingleOrDefault(post=>post.PostID==targetPostId)
+                });
+                db.SaveChanges();
+            }
+        }
     }
 }

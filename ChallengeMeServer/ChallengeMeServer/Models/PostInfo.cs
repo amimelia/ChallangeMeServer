@@ -10,6 +10,7 @@ namespace ChallengeMeServer.Models
         private static List<PostCommentInfo> _fillPostCommentList(List<post_comments> list)
         {
             var postCommentInfo = new List<PostCommentInfo>();
+            list = list.OrderBy(x => x.PostCommentCreateDate).ToList();
             list.ForEach(postComments =>
             {
                 postCommentInfo.Add(new PostCommentInfo(postComments));

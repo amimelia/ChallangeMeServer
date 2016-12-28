@@ -30,7 +30,7 @@ namespace ChallengeMeServer.Controllers
             FeedInfo postsForUser = null;
             try
             {
-                postsForUser = AccountManager.Current.GetUserPosts(challangeMeRequest.Client, targetUserId);
+                postsForUser = NewsFeedManager.Current.GetUserPosts(challangeMeRequest.Client, targetUserId);
             }
             catch (Exception ex)
             {

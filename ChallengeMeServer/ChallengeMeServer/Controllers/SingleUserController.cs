@@ -144,5 +144,21 @@ namespace ChallengeMeServer.Controllers
             //todo notification amosagdebia
             return null;
         }
+        [ActionName("WritePostComment")]
+        [System.Web.Http.AcceptVerbs("GET", "POST")]
+        [System.Web.Http.HttpGet]
+        public HttpResponseMessage WritePostComment(Guid tokenKey, int targetPostId, string postCommentContent, string postCommentDescription)
+        {
+            var challangeMeRequest = new ChallengeMeRequest(tokenKey, null);
+            var validationResponse = ValidateRequest(challangeMeRequest);
+
+            if (validationResponse != ValidRequest)
+            {
+                throw new ChallangeMeException("invalid.access.token").GetException(Request);
+            }
+            AccountManager.Current.WritePostComment(challangeMeRequest.Client, targetPostId, postCommentContent, postCommentDescription);
+            //todo notification amosagdebia
+            return null;
+        }
     }
 }
