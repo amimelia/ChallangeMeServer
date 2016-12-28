@@ -11,7 +11,7 @@ namespace ChallengeMeServer.ChallengeMe.App_Code.DataAccess
     public class DataControllerCore
     {
         public static DataControllerCore Current { get; } = new DataControllerCore();
-       
+
 
         private Object _lockObject = new Object();
 
@@ -41,26 +41,26 @@ namespace ChallengeMeServer.ChallengeMe.App_Code.DataAccess
         //dasatestia
         public List<profile_info> GetSearchResults(string searchRequest)
         {
-            // TODO: top ramdenime
+            // TODO: top 10 cali wamovige
             List<profile_info> listOfRelevantUsers;
             using (var db = new ChallengeMeEntities())
             {
                 listOfRelevantUsers = db.profile_info.Where(userProfile => userProfile.Name.Contains(searchRequest)
                     || userProfile.LastName.Contains(searchRequest)).ToList();
             }
-            return listOfRelevantUsers;
+            return listOfRelevantUsers.Take(10).ToList();
         }
 
 
-        public ProfileInfo GetProfileInfo(int targetUserId)
+        public profile_info GetProfile(int targetUserId)
         {
-            ProfileInfo profileInfo;
+
+            profile_info profile_info;
             using (var db = new ChallengeMeEntities())
             {
-                var profile_info = db.users.ToList().SingleOrDefault(user => user.UserID == targetUserId).profile_info;
-                profileInfo = new ProfileInfo(profile_info);
+                profile_info = db.users.ToList().SingleOrDefault(user => user.UserID == targetUserId).profile_info;
             }
-            return profileInfo;
+            return profile_info;
         }
 
         public void RegisterNewUser()
@@ -92,15 +92,44 @@ namespace ChallengeMeServer.ChallengeMe.App_Code.DataAccess
             }
         }
 
-        public FeedInfo GetPostsForUser(int targetUser)
+        public List<post> GetPostsForUser(int targetUser)
         {
-            FeedInfo feedInfo;
+            List<post> posts;
             using (var db = new ChallengeMeEntities())
             {
-                var posts = db.posts.Where(post => post.UserID == targetUser).ToList();
-                feedInfo = new FeedInfo(posts);
+                posts = db.posts.Where(post => post.UserID == targetUser).ToList();
             }
-            return feedInfo;
+            return posts;
+        }
+
+        public post GetPostById(int targetPostId)
+        {
+            post post;
+            using (var db = new ChallengeMeEntities())
+            {
+                post = db.posts.SingleOrDefault(x => x.PostID == targetPostId);
+            }
+            return post;
+        }
+
+        public void SetLikeToPost(int targetPostId)
+        {
+            using (var db = new ChallengeMeEntities())
+            {
+                var postToLike = db.posts.SingleOrDefault(post => post.PostID == targetPostId);
+                if (postToLike != null) postToLike.PostLikes += 1;
+                db.SaveChanges();
+            }
+        }
+
+        public void SetLikeToComment(int targetCommentId)
+        {
+            using (var db = new ChallengeMeEntities())
+            {
+                var commentToLike = db.post_comments.SingleOrDefault(comment => comment.PostCommentID == targetCommentId);
+                if (commentToLike != null) commentToLike.PostCommentLike += 1;
+                db.SaveChanges();
+            }
         }
     }
 }

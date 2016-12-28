@@ -33,7 +33,7 @@ namespace ChallengeMeServer.Managers
         public Client GetClientByToken(Guid tokenKey)
         {
             Client requestedClient;
-            return _onlineClients.TryGetValue(tokenKey,out requestedClient) ? requestedClient : InvalidClientToken;
+            return _onlineClients.TryGetValue(tokenKey, out requestedClient) ? requestedClient : InvalidClientToken;
         }
 
 
@@ -62,16 +62,18 @@ namespace ChallengeMeServer.Managers
             //throw new NotImplementedException();
         }
 
+
+
         internal void UpdateUserBasicInfo(Client client, string userName, string userFirstName, string userLastName)
         {
             throw new NotImplementedException();
         }
 
-        internal UserInfo GetUserInfo(int targetUserId)
+        internal UserInfo GetUserInfo(Client client, int targetUserId)
         {
-            FeedInfo feedInfo = DataControllerCore.Current.GetPostsForUser(targetUserId);
-            ProfileInfo profileInfo = DataControllerCore.Current.GetProfileInfo(targetUserId);
-            return new UserInfo(feedInfo,profileInfo);
+            FeedInfo feedInfo = new FeedInfo(DataControllerCore.Current.GetPostsForUser(targetUserId));
+            ProfileInfo profileInfo = new ProfileInfo(DataControllerCore.Current.GetProfile(targetUserId));
+            return new UserInfo(feedInfo, profileInfo);
         }
 
         internal List<UserSearchResultInfo> GetSearchResults(string searchRequest)
@@ -79,7 +81,7 @@ namespace ChallengeMeServer.Managers
             List<UserSearchResultInfo> searchResults = new List<UserSearchResultInfo>();
             searchRequest = searchRequest.Trim();  // ikidebs tavshi da boloshi spacebs
             int numberOfSpaces = Regex.Matches(searchRequest, "[ ]+").Count;  // edzebs space(eb)s ( " " da "   " orive aris erti match)
-            if(numberOfSpaces <= 1)
+            if (numberOfSpaces <= 1)
             {
                 string[] requests = Regex.Split(searchRequest, "[ ]+");
                 requests.ToList().ForEach(request =>
@@ -92,6 +94,15 @@ namespace ChallengeMeServer.Managers
                 });
             }
             return searchResults;
+        }
+
+        internal void SetLikeToComment(Client client, int targetCommentId)
+        {
+            DataControllerCore.Current.SetLikeToComment(targetCommentId);
+        }
+        internal void SetLikeToPost(Client client, int targetPostId)
+        {
+            DataControllerCore.Current.SetLikeToPost(targetPostId);
         }
     }
 }

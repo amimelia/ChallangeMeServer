@@ -14,7 +14,6 @@ namespace ChallengeMeServer.ChallangeMe.App_Code.Managers
 
         internal FeedInfo GetPostsForUser(Client client, int targetUser)
         {
-
             return DataControllerCore.Current.GetPostsForUser(targetUser);
         }
     }

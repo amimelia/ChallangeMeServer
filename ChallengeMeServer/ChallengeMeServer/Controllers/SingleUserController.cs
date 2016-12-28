@@ -14,7 +14,7 @@ namespace ChallengeMeServer.Controllers
 {
     public class SingleUserController : CommonApiController
     {
-        
+
         [ActionName("FollowUser")]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
@@ -57,17 +57,17 @@ namespace ChallengeMeServer.Controllers
         [ActionName("GetUserInfo")]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
-        public UserInfo GetUserInfo(Guid tokenKey, int targetUserID)
+        public UserInfo GetUserInfo(Guid tokenKey, int targetUserId)
         {
             var challangeMeRequest = new ChallengeMeRequest(tokenKey, null);
             var validationResponse = ValidateRequest(challangeMeRequest);
-
             if (validationResponse != ValidRequest)
             {
                 throw new ChallangeMeException("invalid.access.token").GetException(Request);
             }
 
-            return AccountManager.Current.GetUserInfo(targetUserID);
+
+            return AccountManager.Current.GetUserInfo(challangeMeRequest.Client, targetUserId);
         }
 
         [ActionName("UpdateUserInfo")]
@@ -86,11 +86,12 @@ namespace ChallengeMeServer.Controllers
             try
             {
                 AccountManager.Current.UpdateUserBasicInfo(challangeMeRequest.Client, userName, userFirstName, userLastName);
-            } catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 return new ChallangeMeException(ex).GetExceptionAsResponce(Request);
             }
-            
+
             return null;
         }
 
@@ -111,5 +112,37 @@ namespace ChallengeMeServer.Controllers
             return AccountManager.Current.GetSearchResults(searchRequest);
         }
 
+        [ActionName("SetLikeToPost")]
+        [System.Web.Http.AcceptVerbs("GET", "POST")]
+        [System.Web.Http.HttpGet]
+        public HttpResponseMessage SetLikeToPost(Guid tokenKey, int targetPostId)
+        {
+            var challangeMeRequest = new ChallengeMeRequest(tokenKey, null);
+            var validationResponse = ValidateRequest(challangeMeRequest);
+
+            if (validationResponse != ValidRequest)
+            {
+                throw new ChallangeMeException("invalid.access.token").GetException(Request);
+            }
+            AccountManager.Current.SetLikeToPost(challangeMeRequest.Client, targetPostId);
+            //todo notification amosagdebia
+            return null;
+        }
+        [ActionName("SetLikeToComment")]
+        [System.Web.Http.AcceptVerbs("GET", "POST")]
+        [System.Web.Http.HttpGet]
+        public HttpResponseMessage SetLikeToComment(Guid tokenKey, int targetCommentId)
+        {
+            var challangeMeRequest = new ChallengeMeRequest(tokenKey, null);
+            var validationResponse = ValidateRequest(challangeMeRequest);
+
+            if (validationResponse != ValidRequest)
+            {
+                throw new ChallangeMeException("invalid.access.token").GetException(Request);
+            }
+            AccountManager.Current.SetLikeToComment(challangeMeRequest.Client, targetCommentId);
+            //todo notification amosagdebia
+            return null;
+        }
     }
 }
