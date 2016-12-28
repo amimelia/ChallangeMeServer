@@ -14,7 +14,7 @@ namespace ChallengeMeServer.Managers
 {
     public class AccountManager
     {
-        private Dictionary<Guid, Client> _onlineClients = new Dictionary<Guid, Client>();
+        private readonly Dictionary<Guid, Client> _onlineClients = new Dictionary<Guid, Client>();
 
         #region StaticConstants
 
@@ -67,15 +67,11 @@ namespace ChallengeMeServer.Managers
             throw new NotImplementedException();
         }
 
-        internal UserInfo GetUserInfo(int targetUserID)
+        internal UserInfo GetUserInfo(int targetUserId)
         {
-            FeedInfo feedInfo = DataControllerCore.Current.GetPostsForUser(targetUserID);
-            ProfileInfo profileInfo = DataControllerCore.Current.GetProfileInfo(targetUserID);
-            return new UserInfo
-            {
-                NewsFeed = feedInfo,
-                Profile = profileInfo
-            };
+            FeedInfo feedInfo = DataControllerCore.Current.GetPostsForUser(targetUserId);
+            ProfileInfo profileInfo = DataControllerCore.Current.GetProfileInfo(targetUserId);
+            return new UserInfo(feedInfo,profileInfo);
         }
 
         internal List<UserSearchResultInfo> GetSearchResults(string searchRequest)

@@ -7,6 +7,25 @@ namespace ChallengeMeServer.Models
 {
     public class PostInfo
     {
+        private static List<PostCommentInfo> _fillPostCommentList(List<post_comments> list)
+        {
+            var postCommentInfo = new List<PostCommentInfo>();
+            list.ForEach(postComments =>
+            {
+                postCommentInfo.Add(new PostCommentInfo(postComments));
+            });
+            return postCommentInfo;
+        }
+
+        public PostInfo(post post)
+        {
+            PostContent = post.PostContent;
+            PostDescription = post.PostDiscription;
+            PostLikes = post.PostLikes;
+            PostCreateDate = post.PostCreateDate;
+            PostComments = _fillPostCommentList(post.post_comments.ToList());
+
+        }
         public int PostID { get; set; }
         public string PostContent { get; set; }
         public string PostDescription { get; set; }

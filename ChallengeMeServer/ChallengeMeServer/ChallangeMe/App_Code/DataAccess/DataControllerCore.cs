@@ -52,12 +52,12 @@ namespace ChallengeMeServer.ChallengeMe.App_Code.DataAccess
         }
 
 
-        public ProfileInfo GetProfileInfo(int targetUserID)
+        public ProfileInfo GetProfileInfo(int targetUserId)
         {
             ProfileInfo profileInfo;
             using (var db = new ChallengeMeEntities())
             {
-                var profile_info = db.users.ToList().SingleOrDefault(user => user.UserID == targetUserID).profile_info;
+                var profile_info = db.users.ToList().SingleOrDefault(user => user.UserID == targetUserId).profile_info;
                 profileInfo = new ProfileInfo(profile_info);
             }
             return profileInfo;
