@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Web.Http;
 using ChallengeMeServer.ChallangeMe.App_Code.Managers;
 using ChallengeMeServer.Controllers.Web;
+using ChallengeMeServer.Managers;
 using ChallengeMeServer.Models;
 
 namespace ChallengeMeServer.Controllers
@@ -16,7 +17,7 @@ namespace ChallengeMeServer.Controllers
         [ActionName("GetUserPosts")]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
-        public FeedInfo GetUserPosts(Guid tokenKey, int targetUser)
+        public FeedInfo GetUserPosts(Guid tokenKey, int targetUserId)
         {
             var challangeMeRequest = new ChallengeMeRequest(tokenKey, null);
             var validationResponse = ValidateRequest(challangeMeRequest);
@@ -29,7 +30,7 @@ namespace ChallengeMeServer.Controllers
             FeedInfo postsForUser = null;
             try
             {
-                postsForUser = NewsFeedManager.Current.GetPostsForUser(challangeMeRequest.Client, targetUser);
+                postsForUser = AccountManager.Current.GetUserPosts(challangeMeRequest.Client, targetUserId);
             }
             catch (Exception ex)
             {

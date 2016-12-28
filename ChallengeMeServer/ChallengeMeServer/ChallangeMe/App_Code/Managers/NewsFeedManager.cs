@@ -12,9 +12,6 @@ namespace ChallengeMeServer.ChallangeMe.App_Code.Managers
     {
         public static NewsFeedManager Current { get; } = new NewsFeedManager();
 
-        internal FeedInfo GetPostsForUser(Client client, int targetUser)
-        {
-            return DataControllerCore.Current.GetPostsForUser(targetUser);
-        }
+        
     }
 }

@@ -104,5 +104,11 @@ namespace ChallengeMeServer.Managers
         {
             DataControllerCore.Current.SetLikeToPost(targetPostId);
         }
+
+        internal FeedInfo GetUserPosts(Client client, int targetUserId)
+        {
+            FeedInfo feedInfo = new FeedInfo(DataControllerCore.Current.GetPostsForUser(targetUserId));
+            return feedInfo;
+        }
     }
 }
