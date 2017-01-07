@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Web.Http;
 using ChallengeMeServer.Controllers.Web;
 using ChallengeMeServer.Managers;
+using Facebook;
 
 namespace ChallengeMeServer.Controllers
 {

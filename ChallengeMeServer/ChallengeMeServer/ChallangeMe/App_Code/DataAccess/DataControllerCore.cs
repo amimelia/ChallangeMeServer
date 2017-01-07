@@ -11,8 +11,6 @@ namespace ChallengeMeServer.ChallengeMe.App_Code.DataAccess
     public class DataControllerCore
     {
         public static DataControllerCore Current { get; } = new DataControllerCore();
-
-
         private Object _lockObject = new Object();
 
         public List<user> GetUsers()
@@ -55,12 +53,12 @@ namespace ChallengeMeServer.ChallengeMe.App_Code.DataAccess
         public profile_info GetProfile(int targetUserId)
         {
 
-            profile_info profile_info;
+            profile_info profileInfo;
             using (var db = new ChallengeMeEntities())
             {
-                profile_info = db.users.ToList().SingleOrDefault(user => user.UserID == targetUserId).profile_info;
+                profileInfo = db.users.ToList().SingleOrDefault(user => user.UserID == targetUserId)?.profile_info;
             }
-            return profile_info;
+            return profileInfo;
         }
 
         public void RegisterNewUser()

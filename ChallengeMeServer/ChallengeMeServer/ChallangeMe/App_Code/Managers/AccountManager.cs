@@ -44,7 +44,7 @@ namespace ChallengeMeServer.Managers
             var tokenKey = Guid.NewGuid(); //dasatestia
             _onlineClients.Add(tokenKey, new Client
             {
-                UserID = user.UserID,
+                UserId = user.UserID,
                 IpAddress = HttpRequestHelper.GetClientIpString(request)
             });
             return tokenKey;
@@ -52,13 +52,13 @@ namespace ChallengeMeServer.Managers
 
         internal void AddUserFollower(Client client, int userToFollowId)
         {
-            DataControllerCore.Current.AddUserFollower(client.UserID, userToFollowId);
+            DataControllerCore.Current.AddUserFollower(client.UserId, userToFollowId);
             // throw new NotImplementedException();
         }
 
         internal void RemoveUserFollower(Client client, int userToFollowId)
         {
-            DataControllerCore.Current.RemoveUserFollower(client.UserID, userToFollowId);
+            DataControllerCore.Current.RemoveUserFollower(client.UserId, userToFollowId);
             //throw new NotImplementedException();
         }
 
@@ -107,7 +107,7 @@ namespace ChallengeMeServer.Managers
 
         internal void WritePostComment(Client client, int targetPostId, string postCommentContent, string postCommentDescription)
         {
-            DataControllerCore.Current.CreatePostComment(client.UserID,targetPostId,postCommentContent,postCommentDescription);
+            DataControllerCore.Current.CreatePostComment(client.UserId,targetPostId,postCommentContent,postCommentDescription);
         }
     }
 }
