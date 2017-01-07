@@ -53,13 +53,11 @@ namespace ChallengeMeServer.Managers
         internal void AddUserFollower(Client client, int userToFollowId)
         {
             DataControllerCore.Current.AddUserFollower(client.UserID, userToFollowId);
-            // throw new NotImplementedException();
         }
 
         internal void RemoveUserFollower(Client client, int userToFollowId)
         {
             DataControllerCore.Current.RemoveUserFollower(client.UserID, userToFollowId);
-            //throw new NotImplementedException();
         }
 
 
