@@ -20,5 +20,13 @@ namespace ChallengeMeServer.Controllers
         {
             return AccountManager.Current.CheckSignInValidation(userName, password, Request);
         }
+
+        [ActionName("SignUp")]
+        [System.Web.Http.AcceptVerbs("GET", "POST")]
+        [System.Web.Http.HttpGet]
+        public Guid SignUp(String token, String facebookId)
+        {
+            return new Guid();
+        }
     }
 }
