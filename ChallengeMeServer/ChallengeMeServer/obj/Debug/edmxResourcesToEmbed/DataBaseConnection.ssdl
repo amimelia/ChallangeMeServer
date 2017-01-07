@@ -7,7 +7,7 @@
     <Property Name="ChallengeID" Type="int" />
     <Property Name="SettingName" Type="varchar" MaxLength="150" />
     <Property Name="SettingValue" Type="varchar" MaxLength="200" />
-    <Property Name="ChallengeSettingsID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ChallengeSettingsID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="challenges">
     <Key>
@@ -27,7 +27,7 @@
     </Key>
     <Property Name="ChallengesAndUsersID" Type="int" />
     <Property Name="PostID" Type="int" />
-    <Property Name="ChallengesAndPostsID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ChallengesAndPostsID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="challenges_and_users">
     <Key>
@@ -38,6 +38,14 @@
     <Property Name="UserID" Type="int" />
     <Property Name="ChallengeID" Type="int" />
   </EntityType>
+  <EntityType Name="facebook_ids">
+    <Key>
+      <PropertyRef Name="FacebookTableID" />
+    </Key>
+    <Property Name="FacebookTableID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FacebookID" Type="int" />
+    <Property Name="UserID" Type="int" />
+  </EntityType>
   <EntityType Name="notification_users">
     <Key>
       <PropertyRef Name="NotificationUsersID" />
@@ -45,7 +53,7 @@
     <Property Name="NotificationState" Type="varchar" MaxLength="100" />
     <Property Name="NotificationID" Type="int" />
     <Property Name="UserID" Type="int" />
-    <Property Name="NotificationUsersID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NotificationUsersID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="notifications">
     <Key>
@@ -93,6 +101,7 @@
     <Property Name="LastName" Type="varchar" MaxLength="100" />
     <Property Name="BirthDate" Type="datetime" />
     <Property Name="Gender" Type="bit" />
+    <Property Name="UserID" Type="int" />
   </EntityType>
   <EntityType Name="user_followers">
     <Key>
@@ -100,7 +109,7 @@
     </Key>
     <Property Name="UserID" Type="int" />
     <Property Name="UserFollowerID" Type="int" />
-    <Property Name="UsersFollowersID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UsersFollowersID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="users">
     <Key>
@@ -112,6 +121,7 @@
     <Property Name="UserStatus" Type="varchar" MaxLength="50" />
     <Property Name="UserCreateDate" Type="datetime" />
     <Property Name="ProfileInfoID" Type="int" />
+    <Property Name="Email" Type="varchar" MaxLength="32" />
   </EntityType>
   <Association Name="fk_challenge_to_user">
     <End Role="users" Type="Self.users" Multiplicity="0..1" />
@@ -182,6 +192,18 @@
       </Principal>
       <Dependent Role="challenge_settings">
         <PropertyRef Name="ChallengeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_Facebook_to_user">
+    <End Role="users" Type="Self.users" Multiplicity="0..1" />
+    <End Role="facebook_ids" Type="Self.facebook_ids" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="users">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="facebook_ids">
+        <PropertyRef Name="UserID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -322,6 +344,7 @@
     <EntitySet Name="challenges" EntityType="Self.challenges" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="challenges_and_posts" EntityType="Self.challenges_and_posts" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="challenges_and_users" EntityType="Self.challenges_and_users" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="facebook_ids" EntityType="Self.facebook_ids" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="notification_users" EntityType="Self.notification_users" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="notifications" EntityType="Self.notifications" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="post_comments" EntityType="Self.post_comments" Schema="dbo" store:Type="Tables" />
@@ -352,6 +375,10 @@
     <AssociationSet Name="fk_challengesetting_to_challenge" Association="Self.fk_challengesetting_to_challenge">
       <End Role="challenges" EntitySet="challenges" />
       <End Role="challenge_settings" EntitySet="challenge_settings" />
+    </AssociationSet>
+    <AssociationSet Name="fk_Facebook_to_user" Association="Self.fk_Facebook_to_user">
+      <End Role="users" EntitySet="users" />
+      <End Role="facebook_ids" EntitySet="facebook_ids" />
     </AssociationSet>
     <AssociationSet Name="fk_notification_to_challenge" Association="Self.fk_notification_to_challenge">
       <End Role="challenges" EntitySet="challenges" />

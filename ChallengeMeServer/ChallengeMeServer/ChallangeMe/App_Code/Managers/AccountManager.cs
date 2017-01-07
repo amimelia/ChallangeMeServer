@@ -9,6 +9,7 @@ using ChallengeMeServer.Controllers.Web;
 using Microsoft.ApplicationInsights.Extensibility.Implementation;
 using ChallengeMeServer.Models;
 using System.Text.RegularExpressions;
+using Facebook;
 
 namespace ChallengeMeServer.Managers
 {
@@ -34,6 +35,26 @@ namespace ChallengeMeServer.Managers
         {
             Client requestedClient;
             return _onlineClients.TryGetValue(tokenKey, out requestedClient) ? requestedClient : InvalidClientToken;
+        }
+        
+        public void EmailSignUp(String email, String password, String name, String lastName, DateTime birthDate, Boolean gender)
+        {
+            DataControllerCore.Current.AddNewUser(email, password, name, lastName, birthDate, gender);
+
+        }
+        public Guid FacebookSignUp(String token)
+        {
+            var client = new FacebookClient(token);
+
+            dynamic me = client.Get("me?fields=picture");
+            String pictureUrl = me.picture.data.url;
+
+            me = client.Get("me?fields=birthday");
+            String birthday = Convert.ToString(me.birthday);
+
+
+
+            throw new NotImplementedException();
         }
 
 

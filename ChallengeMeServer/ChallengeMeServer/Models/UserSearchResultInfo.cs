@@ -14,8 +14,10 @@ namespace ChallengeMeServer.Models
             BirthDate = profileInfo.BirthDate;
             Gender = profileInfo.Gender;
             ProfilePicture = profileInfo.ProfilePicture;
+            UserID = profileInfo.UserID;
         }
 
+        public int? UserID { get; set; }
         public string ProfilePicture { get; set; }
         public string Name { get; set; }
         public string LastName { get; set; }

@@ -19,6 +19,7 @@ namespace ChallengeMeServer
         {
             this.challenges = new HashSet<challenge>();
             this.challenges_and_users = new HashSet<challenges_and_users>();
+            this.facebook_ids = new HashSet<facebook_ids>();
             this.notification_users = new HashSet<notification_users>();
             this.notifications = new HashSet<notification>();
             this.post_comments = new HashSet<post_comments>();
@@ -32,11 +33,14 @@ namespace ChallengeMeServer
         public string UserStatus { get; set; }
         public Nullable<System.DateTime> UserCreateDate { get; set; }
         public Nullable<int> ProfileInfoID { get; set; }
+        public string Email { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<challenge> challenges { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<challenges_and_users> challenges_and_users { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<facebook_ids> facebook_ids { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<notification_users> notification_users { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

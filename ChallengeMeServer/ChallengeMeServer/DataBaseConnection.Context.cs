@@ -33,8 +33,9 @@ namespace ChallengeMeServer
         public virtual DbSet<notification> notifications { get; set; }
         public virtual DbSet<post_comments> post_comments { get; set; }
         public virtual DbSet<post> posts { get; set; }
-        public virtual DbSet<profile_info> profile_info { get; set; }
         public virtual DbSet<user_followers> user_followers { get; set; }
+        public virtual DbSet<facebook_ids> facebook_ids { get; set; }
+        public virtual DbSet<profile_info> profile_info { get; set; }
         public virtual DbSet<user> users { get; set; }
     }
 }

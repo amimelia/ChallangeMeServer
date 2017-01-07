@@ -161,7 +161,7 @@
     <Compile Include="Controllers\CommonApiController.cs" />
     <Compile Include="Controllers\NewsFeedController.cs" />
     <Compile Include="Controllers\ShareContentController.cs" />
-    <Compile Include="Controllers\SignUpController.cs" />
+    <Compile Include="Controllers\AuthenticationController.cs" />
     <Compile Include="Controllers\SingleUserController.cs" />
     <Compile Include="Controllers\Web\ChallangeMeException.cs" />
     <Compile Include="Controllers\Web\ChallengeMeRequest.cs" />
@@ -180,6 +180,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DataBaseConnection.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="facebook_ids.cs">
+      <DependentUpon>DataBaseConnection.tt</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

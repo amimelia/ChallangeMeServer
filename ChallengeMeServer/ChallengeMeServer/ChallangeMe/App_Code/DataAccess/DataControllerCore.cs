@@ -61,7 +61,47 @@ namespace ChallengeMeServer.ChallengeMe.App_Code.DataAccess
             return profileInfo;
         }
 
-        public void RegisterNewUser()
+        public void AddNewUser(String email, String password, String name, String lastName, DateTime birthDate, Boolean gender)
+        {
+            using (var db = new ChallengeMeEntities())
+            {
+                user newUser = new user
+                {
+                    Email = email,
+                    UserPassword = password,
+                    UserCreateDate = DateTime.Now,
+                    UserStatus = "Active"  // ar vicit ras shveba
+                };
+                db.users.Add(newUser);
+                db.SaveChanges();
+                profile_info newProfile = new profile_info
+                {
+                    Name = name,
+                    LastName = lastName,
+                    BirthDate = birthDate,
+                    Gender = gender,
+                    UserID = newUser.UserID
+                };
+                newUser.profile_info = newProfile;
+                db.SaveChanges();
+            }
+        }
+
+
+        public void AddFacebookID(int userId, int facebookId)
+        {
+            using (var db = new ChallengeMeEntities())
+            {
+                db.facebook_ids.Add(new facebook_ids
+                {
+                    FacebookID = facebookId,
+                    UserID = userId,
+                });
+                db.SaveChanges();
+            }
+        }
+
+        public void AddFacebookSignUpInfo()
         {
 
         }
@@ -141,9 +181,9 @@ namespace ChallengeMeServer.ChallengeMe.App_Code.DataAccess
                     PostCommentDiscription = postCommentDescription,
                     PostID = targetPostId,
                     UserID = clientUserId,
-                    user = db.users.SingleOrDefault(user=>user.UserID==clientUserId),
+                    user = db.users.SingleOrDefault(user => user.UserID == clientUserId),
                     PostCommentLike = 0,
-                    post = db.posts.SingleOrDefault(post=>post.PostID==targetPostId)
+                    post = db.posts.SingleOrDefault(post => post.PostID == targetPostId)
                 });
                 db.SaveChanges();
             }

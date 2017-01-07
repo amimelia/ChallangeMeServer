@@ -10,7 +10,7 @@ using Facebook;
 
 namespace ChallengeMeServer.Controllers
 {
-    public class SignUpController : CommonApiController
+    public class AuthenticationController : CommonApiController
     {
         // GET: api/SignUp
         [ActionName("SignIn")]
@@ -21,12 +21,20 @@ namespace ChallengeMeServer.Controllers
             return AccountManager.Current.CheckSignInValidation(userName, password, Request);
         }
 
-        [ActionName("SignUp")]
+        [ActionName("FacebookSignUp")]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
-        public Guid SignUp(String token, String facebookId)
+        public Guid FacebookSignUp(String token, String facebookId)
         {
             return new Guid();
+        }
+
+        [ActionName("EmailSignUp")]
+        [System.Web.Http.AcceptVerbs("GET", "POST")]
+        [System.Web.Http.HttpGet]
+        public void EmailSignUp(String email, String password, String name, String lastName, DateTime birthDate, Boolean gender)
+        {
+            AccountManager.Current.EmailSignUp(email, password, name, lastName, birthDate, gender);
         }
     }
 }
