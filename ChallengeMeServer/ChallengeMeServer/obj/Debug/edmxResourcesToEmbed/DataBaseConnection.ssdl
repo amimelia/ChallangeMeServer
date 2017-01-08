@@ -117,7 +117,6 @@
       <PropertyRef Name="UserID" />
     </Key>
     <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="UserName" Type="varchar" MaxLength="100" />
     <Property Name="UserPassword" Type="varchar" MaxLength="100" />
     <Property Name="UserStatus" Type="varchar" MaxLength="50" />
     <Property Name="UserCreateDate" Type="datetime" />

@@ -11,14 +11,9 @@
     <EntitySet Name="post_comments" EntityType="ChallengeMeModel.post_comments" />
     <EntitySet Name="posts" EntityType="ChallengeMeModel.post" />
     <EntitySet Name="user_followers" EntityType="ChallengeMeModel.user_followers" />
-    <EntitySet Name="users" EntityType="ChallengeMeModel.user" />
     <AssociationSet Name="fk_challengesetting_to_challenge" Association="ChallengeMeModel.fk_challengesetting_to_challenge">
       <End Role="challenge" EntitySet="challenges" />
       <End Role="challenge_settings" EntitySet="challenge_settings" />
-    </AssociationSet>
-    <AssociationSet Name="fk_challenge_to_user" Association="ChallengeMeModel.fk_challenge_to_user">
-      <End Role="user" EntitySet="users" />
-      <End Role="challenge" EntitySet="challenges" />
     </AssociationSet>
     <AssociationSet Name="fk_challengeAndUser_to_challenge" Association="ChallengeMeModel.fk_challengeAndUser_to_challenge">
       <End Role="challenge" EntitySet="challenges" />
@@ -40,6 +35,24 @@
       <End Role="post" EntitySet="posts" />
       <End Role="challenges_and_posts" EntitySet="challenges_and_posts" />
     </AssociationSet>
+    <AssociationSet Name="fk_notificationUser_to_notification" Association="ChallengeMeModel.fk_notificationUser_to_notification">
+      <End Role="notification" EntitySet="notifications" />
+      <End Role="notification_users" EntitySet="notification_users" />
+    </AssociationSet>
+    <AssociationSet Name="fk_notification_to_post" Association="ChallengeMeModel.fk_notification_to_post">
+      <End Role="post" EntitySet="posts" />
+      <End Role="notification" EntitySet="notifications" />
+    </AssociationSet>
+    <AssociationSet Name="fk_postcomment_to_post" Association="ChallengeMeModel.fk_postcomment_to_post">
+      <End Role="post" EntitySet="posts" />
+      <End Role="post_comments" EntitySet="post_comments" />
+    </AssociationSet>
+    <EntitySet Name="profile_info" EntityType="ChallengeMeModel.profile_info" />
+    <EntitySet Name="users" EntityType="ChallengeMeModel.user" />
+    <AssociationSet Name="fk_challenge_to_user" Association="ChallengeMeModel.fk_challenge_to_user">
+      <End Role="user" EntitySet="users" />
+      <End Role="challenge" EntitySet="challenges" />
+    </AssociationSet>
     <AssociationSet Name="fk_challengeAndUser_to_user" Association="ChallengeMeModel.fk_challengeAndUser_to_user">
       <End Role="user" EntitySet="users" />
       <End Role="challenges_and_users" EntitySet="challenges_and_users" />
@@ -48,25 +61,13 @@
       <End Role="user" EntitySet="users" />
       <End Role="facebook_ids" EntitySet="facebook_ids" />
     </AssociationSet>
-    <AssociationSet Name="fk_notificationUser_to_notification" Association="ChallengeMeModel.fk_notificationUser_to_notification">
-      <End Role="notification" EntitySet="notifications" />
-      <End Role="notification_users" EntitySet="notification_users" />
-    </AssociationSet>
     <AssociationSet Name="fk_notificationUser_to_user" Association="ChallengeMeModel.fk_notificationUser_to_user">
       <End Role="user" EntitySet="users" />
       <End Role="notification_users" EntitySet="notification_users" />
     </AssociationSet>
-    <AssociationSet Name="fk_notification_to_post" Association="ChallengeMeModel.fk_notification_to_post">
-      <End Role="post" EntitySet="posts" />
-      <End Role="notification" EntitySet="notifications" />
-    </AssociationSet>
     <AssociationSet Name="fk_notification_to_user" Association="ChallengeMeModel.fk_notification_to_user">
       <End Role="user" EntitySet="users" />
       <End Role="notification" EntitySet="notifications" />
-    </AssociationSet>
-    <AssociationSet Name="fk_postcomment_to_post" Association="ChallengeMeModel.fk_postcomment_to_post">
-      <End Role="post" EntitySet="posts" />
-      <End Role="post_comments" EntitySet="post_comments" />
     </AssociationSet>
     <AssociationSet Name="fk_postcomment_to_user" Association="ChallengeMeModel.fk_postcomment_to_user">
       <End Role="user" EntitySet="users" />
@@ -76,14 +77,13 @@
       <End Role="user" EntitySet="users" />
       <End Role="post" EntitySet="posts" />
     </AssociationSet>
-    <AssociationSet Name="fk_userFolloews_to_user" Association="ChallengeMeModel.fk_userFolloews_to_user">
-      <End Role="user" EntitySet="users" />
-      <End Role="user_followers" EntitySet="user_followers" />
-    </AssociationSet>
-    <EntitySet Name="profile_info" EntityType="ChallengeMeModel.profile_info" />
     <AssociationSet Name="fk_profile_to_user" Association="ChallengeMeModel.fk_profile_to_user">
       <End Role="profile_info" EntitySet="profile_info" />
       <End Role="user" EntitySet="users" />
+    </AssociationSet>
+    <AssociationSet Name="fk_userFolloews_to_user" Association="ChallengeMeModel.fk_userFolloews_to_user">
+      <End Role="user" EntitySet="users" />
+      <End Role="user_followers" EntitySet="user_followers" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="challenge_settings">
@@ -108,10 +108,10 @@
     <Property Name="ChallengeCreateDate" Type="DateTime" Precision="3" />
     <Property Name="ChallengeCreateBy" Type="Int32" />
     <NavigationProperty Name="challenge_settings" Relationship="ChallengeMeModel.fk_challengesetting_to_challenge" FromRole="challenge" ToRole="challenge_settings" />
-    <NavigationProperty Name="user" Relationship="ChallengeMeModel.fk_challenge_to_user" FromRole="challenge" ToRole="user" />
     <NavigationProperty Name="challenges_and_users" Relationship="ChallengeMeModel.fk_challengeAndUser_to_challenge" FromRole="challenge" ToRole="challenges_and_users" />
     <NavigationProperty Name="notifications" Relationship="ChallengeMeModel.fk_notification_to_challenge" FromRole="challenge" ToRole="notification" />
     <NavigationProperty Name="posts" Relationship="ChallengeMeModel.fk_post_to_challenge" FromRole="challenge" ToRole="post" />
+    <NavigationProperty Name="user" Relationship="ChallengeMeModel.fk_challenge_to_user" FromRole="challenge" ToRole="user" />
   </EntityType>
   <EntityType Name="challenges_and_posts">
     <Key>
@@ -211,27 +211,6 @@
     <Property Name="UsersFollowersID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <NavigationProperty Name="user" Relationship="ChallengeMeModel.fk_userFolloews_to_user" FromRole="user_followers" ToRole="user" />
   </EntityType>
-  <EntityType Name="user">
-    <Key>
-      <PropertyRef Name="UserID" />
-    </Key>
-    <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="UserName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="UserPassword" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="UserStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="UserCreateDate" Type="DateTime" Precision="3" />
-    <Property Name="ProfileInfoID" Type="Int32" />
-    <Property Name="Email" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
-    <NavigationProperty Name="challenges" Relationship="ChallengeMeModel.fk_challenge_to_user" FromRole="user" ToRole="challenge" />
-    <NavigationProperty Name="challenges_and_users" Relationship="ChallengeMeModel.fk_challengeAndUser_to_user" FromRole="user" ToRole="challenges_and_users" />
-    <NavigationProperty Name="facebook_ids" Relationship="ChallengeMeModel.fk_Facebook_to_user" FromRole="user" ToRole="facebook_ids" />
-    <NavigationProperty Name="notification_users" Relationship="ChallengeMeModel.fk_notificationUser_to_user" FromRole="user" ToRole="notification_users" />
-    <NavigationProperty Name="notifications" Relationship="ChallengeMeModel.fk_notification_to_user" FromRole="user" ToRole="notification" />
-    <NavigationProperty Name="post_comments" Relationship="ChallengeMeModel.fk_postcomment_to_user" FromRole="user" ToRole="post_comments" />
-    <NavigationProperty Name="posts" Relationship="ChallengeMeModel.fk_post_to_user" FromRole="user" ToRole="post" />
-    <NavigationProperty Name="user_followers" Relationship="ChallengeMeModel.fk_userFolloews_to_user" FromRole="user" ToRole="user_followers" />
-    <NavigationProperty Name="profile_info" Relationship="ChallengeMeModel.fk_profile_to_user" FromRole="user" ToRole="profile_info" />
-  </EntityType>
   <Association Name="fk_challengesetting_to_challenge">
     <End Type="ChallengeMeModel.challenge" Role="challenge" Multiplicity="0..1" />
     <End Type="ChallengeMeModel.challenge_settings" Role="challenge_settings" Multiplicity="*" />
@@ -241,18 +220,6 @@
       </Principal>
       <Dependent Role="challenge_settings">
         <PropertyRef Name="ChallengeID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="fk_challenge_to_user">
-    <End Type="ChallengeMeModel.user" Role="user" Multiplicity="0..1" />
-    <End Type="ChallengeMeModel.challenge" Role="challenge" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="user">
-        <PropertyRef Name="UserID" />
-      </Principal>
-      <Dependent Role="challenge">
-        <PropertyRef Name="ChallengeCreateBy" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -316,6 +283,88 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="fk_notificationUser_to_notification">
+    <End Type="ChallengeMeModel.notification" Role="notification" Multiplicity="0..1" />
+    <End Type="ChallengeMeModel.notification_users" Role="notification_users" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="notification">
+        <PropertyRef Name="NotificationID" />
+      </Principal>
+      <Dependent Role="notification_users">
+        <PropertyRef Name="NotificationID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_notification_to_post">
+    <End Type="ChallengeMeModel.post" Role="post" Multiplicity="0..1" />
+    <End Type="ChallengeMeModel.notification" Role="notification" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="post">
+        <PropertyRef Name="PostID" />
+      </Principal>
+      <Dependent Role="notification">
+        <PropertyRef Name="PostID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_postcomment_to_post">
+    <End Type="ChallengeMeModel.post" Role="post" Multiplicity="0..1" />
+    <End Type="ChallengeMeModel.post_comments" Role="post_comments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="post">
+        <PropertyRef Name="PostID" />
+      </Principal>
+      <Dependent Role="post_comments">
+        <PropertyRef Name="PostID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="profile_info">
+    <Key>
+      <PropertyRef Name="ProfileInfoID" />
+    </Key>
+    <Property Name="ProfileInfoID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProfilePicture" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+    <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="LastName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="BirthDate" Type="DateTime" Precision="0" />
+    <Property Name="Gender" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="UserID" Type="Int32" />
+    <Property Name="FullName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="users" Relationship="ChallengeMeModel.fk_profile_to_user" FromRole="profile_info" ToRole="user" />
+  </EntityType>
+  <EntityType Name="user">
+    <Key>
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserPassword" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="UserStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="UserCreateDate" Type="DateTime" Precision="3" />
+    <Property Name="ProfileInfoID" Type="Int32" />
+    <Property Name="Email" Type="String" MaxLength="32" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="challenges" Relationship="ChallengeMeModel.fk_challenge_to_user" FromRole="user" ToRole="challenge" />
+    <NavigationProperty Name="challenges_and_users" Relationship="ChallengeMeModel.fk_challengeAndUser_to_user" FromRole="user" ToRole="challenges_and_users" />
+    <NavigationProperty Name="facebook_ids" Relationship="ChallengeMeModel.fk_Facebook_to_user" FromRole="user" ToRole="facebook_ids" />
+    <NavigationProperty Name="notification_users" Relationship="ChallengeMeModel.fk_notificationUser_to_user" FromRole="user" ToRole="notification_users" />
+    <NavigationProperty Name="notifications" Relationship="ChallengeMeModel.fk_notification_to_user" FromRole="user" ToRole="notification" />
+    <NavigationProperty Name="post_comments" Relationship="ChallengeMeModel.fk_postcomment_to_user" FromRole="user" ToRole="post_comments" />
+    <NavigationProperty Name="posts" Relationship="ChallengeMeModel.fk_post_to_user" FromRole="user" ToRole="post" />
+    <NavigationProperty Name="profile_info" Relationship="ChallengeMeModel.fk_profile_to_user" FromRole="user" ToRole="profile_info" />
+    <NavigationProperty Name="user_followers" Relationship="ChallengeMeModel.fk_userFolloews_to_user" FromRole="user" ToRole="user_followers" />
+  </EntityType>
+  <Association Name="fk_challenge_to_user">
+    <End Type="ChallengeMeModel.user" Role="user" Multiplicity="0..1" />
+    <End Type="ChallengeMeModel.challenge" Role="challenge" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="user">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="challenge">
+        <PropertyRef Name="ChallengeCreateBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="fk_challengeAndUser_to_user">
     <End Type="ChallengeMeModel.user" Role="user" Multiplicity="0..1" />
     <End Type="ChallengeMeModel.challenges_and_users" Role="challenges_and_users" Multiplicity="*" />
@@ -340,18 +389,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="fk_notificationUser_to_notification">
-    <End Type="ChallengeMeModel.notification" Role="notification" Multiplicity="0..1" />
-    <End Type="ChallengeMeModel.notification_users" Role="notification_users" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="notification">
-        <PropertyRef Name="NotificationID" />
-      </Principal>
-      <Dependent Role="notification_users">
-        <PropertyRef Name="NotificationID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="fk_notificationUser_to_user">
     <End Type="ChallengeMeModel.user" Role="user" Multiplicity="0..1" />
     <End Type="ChallengeMeModel.notification_users" Role="notification_users" Multiplicity="*" />
@@ -364,18 +401,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="fk_notification_to_post">
-    <End Type="ChallengeMeModel.post" Role="post" Multiplicity="0..1" />
-    <End Type="ChallengeMeModel.notification" Role="notification" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="post">
-        <PropertyRef Name="PostID" />
-      </Principal>
-      <Dependent Role="notification">
-        <PropertyRef Name="PostID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="fk_notification_to_user">
     <End Type="ChallengeMeModel.user" Role="user" Multiplicity="0..1" />
     <End Type="ChallengeMeModel.notification" Role="notification" Multiplicity="*" />
@@ -385,18 +410,6 @@
       </Principal>
       <Dependent Role="notification">
         <PropertyRef Name="UserID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="fk_postcomment_to_post">
-    <End Type="ChallengeMeModel.post" Role="post" Multiplicity="0..1" />
-    <End Type="ChallengeMeModel.post_comments" Role="post_comments" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="post">
-        <PropertyRef Name="PostID" />
-      </Principal>
-      <Dependent Role="post_comments">
-        <PropertyRef Name="PostID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -424,32 +437,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="fk_userFolloews_to_user">
-    <End Type="ChallengeMeModel.user" Role="user" Multiplicity="0..1" />
-    <End Type="ChallengeMeModel.user_followers" Role="user_followers" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="user">
-        <PropertyRef Name="UserID" />
-      </Principal>
-      <Dependent Role="user_followers">
-        <PropertyRef Name="UserID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <EntityType Name="profile_info">
-    <Key>
-      <PropertyRef Name="ProfileInfoID" />
-    </Key>
-    <Property Name="ProfileInfoID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="ProfilePicture" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
-    <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="LastName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="BirthDate" Type="DateTime" Precision="0" />
-    <Property Name="Gender" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-    <Property Name="UserID" Type="Int32" />
-    <Property Name="FullName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-    <NavigationProperty Name="users" Relationship="ChallengeMeModel.fk_profile_to_user" FromRole="profile_info" ToRole="user" />
-  </EntityType>
   <Association Name="fk_profile_to_user">
     <End Type="ChallengeMeModel.profile_info" Role="profile_info" Multiplicity="0..1" />
     <End Type="ChallengeMeModel.user" Role="user" Multiplicity="*" />
@@ -459,6 +446,18 @@
       </Principal>
       <Dependent Role="user">
         <PropertyRef Name="ProfileInfoID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_userFolloews_to_user">
+    <End Type="ChallengeMeModel.user" Role="user" Multiplicity="0..1" />
+    <End Type="ChallengeMeModel.user_followers" Role="user_followers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="user">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="user_followers">
+        <PropertyRef Name="UserID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
