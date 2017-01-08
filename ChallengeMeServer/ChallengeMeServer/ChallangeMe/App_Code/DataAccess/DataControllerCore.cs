@@ -10,6 +10,10 @@ namespace ChallengeMeServer.ChallengeMe.App_Code.DataAccess
 {
     public class DataControllerCore
     {
+        #region StaticConstants
+
+        private static int _invalidId = -1;
+        #endregion
         public static DataControllerCore Current { get; } = new DataControllerCore();
         private Object _lockObject = new Object();
 
@@ -28,11 +32,11 @@ namespace ChallengeMeServer.ChallengeMe.App_Code.DataAccess
                 return db.users.FirstOrDefault(x => x.UserID == userId);
             }
         }
-        public user GetUser(String userName, String password)
+        public user GetUser(String email, String password)
         {
             using (var db = new ChallengeMeEntities())
             {
-                return db.users.SingleOrDefault(x => x.UserName == userName && x.UserPassword == password);
+                return db.users.SingleOrDefault(x => x.Email == email && x.UserPassword == password);
             }
         }
 
@@ -61,32 +65,37 @@ namespace ChallengeMeServer.ChallengeMe.App_Code.DataAccess
             return profileInfo;
         }
 
-        public int AddNewUser(String email, String password,String fullName, String name, String lastName, DateTime birthDate, String gender)
+        public int AddNewUser(String email, String password, String fullName, String name, String lastName, DateTime birthDate, String gender)
         {
-            int userId;
+            int userId = _invalidId;
             using (var db = new ChallengeMeEntities())
             {
-                user newUser = new user
+                if (!db.users.Any(x => x.Email.Equals(email)))
                 {
-                    Email = email,
-                    UserPassword = password,
-                    UserCreateDate = DateTime.Now,
-                    UserStatus = "Active"  // ar vicit ras shveba
-                };
-                db.users.Add(newUser);
-                db.SaveChanges();
-                profile_info newProfile = new profile_info
-                {
-                    Name = name,
-                    LastName = lastName,
-                    BirthDate = birthDate,
-                    Gender = gender,
-                    UserID = newUser.UserID,
-                    FullName = fullName
-                };
-                userId = newUser.UserID;
-                newUser.profile_info = newProfile;
-                db.SaveChanges();
+
+
+                    user newUser = new user
+                    {
+                        Email = email,
+                        UserPassword = password,
+                        UserCreateDate = DateTime.Now,
+                        UserStatus = "Active" // ar vicit ras shveba
+                    };
+                    db.users.Add(newUser);
+                    db.SaveChanges();
+                    profile_info newProfile = new profile_info
+                    {
+                        Name = name,
+                        LastName = lastName,
+                        BirthDate = birthDate,
+                        Gender = gender,
+                        UserID = newUser.UserID,
+                        FullName = fullName
+                    };
+                    userId = newUser.UserID;
+                    newUser.profile_info = newProfile;
+                    db.SaveChanges();
+                }
             }
             return userId;
         }

@@ -11,13 +11,14 @@ using Microsoft.ApplicationInsights.Extensibility.Implementation;
 using ChallengeMeServer.Models;
 using System.Text.RegularExpressions;
 using Facebook;
+using Microsoft.ApplicationInsights.Web;
 
 namespace ChallengeMeServer.Managers
 {
     public class AccountManager
     {
         private readonly Dictionary<Guid, Client> _onlineClients = new Dictionary<Guid, Client>();
-
+        private static int _invalidId = -1;
         #region StaticConstants
 
         public static Client InvalidClientToken = new Client();
@@ -38,10 +39,27 @@ namespace ChallengeMeServer.Managers
             return _onlineClients.TryGetValue(tokenKey, out requestedClient) ? requestedClient : InvalidClientToken;
         }
 
-        public void EmailSignUp(String email, String password, String fullName, String name, String lastName, DateTime birthDate, String gender)
+        public Guid EmailSignUp(String email, String password, String fullName, String name, String lastName,
+            DateTime birthDate, String gender, HttpRequestMessage request)
         {
+            int userId = DataControllerCore.Current.AddNewUser(email, password, fullName, name, lastName, birthDate,
+                gender);
+            if (userId == _invalidId)
+            {
+                return InvalidCreditials;
+            }
+            else
+            {
+                var tokenKey = Guid.NewGuid();
+                _onlineClients.Add(tokenKey, new Client
+                {
+                    UserId = userId,
+                    IpAddress = HttpRequestHelper.GetClientIpString(request)
 
-            DataControllerCore.Current.AddNewUser(email, password, fullName, name, lastName, birthDate, gender);
+                });
+
+                return tokenKey;
+            }
         }
         public Guid FacebookSignUp(String token, String facebookId, HttpRequestMessage request)
         {
@@ -71,9 +89,9 @@ namespace ChallengeMeServer.Managers
         }
 
 
-        public Guid CheckSignInValidation(string userName, string password, HttpRequestMessage request)
+        public Guid CheckSignInValidation(string email, string password, HttpRequestMessage request)
         {
-            var user = DataControllerCore.Current.GetUser(userName, password);
+            var user = DataControllerCore.Current.GetUser(email, password);
             if (user == null) return InvalidCreditials;
             var tokenKey = Guid.NewGuid(); //dasatestia
 

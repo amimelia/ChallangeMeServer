@@ -13,12 +13,12 @@ namespace ChallengeMeServer.Controllers
     public class AuthenticationController : CommonApiController
     {
         // GET: api/SignUp
-        [ActionName("SignIn")]
+        [ActionName("EmailSignIn")]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
-        public Guid SignIn(String userName, String password)
+        public Guid EmailSignIn(String email, String password)
         {
-                 return AccountManager.Current.CheckSignInValidation(userName, password, Request);
+            return AccountManager.Current.CheckSignInValidation(email, password, Request);
         }
 
         [ActionName("FacebookSignUp")]
@@ -32,9 +32,10 @@ namespace ChallengeMeServer.Controllers
         [ActionName("EmailSignUp")]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
-        public void EmailSignUp(String email, String password, String fullName, String name, String lastName, DateTime birthDate, String gender)
+        public Guid EmailSignUp(String email, String password, String fullName, String name, String lastName, DateTime birthDate, String gender)
         {
-            AccountManager.Current.EmailSignUp(email, password, fullName, name, lastName, birthDate, gender);
+            return AccountManager.Current.EmailSignUp(email, password, fullName, name, lastName, birthDate, gender, Request);
+
         }
     }
 }
