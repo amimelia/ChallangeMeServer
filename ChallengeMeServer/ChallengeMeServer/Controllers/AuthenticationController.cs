@@ -26,15 +26,15 @@ namespace ChallengeMeServer.Controllers
         [System.Web.Http.HttpGet]
         public Guid FacebookSignUp(String token, String facebookId)
         {
-            return new Guid();
+            return AccountManager.Current.FacebookSignUp(token, facebookId, Request);
         }
 
         [ActionName("EmailSignUp")]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
-        public void EmailSignUp(String email, String password, String name, String lastName, DateTime birthDate, Boolean gender)
+        public void EmailSignUp(String email, String password, String fullName, String name, String lastName, DateTime birthDate, String gender)
         {
-            AccountManager.Current.EmailSignUp(email, password, name, lastName, birthDate, gender);
+            AccountManager.Current.EmailSignUp(email, password, fullName, name, lastName, birthDate, gender);
         }
     }
 }

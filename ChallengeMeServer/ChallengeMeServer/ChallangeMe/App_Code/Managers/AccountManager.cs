@@ -1,6 +1,7 @@
 ﻿using ChallengeMeServer.Clients;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Net.Http;
 using System.Web;
@@ -36,13 +37,13 @@ namespace ChallengeMeServer.Managers
             Client requestedClient;
             return _onlineClients.TryGetValue(tokenKey, out requestedClient) ? requestedClient : InvalidClientToken;
         }
-        
-        public void EmailSignUp(String email, String password, String name, String lastName, DateTime birthDate, Boolean gender)
-        {
-            DataControllerCore.Current.AddNewUser(email, password, name, lastName, birthDate, gender);
 
+        public void EmailSignUp(String email, String password, String fullName, String name, String lastName, DateTime birthDate, String gender)
+        {
+
+            DataControllerCore.Current.AddNewUser(email, password, fullName, name, lastName, birthDate, gender);
         }
-        public Guid FacebookSignUp(String token)
+        public Guid FacebookSignUp(String token, String facebookId, HttpRequestMessage request)
         {
             var client = new FacebookClient(token);
 
@@ -50,11 +51,23 @@ namespace ChallengeMeServer.Managers
             String pictureUrl = me.picture.data.url;
 
             me = client.Get("me?fields=birthday");
-            String birthday = Convert.ToString(me.birthday);
+            DateTime birthday = Convert.ToDateTime(me.birthday);
+            me = client.Get("me?field=email");
+            String email = me.email.ToString();
+            me = client.Get("me?field=gender");
+            String gender = me.gender.ToString();
+            me = client.Get("me?field=name");
+            String fullName = me.name.ToString();
+            int userId = DataControllerCore.Current.AddNewUser(email, "ako", fullName, "", "", birthday, gender);
+            DataControllerCore.Current.AddFacebookId(userId, Convert.ToInt32(facebookId));
+            var tokenKey = Guid.NewGuid(); //dasatestia
 
-
-
-            throw new NotImplementedException();
+            _onlineClients.Add(tokenKey, new Client
+            {
+                UserId = userId,
+                IpAddress = HttpRequestHelper.GetClientIpString(request)
+            });
+            return tokenKey;
         }
 
 
@@ -63,6 +76,7 @@ namespace ChallengeMeServer.Managers
             var user = DataControllerCore.Current.GetUser(userName, password);
             if (user == null) return InvalidCreditials;
             var tokenKey = Guid.NewGuid(); //dasatestia
+
             _onlineClients.Add(tokenKey, new Client
             {
                 UserId = user.UserID,
@@ -126,7 +140,7 @@ namespace ChallengeMeServer.Managers
 
         internal void WritePostComment(Client client, int targetPostId, string postCommentContent, string postCommentDescription)
         {
-            DataControllerCore.Current.CreatePostComment(client.UserId,targetPostId,postCommentContent,postCommentDescription);
+            DataControllerCore.Current.CreatePostComment(client.UserId, targetPostId, postCommentContent, postCommentDescription);
         }
     }
 }

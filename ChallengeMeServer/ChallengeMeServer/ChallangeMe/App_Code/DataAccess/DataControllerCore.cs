@@ -61,8 +61,9 @@ namespace ChallengeMeServer.ChallengeMe.App_Code.DataAccess
             return profileInfo;
         }
 
-        public void AddNewUser(String email, String password, String name, String lastName, DateTime birthDate, Boolean gender)
+        public int AddNewUser(String email, String password,String fullName, String name, String lastName, DateTime birthDate, String gender)
         {
+            int userId;
             using (var db = new ChallengeMeEntities())
             {
                 user newUser = new user
@@ -80,15 +81,18 @@ namespace ChallengeMeServer.ChallengeMe.App_Code.DataAccess
                     LastName = lastName,
                     BirthDate = birthDate,
                     Gender = gender,
-                    UserID = newUser.UserID
+                    UserID = newUser.UserID,
+                    FullName = fullName
                 };
+                userId = newUser.UserID;
                 newUser.profile_info = newProfile;
                 db.SaveChanges();
             }
+            return userId;
         }
 
 
-        public void AddFacebookID(int userId, int facebookId)
+        public void AddFacebookId(int userId, int facebookId)
         {
             using (var db = new ChallengeMeEntities())
             {

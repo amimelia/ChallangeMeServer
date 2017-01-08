@@ -22,6 +22,6 @@ namespace ChallengeMeServer.Models
         public string Name { get; set; }
         public string LastName { get; set; }
         public Nullable<System.DateTime> BirthDate { get; set; }
-        public Nullable<bool> Gender { get; set; }
+        public String Gender { get; set; }
     }
 }

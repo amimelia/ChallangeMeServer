@@ -49,8 +49,8 @@ namespace ChallengeMeServer
         public virtual ICollection<post_comments> post_comments { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<post> posts { get; set; }
-        public virtual profile_info profile_info { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<user_followers> user_followers { get; set; }
+        public virtual profile_info profile_info { get; set; }
     }
 }
