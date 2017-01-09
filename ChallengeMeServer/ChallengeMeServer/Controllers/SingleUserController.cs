@@ -32,7 +32,7 @@ namespace ChallengeMeServer.Controllers
 
             NotificationsManager.Current.AddUserFollowNotification(challangeMeRequest.Client, userToFollowId);
 
-            return null;
+            return new HttpResponseMessage(HttpStatusCode.OK);
         }
 
         [ActionName("UnFollowUser")]
@@ -50,7 +50,7 @@ namespace ChallengeMeServer.Controllers
 
             AccountManager.Current.RemoveUserFollower(challangeMeRequest.Client, userToFollowId);
 
-            return null;
+            return new HttpResponseMessage(HttpStatusCode.OK);
         }
 
 
@@ -65,8 +65,6 @@ namespace ChallengeMeServer.Controllers
             {
                 throw new ChallangeMeException("invalid.access.token").GetException(Request);
             }
-
-
             return AccountManager.Current.GetUserInfo(challangeMeRequest.Client, targetUserId);
         }
 
@@ -91,8 +89,7 @@ namespace ChallengeMeServer.Controllers
             {
                 return new ChallangeMeException(ex).GetExceptionAsResponce(Request);
             }
-
-            return null;
+            return new HttpResponseMessage(HttpStatusCode.OK);
         }
 
         // TODO: mosafiqrebelia chkviani search
@@ -123,10 +120,12 @@ namespace ChallengeMeServer.Controllers
             if (validationResponse != ValidRequest)
             {
                 throw new ChallangeMeException("invalid.access.token").GetException(Request);
+                //return Request.CreateErrorResponse(HttpStatusCode.Unauthorized, "");
+
             }
             AccountManager.Current.SetLikeToPost(challangeMeRequest.Client, targetPostId);
             //todo notification amosagdebia
-            return null;
+            return new HttpResponseMessage(HttpStatusCode.OK);
         }
         [ActionName("SetLikeToComment")]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
@@ -139,10 +138,11 @@ namespace ChallengeMeServer.Controllers
             if (validationResponse != ValidRequest)
             {
                 throw new ChallangeMeException("invalid.access.token").GetException(Request);
+                //return Request.CreateErrorResponse(HttpStatusCode.Unauthorized, "");
             }
             AccountManager.Current.SetLikeToComment(challangeMeRequest.Client, targetCommentId);
             //todo notification amosagdebia
-            return null;
+            return new HttpResponseMessage(HttpStatusCode.OK);
         }
         [ActionName("WritePostComment")]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
@@ -155,10 +155,11 @@ namespace ChallengeMeServer.Controllers
             if (validationResponse != ValidRequest)
             {
                 throw new ChallangeMeException("invalid.access.token").GetException(Request);
+                //return Request.CreateErrorResponse(HttpStatusCode.Unauthorized, "");
             }
             AccountManager.Current.WritePostComment(challangeMeRequest.Client, targetPostId, postCommentContent, postCommentDescription);
             //todo notification amosagdebia
-            return null;
+            return new HttpResponseMessage(HttpStatusCode.OK);
         }
     }
 }

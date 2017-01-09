@@ -43,15 +43,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="facebook_ids">
-      <EntityTypeMapping TypeName="ChallengeMeModel.facebook_ids">
-        <MappingFragment StoreEntitySet="facebook_ids">
-          <ScalarProperty Name="UserID" ColumnName="UserID" />
-          <ScalarProperty Name="FacebookID" ColumnName="FacebookID" />
-          <ScalarProperty Name="FacebookTableID" ColumnName="FacebookTableID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="notification_users">
       <EntityTypeMapping TypeName="ChallengeMeModel.notification_users">
         <MappingFragment StoreEntitySet="notification_users">
@@ -110,19 +101,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="users">
-      <EntityTypeMapping TypeName="ChallengeMeModel.user">
-        <MappingFragment StoreEntitySet="users">
-          <ScalarProperty Name="Email" ColumnName="Email" />
-          <ScalarProperty Name="ProfileInfoID" ColumnName="ProfileInfoID" />
-          <ScalarProperty Name="UserCreateDate" ColumnName="UserCreateDate" />
-          <ScalarProperty Name="UserStatus" ColumnName="UserStatus" />
-          <ScalarProperty Name="UserPassword" ColumnName="UserPassword" />
-          <ScalarProperty Name="UserName" ColumnName="UserName" />
-          <ScalarProperty Name="UserID" ColumnName="UserID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="profile_info">
       <EntityTypeMapping TypeName="ChallengeMeModel.profile_info">
         <MappingFragment StoreEntitySet="profile_info">
@@ -134,6 +112,28 @@
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="ProfilePicture" ColumnName="ProfilePicture" />
           <ScalarProperty Name="ProfileInfoID" ColumnName="ProfileInfoID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="users">
+      <EntityTypeMapping TypeName="ChallengeMeModel.user">
+        <MappingFragment StoreEntitySet="users">
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="ProfileInfoID" ColumnName="ProfileInfoID" />
+          <ScalarProperty Name="UserCreateDate" ColumnName="UserCreateDate" />
+          <ScalarProperty Name="UserStatus" ColumnName="UserStatus" />
+          <ScalarProperty Name="UserPassword" ColumnName="UserPassword" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="facebook_ids">
+      <EntityTypeMapping TypeName="ChallengeMeModel.facebook_ids">
+        <MappingFragment StoreEntitySet="facebook_ids">
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="FacebookID" ColumnName="FacebookID" />
+          <ScalarProperty Name="FacebookTableID" ColumnName="FacebookTableID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

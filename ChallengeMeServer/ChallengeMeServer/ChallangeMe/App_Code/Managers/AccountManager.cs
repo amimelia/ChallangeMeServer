@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Formatting;
 using System.Web;
 using ChallengeMeServer.ChallengeMe.App_Code.DataAccess;
 using ChallengeMeServer.Controllers.Web;
@@ -18,7 +19,7 @@ namespace ChallengeMeServer.Managers
     public class AccountManager
     {
         private readonly Dictionary<Guid, Client> _onlineClients = new Dictionary<Guid, Client>();
-        private static int _invalidId = -1;
+        private static readonly int _invalidId = -1;
         #region StaticConstants
 
         public static Client InvalidClientToken = new Client();
@@ -43,7 +44,7 @@ namespace ChallengeMeServer.Managers
             DateTime birthDate, String gender, HttpRequestMessage request)
         {
             int userId = DataControllerCore.Current.AddNewUser(email, password, fullName, name, lastName, birthDate,
-                gender);
+                gender, "");
             if (userId == _invalidId)
             {
                 return InvalidCreditials;
@@ -65,10 +66,9 @@ namespace ChallengeMeServer.Managers
         {
             var client = new FacebookClient(token);
 
-            dynamic me = client.Get("me?fields=picture");
-            String pictureUrl = me.picture.data.url;
-
-            me = client.Get("me?fields=birthday");
+           // dynamic me = client.Get("me/picture?type=large");//mojna zomebitac client.Get(me/picture?width=1000&height=1000)
+           //String pictureUrl = me.picture.data.url;
+            dynamic me = client.Get("me?fields=birthday");
             DateTime birthday = Convert.ToDateTime(me.birthday);
             me = client.Get("me?field=email");
             String email = me.email.ToString();
@@ -76,10 +76,14 @@ namespace ChallengeMeServer.Managers
             String gender = me.gender.ToString();
             me = client.Get("me?field=name");
             String fullName = me.name.ToString();
-            int userId = DataControllerCore.Current.AddNewUser(email, "ako", fullName, "", "", birthday, gender);
-            DataControllerCore.Current.AddFacebookId(userId, Convert.ToInt32(facebookId));
-            var tokenKey = Guid.NewGuid(); //dasatestia
-
+            me = client.Get("me?fields=first_name");
+            String firstName = me.first_name.ToString();
+            me = client.Get("me?fields=last_name");
+            String lastName = me.last_name.ToString();
+            //todo gaugzavnos mailze random password ro shecvalos mere.
+            int userId = DataControllerCore.Current.AddNewUser(email, "random password", fullName, firstName, lastName, birthday, gender, "picture url");
+            DataControllerCore.Current.AddFacebookId(userId, Convert.ToInt64(facebookId));
+            var tokenKey = Guid.NewGuid();
             _onlineClients.Add(tokenKey, new Client
             {
                 UserId = userId,
@@ -89,12 +93,24 @@ namespace ChallengeMeServer.Managers
         }
 
 
-        public Guid CheckSignInValidation(string email, string password, HttpRequestMessage request)
+        public Guid CheckEmailSignInValidation(String email, String password, HttpRequestMessage request)
         {
             var user = DataControllerCore.Current.GetUser(email, password);
             if (user == null) return InvalidCreditials;
-            var tokenKey = Guid.NewGuid(); //dasatestia
+            var tokenKey = Guid.NewGuid();
+            _onlineClients.Add(tokenKey, new Client
+            {
+                UserId = user.UserID,
+                IpAddress = HttpRequestHelper.GetClientIpString(request)
+            });
+            return tokenKey;
+        }
 
+        public Guid CheckFacebookSignInValidation(String token, String facebookId, HttpRequestMessage request)
+        {
+            var user = DataControllerCore.Current.GetUserByFacebookId(Convert.ToInt32(facebookId));//todo gasaarkvevia facebookis id ra sigrdzisaa stringad shevinaxot bazashi tu intad
+            if (user == null) return InvalidCreditials;
+            var tokenKey = Guid.NewGuid();
             _onlineClients.Add(tokenKey, new Client
             {
                 UserId = user.UserID,
@@ -115,7 +131,7 @@ namespace ChallengeMeServer.Managers
 
 
 
-        internal void UpdateUserBasicInfo(Client client, string userName, string userFirstName, string userLastName)
+        internal void UpdateUserBasicInfo(Client client, String userName, String userFirstName, String userLastName)
         {
             throw new NotImplementedException();
         }
@@ -127,7 +143,7 @@ namespace ChallengeMeServer.Managers
             return new UserInfo(feedInfo, profileInfo);
         }
 
-        internal List<UserSearchResultInfo> GetSearchResults(string searchRequest)
+        internal List<UserSearchResultInfo> GetSearchResults(String searchRequest)
         {
             List<UserSearchResultInfo> searchResults = new List<UserSearchResultInfo>();
             searchRequest = searchRequest.Trim();  // ikidebs tavshi da boloshi spacebs

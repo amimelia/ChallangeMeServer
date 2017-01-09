@@ -18,15 +18,7 @@ namespace ChallengeMeServer.Controllers
         [System.Web.Http.HttpGet]
         public Guid EmailSignIn(String email, String password)
         {
-            return AccountManager.Current.CheckSignInValidation(email, password, Request);
-        }
-
-        [ActionName("FacebookSignUp")]
-        [System.Web.Http.AcceptVerbs("GET", "POST")]
-        [System.Web.Http.HttpGet]
-        public Guid FacebookSignUp(String token, String facebookId)
-        {
-            return AccountManager.Current.FacebookSignUp(token, facebookId, Request);
+            return AccountManager.Current.CheckEmailSignInValidation(email, password, Request);
         }
 
         [ActionName("EmailSignUp")]
@@ -35,7 +27,22 @@ namespace ChallengeMeServer.Controllers
         public Guid EmailSignUp(String email, String password, String fullName, String name, String lastName, DateTime birthDate, String gender)
         {
             return AccountManager.Current.EmailSignUp(email, password, fullName, name, lastName, birthDate, gender, Request);
+        }
 
+        [ActionName("FacebookSignIn")]
+        [System.Web.Http.AcceptVerbs("GET", "POST")]
+        [System.Web.Http.HttpGet]
+        public Guid FacebookSignIn(String tokenKey, String facebookId)
+        {
+            return AccountManager.Current.CheckFacebookSignInValidation(tokenKey,facebookId,Request);
+        }
+
+        [ActionName("FacebookSignUp")]
+        [System.Web.Http.AcceptVerbs("GET", "POST")]
+        [System.Web.Http.HttpGet]
+        public Guid FacebookSignUp(String token, String facebookId)
+        {
+            return AccountManager.Current.FacebookSignUp(token, facebookId, Request);
         }
     }
 }

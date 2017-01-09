@@ -10,12 +10,17 @@ namespace ChallengeMeServer.ChallengeMe.App_Code.DataAccess
 {
     public class DataControllerCore
     {
-        #region StaticConstants
+        #region Locks
+        private Object _lockFacebookIdTable = new Object();
+        private Object _lockUserFollowersTable = new Object();
+        private Object s = new Object();
+        #endregion
 
+        #region StaticConstants
         private static int _invalidId = -1;
         #endregion
+
         public static DataControllerCore Current { get; } = new DataControllerCore();
-        private Object _lockObject = new Object();
 
         public List<user> GetUsers()
         {
@@ -27,17 +32,31 @@ namespace ChallengeMeServer.ChallengeMe.App_Code.DataAccess
 
         public user GetUser(int userId)
         {
+            user user;
             using (var db = new ChallengeMeEntities())
             {
-                return db.users.FirstOrDefault(x => x.UserID == userId);
+                user = db.users.FirstOrDefault(x => x.UserID == userId);
             }
+            return user;
         }
         public user GetUser(String email, String password)
         {
+            user user;
             using (var db = new ChallengeMeEntities())
             {
-                return db.users.SingleOrDefault(x => x.Email == email && x.UserPassword == password);
+                user = db.users.SingleOrDefault(x => x.Email == email && x.UserPassword == password);
             }
+            return user;
+        }
+
+        public user GetUserByFacebookId(int facebookId)
+        {
+            user user;
+            using (var db = new ChallengeMeEntities())
+            {
+                user = db.facebook_ids.FirstOrDefault(x => x.FacebookID == facebookId)?.user;
+            }
+            return user;
         }
 
         //dasatestia
@@ -65,15 +84,13 @@ namespace ChallengeMeServer.ChallengeMe.App_Code.DataAccess
             return profileInfo;
         }
 
-        public int AddNewUser(String email, String password, String fullName, String name, String lastName, DateTime birthDate, String gender)
+        public int AddNewUser(String email, String password, String fullName, String firstName, String lastName, DateTime birthDate, String gender, String pictureUrl)
         {
             int userId = _invalidId;
             using (var db = new ChallengeMeEntities())
             {
                 if (!db.users.Any(x => x.Email.Equals(email)))
                 {
-
-
                     user newUser = new user
                     {
                         Email = email,
@@ -85,12 +102,13 @@ namespace ChallengeMeServer.ChallengeMe.App_Code.DataAccess
                     db.SaveChanges();
                     profile_info newProfile = new profile_info
                     {
-                        Name = name,
+                        Name = firstName,
                         LastName = lastName,
                         BirthDate = birthDate,
                         Gender = gender,
                         UserID = newUser.UserID,
-                        FullName = fullName
+                        FullName = fullName,
+                        ProfilePicture = pictureUrl
                     };
                     userId = newUser.UserID;
                     newUser.profile_info = newProfile;
@@ -101,16 +119,19 @@ namespace ChallengeMeServer.ChallengeMe.App_Code.DataAccess
         }
 
 
-        public void AddFacebookId(int userId, int facebookId)
+        public void AddFacebookId(int userId, long facebookId)
         {
             using (var db = new ChallengeMeEntities())
             {
-                db.facebook_ids.Add(new facebook_ids
+                lock (_lockFacebookIdTable)
                 {
-                    FacebookID = facebookId,
-                    UserID = userId,
-                });
-                db.SaveChanges();
+                    db.facebook_ids.Add(new facebook_ids
+                    {
+                        FacebookID = facebookId,
+                        UserID = userId,
+                    });
+                    db.SaveChanges();
+                }
             }
         }
 
@@ -124,12 +145,15 @@ namespace ChallengeMeServer.ChallengeMe.App_Code.DataAccess
         {
             using (var db = new ChallengeMeEntities())
             {
-                db.user_followers.Add(new user_followers
+                lock (_lockUserFollowersTable)
                 {
-                    UserID = userId,
-                    UserFollowerID = followerId
-                });
-                db.SaveChanges();
+                    db.user_followers.Add(new user_followers
+                    {
+                        UserID = userId,
+                        UserFollowerID = followerId
+                    });
+                    db.SaveChanges();
+                }
             }
         }
 
@@ -137,9 +161,13 @@ namespace ChallengeMeServer.ChallengeMe.App_Code.DataAccess
         {
             using (var db = new ChallengeMeEntities())
             {
-                var userToUnfollow = db.user_followers.FirstOrDefault(x => x.UserID == userId && x.UserFollowerID == followerId);
-                if (userToUnfollow != null) db.user_followers.Remove(userToUnfollow);
-                db.SaveChanges();
+                lock (_lockUserFollowersTable)
+                {
+                    var userToUnfollow =
+                        db.user_followers.FirstOrDefault(x => x.UserID == userId && x.UserFollowerID == followerId);
+                    if (userToUnfollow != null) db.user_followers.Remove(userToUnfollow);
+                    db.SaveChanges();
+                }
             }
         }
 
