@@ -11,9 +11,12 @@ namespace ChallengeMeServer.ChallengeMe.App_Code.DataAccess
     public class DataControllerCore
     {
         #region Locks
-        private Object _lockFacebookIdTable = new Object();
-        private Object _lockUserFollowersTable = new Object();
-        private Object s = new Object();
+        private readonly Object _lockFacebookIdTable = new Object();
+        private readonly Object _lockUserFollowersTable = new Object();
+        private readonly Object _lockUserTable = new Object();
+        private readonly Object _lockProfileInfoTable = new Object();
+        private readonly Object _lockPosts = new Object();
+        private readonly Object _lockPostComments = new object();
         #endregion
 
         #region StaticConstants
@@ -42,9 +45,12 @@ namespace ChallengeMeServer.ChallengeMe.App_Code.DataAccess
         public user GetUser(String email, String password)
         {
             user user;
-            using (var db = new ChallengeMeEntities())
+            lock (_lockUserTable)
             {
-                user = db.users.SingleOrDefault(x => x.Email == email && x.UserPassword == password);
+                using (var db = new ChallengeMeEntities())
+                {
+                    user = db.users.SingleOrDefault(x => x.Email == email && x.UserPassword == password);
+                }
             }
             return user;
         }
@@ -52,9 +58,12 @@ namespace ChallengeMeServer.ChallengeMe.App_Code.DataAccess
         public user GetUserByFacebookId(int facebookId)
         {
             user user;
-            using (var db = new ChallengeMeEntities())
+            lock (_lockUserTable)
             {
-                user = db.facebook_ids.FirstOrDefault(x => x.FacebookID == facebookId)?.user;
+                using (var db = new ChallengeMeEntities())
+                {
+                    user = db.facebook_ids.FirstOrDefault(x => x.FacebookID == facebookId)?.user;
+                }
             }
             return user;
         }
@@ -64,10 +73,13 @@ namespace ChallengeMeServer.ChallengeMe.App_Code.DataAccess
         {
             // TODO: top 10 cali wamovige
             List<profile_info> listOfRelevantUsers;
-            using (var db = new ChallengeMeEntities())
+            lock (_lockProfileInfoTable)
             {
-                listOfRelevantUsers = db.profile_info.Where(userProfile => userProfile.Name.Contains(searchRequest)
-                    || userProfile.LastName.Contains(searchRequest)).ToList();
+                using (var db = new ChallengeMeEntities())
+                {
+                    listOfRelevantUsers = db.profile_info.Where(userProfile => userProfile.Name.Contains(searchRequest)
+                        || userProfile.LastName.Contains(searchRequest)).ToList();
+                }
             }
             return listOfRelevantUsers.Take(10).ToList();
         }
@@ -75,11 +87,13 @@ namespace ChallengeMeServer.ChallengeMe.App_Code.DataAccess
 
         public profile_info GetProfile(int targetUserId)
         {
-
             profile_info profileInfo;
-            using (var db = new ChallengeMeEntities())
+            lock (_lockProfileInfoTable)
             {
-                profileInfo = db.users.ToList().SingleOrDefault(user => user.UserID == targetUserId)?.profile_info;
+                using (var db = new ChallengeMeEntities())
+                {
+                    profileInfo = db.users.ToList().SingleOrDefault(user => user.UserID == targetUserId)?.profile_info;
+                }
             }
             return profileInfo;
         }
@@ -87,32 +101,38 @@ namespace ChallengeMeServer.ChallengeMe.App_Code.DataAccess
         public int AddNewUser(String email, String password, String fullName, String firstName, String lastName, DateTime birthDate, String gender, String pictureUrl)
         {
             int userId = _invalidId;
-            using (var db = new ChallengeMeEntities())
+            lock (_lockUserTable)
             {
-                if (!db.users.Any(x => x.Email.Equals(email)))
+                lock (_lockProfileInfoTable)
                 {
-                    user newUser = new user
+                    using (var db = new ChallengeMeEntities())
                     {
-                        Email = email,
-                        UserPassword = password,
-                        UserCreateDate = DateTime.Now,
-                        UserStatus = "Active" // ar vicit ras shveba
-                    };
-                    db.users.Add(newUser);
-                    db.SaveChanges();
-                    profile_info newProfile = new profile_info
-                    {
-                        Name = firstName,
-                        LastName = lastName,
-                        BirthDate = birthDate,
-                        Gender = gender,
-                        UserID = newUser.UserID,
-                        FullName = fullName,
-                        ProfilePicture = pictureUrl
-                    };
-                    userId = newUser.UserID;
-                    newUser.profile_info = newProfile;
-                    db.SaveChanges();
+                        if (!db.users.Any(x => x.Email.Equals(email)))
+                        {
+                            user newUser = new user
+                            {
+                                Email = email,
+                                UserPassword = password,
+                                UserCreateDate = DateTime.Now,
+                                UserStatus = "Active" // ar vicit ras shveba
+                            };
+                            db.users.Add(newUser);
+                            db.SaveChanges();
+                            profile_info newProfile = new profile_info
+                            {
+                                Name = firstName,
+                                LastName = lastName,
+                                BirthDate = birthDate,
+                                Gender = gender,
+                                UserID = newUser.UserID,
+                                FullName = fullName,
+                                ProfilePicture = pictureUrl
+                            };
+                            userId = newUser.UserID;
+                            newUser.profile_info = newProfile;
+                            db.SaveChanges();
+                        }
+                    }
                 }
             }
             return userId;
@@ -121,10 +141,11 @@ namespace ChallengeMeServer.ChallengeMe.App_Code.DataAccess
 
         public void AddFacebookId(int userId, long facebookId)
         {
-            using (var db = new ChallengeMeEntities())
+            lock (_lockFacebookIdTable)
             {
-                lock (_lockFacebookIdTable)
+                using (var db = new ChallengeMeEntities())
                 {
+
                     db.facebook_ids.Add(new facebook_ids
                     {
                         FacebookID = facebookId,
@@ -140,13 +161,13 @@ namespace ChallengeMeServer.ChallengeMe.App_Code.DataAccess
 
         }
 
-
         public void AddUserFollower(int followerId, int userId)
         {
-            using (var db = new ChallengeMeEntities())
+            lock (_lockUserFollowersTable)
             {
-                lock (_lockUserFollowersTable)
+                using (var db = new ChallengeMeEntities())
                 {
+                    //todo visav vafolloueb ro washalos propili magis shemomweba
                     db.user_followers.Add(new user_followers
                     {
                         UserID = userId,
@@ -159,10 +180,11 @@ namespace ChallengeMeServer.ChallengeMe.App_Code.DataAccess
 
         public void RemoveUserFollower(int followerId, int userId)
         {
-            using (var db = new ChallengeMeEntities())
+            lock (_lockUserFollowersTable)
             {
-                lock (_lockUserFollowersTable)
+                using (var db = new ChallengeMeEntities())
                 {
+
                     var userToUnfollow =
                         db.user_followers.FirstOrDefault(x => x.UserID == userId && x.UserFollowerID == followerId);
                     if (userToUnfollow != null) db.user_followers.Remove(userToUnfollow);
@@ -173,10 +195,14 @@ namespace ChallengeMeServer.ChallengeMe.App_Code.DataAccess
 
         public List<post> GetPostsForUser(int targetUser)
         {
+
             List<post> posts;
-            using (var db = new ChallengeMeEntities())
+            lock (_lockPosts)
             {
-                posts = db.posts.Where(post => post.UserID == targetUser).ToList();
+                using (var db = new ChallengeMeEntities())
+                {
+                    posts = db.posts.Where(post => post.UserID == targetUser).ToList();
+                }
             }
             return posts;
         }
@@ -184,49 +210,64 @@ namespace ChallengeMeServer.ChallengeMe.App_Code.DataAccess
         public post GetPostById(int targetPostId)
         {
             post post;
-            using (var db = new ChallengeMeEntities())
+            lock (_lockPosts)
             {
-                post = db.posts.SingleOrDefault(x => x.PostID == targetPostId);
+                using (var db = new ChallengeMeEntities())
+                {
+                    post = db.posts.SingleOrDefault(x => x.PostID == targetPostId);
+                }
             }
             return post;
         }
 
         public void SetLikeToPost(int targetPostId)
         {
-            using (var db = new ChallengeMeEntities())
+            lock (_lockPosts)
             {
-                var postToLike = db.posts.SingleOrDefault(post => post.PostID == targetPostId);
-                if (postToLike != null) postToLike.PostLikes += 1;
-                db.SaveChanges();
+                using (var db = new ChallengeMeEntities())
+                {
+                    var postToLike = db.posts.SingleOrDefault(post => post.PostID == targetPostId);
+                    if (postToLike != null)
+                    {
+                        postToLike.PostLikes += 1;
+                        db.SaveChanges();
+                    }
+                }
             }
         }
 
         public void SetLikeToComment(int targetCommentId)
         {
-            using (var db = new ChallengeMeEntities())
+            lock (_lockPosts)
             {
-                var commentToLike = db.post_comments.SingleOrDefault(comment => comment.PostCommentID == targetCommentId);
-                if (commentToLike != null) commentToLike.PostCommentLike += 1;
-                db.SaveChanges();
+                using (var db = new ChallengeMeEntities())
+                {
+                    var commentToLike = db.post_comments.SingleOrDefault(comment => comment.PostCommentID == targetCommentId);
+                    if (commentToLike != null) commentToLike.PostCommentLike += 1;
+                    db.SaveChanges();
+                }
             }
         }
 
         public void CreatePostComment(int clientUserId, int targetPostId, string postCommentContent, string postCommentDescription)
         {
-            using (var db = new ChallengeMeEntities())
+            lock (_lockPostComments)
             {
-                db.post_comments.Add(new post_comments
+                using (var db = new ChallengeMeEntities())
                 {
-                    PostCommentContent = postCommentContent,
-                    PostCommentCreateDate = DateTime.Now,
-                    PostCommentDiscription = postCommentDescription,
-                    PostID = targetPostId,
-                    UserID = clientUserId,
-                    user = db.users.SingleOrDefault(user => user.UserID == clientUserId),
-                    PostCommentLike = 0,
-                    post = db.posts.SingleOrDefault(post => post.PostID == targetPostId)
-                });
-                db.SaveChanges();
+                    db.post_comments.Add(new post_comments
+                    {
+                        PostCommentContent = postCommentContent,
+                        PostCommentCreateDate = DateTime.Now,
+                        PostCommentDiscription = postCommentDescription,
+                        PostID = targetPostId,
+                        UserID = clientUserId,
+                        user = db.users.SingleOrDefault(user => user.UserID == clientUserId),
+                        PostCommentLike = 0,
+                        post = db.posts.SingleOrDefault(post => post.PostID == targetPostId)
+                    });
+                    db.SaveChanges();
+                }
             }
         }
     }
