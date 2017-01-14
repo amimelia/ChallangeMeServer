@@ -8,12 +8,12 @@ namespace ChallengeMeServer.Models
 {
     public class UserInfo
     {
-        public UserInfo(FeedInfo feedInfo,ProfileInfo profileInfo)
+        public UserInfo(TimeLineInfo timeLineInfo,ProfileInfo profileInfo)
         {
-            NewsFeed = feedInfo;
+            TimeLine = timeLineInfo;
             Profile = profileInfo;
         }
-        public FeedInfo NewsFeed { get; set; }
+        public TimeLineInfo TimeLine { get; set; }
 
         public ProfileInfo Profile { get; set; }
     }

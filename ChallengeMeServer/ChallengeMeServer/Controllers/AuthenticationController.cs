@@ -30,20 +30,12 @@ namespace ChallengeMeServer.Controllers
             return AccountManager.Current.EmailSignUp(email, password, fullName, name, lastName, birthDate, gender, Request);
         }
 
-        [ActionName("FacebookSignIn")]
+        [ActionName("FacebookAuthentication")]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
-        public Guid FacebookSignIn(String tokenKey, String facebookId)
+        public Guid FacebookAuthentication(String tokenKey, String facebookId)
         {
-            return AccountManager.Current.CheckFacebookSignInValidation(tokenKey,facebookId,Request);
-        }
-
-        [ActionName("FacebookSignUp")]
-        [System.Web.Http.AcceptVerbs("GET", "POST")]
-        [System.Web.Http.HttpGet]
-        public Guid FacebookSignUp(String token, String facebookId)
-        {
-            return AccountManager.Current.FacebookSignUp(token, facebookId, Request);
+            return AccountManager.Current.CheckFacebookAuthenticationValidation(tokenKey,facebookId,Request);
         }
     }
 }

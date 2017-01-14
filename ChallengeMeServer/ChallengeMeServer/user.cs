@@ -19,12 +19,12 @@ namespace ChallengeMeServer
         {
             this.challenges = new HashSet<challenge>();
             this.challenges_and_users = new HashSet<challenges_and_users>();
+            this.facebook_ids = new HashSet<facebook_ids>();
             this.notification_users = new HashSet<notification_users>();
             this.notifications = new HashSet<notification>();
             this.post_comments = new HashSet<post_comments>();
-            this.posts = new HashSet<post>();
             this.user_followers = new HashSet<user_followers>();
-            this.facebook_ids = new HashSet<facebook_ids>();
+            this.posts = new HashSet<post>();
         }
     
         public int UserID { get; set; }
@@ -40,17 +40,17 @@ namespace ChallengeMeServer
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<challenges_and_users> challenges_and_users { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<facebook_ids> facebook_ids { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<notification_users> notification_users { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<notification> notifications { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<post_comments> post_comments { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<post> posts { get; set; }
         public virtual profile_info profile_info { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<user_followers> user_followers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<facebook_ids> facebook_ids { get; set; }
+        public virtual ICollection<post> posts { get; set; }
     }
 }

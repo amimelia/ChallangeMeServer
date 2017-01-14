@@ -34,6 +34,46 @@ namespace ChallengeMeServer.Managers
 
         #endregion
 
+        private Guid _facebookSignUp(String token, String facebookId, HttpRequestMessage request)
+        {
+            var client = new FacebookClient(token);
+            // dynamic me = client.Get("me/picture?type=large");//mojna zomebitac client.Get(me/picture?width=1000&height=1000)
+            //String pictureUrl = me.picture.data.url;
+            dynamic me = client.Get("me?fields=birthday");
+            DateTime birthday = Convert.ToDateTime(me.birthday);
+            me = client.Get("me?field=email");
+            String email = me.email.ToString();
+            me = client.Get("me?field=gender");
+            String gender = me.gender.ToString();
+            me = client.Get("me?field=name");
+            String fullName = me.name.ToString();
+            me = client.Get("me?fields=first_name");
+            String firstName = me.first_name.ToString();
+            me = client.Get("me?fields=last_name");
+            String lastName = me.last_name.ToString();
+            //todo gaugzavnos mailze random password ro shecvalos mere.
+            int userId = DataControllerCore.Current.AddNewUser(email, "random password", fullName, firstName, lastName, birthday, gender, "picture url");
+            DataControllerCore.Current.AddFacebookId(userId, facebookId);
+            var tokenKey = Guid.NewGuid();
+            _onlineClients.Add(tokenKey, new Client
+            {
+                UserId = userId,
+                IpAddress = HttpRequestHelper.GetClientIpString(request)
+            });
+            return tokenKey;
+        }
+
+        private Guid _facebookSignIn(int userId, HttpRequestMessage request)
+        {
+            var tokenKey = Guid.NewGuid();
+            _onlineClients.Add(tokenKey, new Client
+            {
+                UserId = userId,
+                IpAddress = HttpRequestHelper.GetClientIpString(request)
+            });
+            return tokenKey;
+        }
+
         public Client GetClientByToken(Guid tokenKey)
         {
             Client requestedClient;
@@ -62,36 +102,6 @@ namespace ChallengeMeServer.Managers
                 return tokenKey;
             }
         }
-        public Guid FacebookSignUp(String token, String facebookId, HttpRequestMessage request)
-        {
-            var client = new FacebookClient(token);
-
-           // dynamic me = client.Get("me/picture?type=large");//mojna zomebitac client.Get(me/picture?width=1000&height=1000)
-           //String pictureUrl = me.picture.data.url;
-            dynamic me = client.Get("me?fields=birthday");
-            DateTime birthday = Convert.ToDateTime(me.birthday);
-            me = client.Get("me?field=email");
-            String email = me.email.ToString();
-            me = client.Get("me?field=gender");
-            String gender = me.gender.ToString();
-            me = client.Get("me?field=name");
-            String fullName = me.name.ToString();
-            me = client.Get("me?fields=first_name");
-            String firstName = me.first_name.ToString();
-            me = client.Get("me?fields=last_name");
-            String lastName = me.last_name.ToString();
-            //todo gaugzavnos mailze random password ro shecvalos mere.
-            int userId = DataControllerCore.Current.AddNewUser(email, "random password", fullName, firstName, lastName, birthday, gender, "picture url");
-            DataControllerCore.Current.AddFacebookId(userId, Convert.ToInt64(facebookId));
-            var tokenKey = Guid.NewGuid();
-            _onlineClients.Add(tokenKey, new Client
-            {
-                UserId = userId,
-                IpAddress = HttpRequestHelper.GetClientIpString(request)
-            });
-            return tokenKey;
-        }
-
 
         public Guid CheckEmailSignInValidation(String email, String password, HttpRequestMessage request)
         {
@@ -106,17 +116,10 @@ namespace ChallengeMeServer.Managers
             return tokenKey;
         }
 
-        public Guid CheckFacebookSignInValidation(String token, String facebookId, HttpRequestMessage request)
+        public Guid CheckFacebookAuthenticationValidation(String token, String facebookId, HttpRequestMessage request)
         {
-            var user = DataControllerCore.Current.GetUserByFacebookId(Convert.ToInt32(facebookId));//todo gasaarkvevia facebookis id ra sigrdzisaa stringad shevinaxot bazashi tu intad
-            if (user == null) return InvalidCreditials;
-            var tokenKey = Guid.NewGuid();
-            _onlineClients.Add(tokenKey, new Client
-            {
-                UserId = user.UserID,
-                IpAddress = HttpRequestHelper.GetClientIpString(request)
-            });
-            return tokenKey;
+            var user = DataControllerCore.Current.GetUserByFacebookId(facebookId);//todo gasaarkvevia facebookis id ra sigrdzisaa stringad shevinaxot bazashi tu intad
+            return user == null ? _facebookSignUp(token, facebookId, request) : _facebookSignIn(user.UserID, request);
         }
 
         internal void AddUserFollower(Client client, int userToFollowId)
@@ -136,12 +139,7 @@ namespace ChallengeMeServer.Managers
             throw new NotImplementedException();
         }
 
-        internal UserInfo GetUserInfo(Client client, int targetUserId)
-        {
-            FeedInfo feedInfo = new FeedInfo(DataControllerCore.Current.GetPostsForUser(targetUserId));
-            ProfileInfo profileInfo = new ProfileInfo(DataControllerCore.Current.GetProfile(targetUserId));
-            return new UserInfo(feedInfo, profileInfo);
-        }
+        
 
         internal List<UserSearchResultInfo> GetSearchResults(String searchRequest)
         {

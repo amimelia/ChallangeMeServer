@@ -12,10 +12,21 @@ namespace ChallengeMeServer.ChallangeMe.App_Code.Managers
     {
         public static NewsFeedManager Current { get; } = new NewsFeedManager();
 
-        internal FeedInfo GetUserPosts(Client client, int targetUserId)
+        internal TimeLineInfo GetUserTimeLine(Client client, int targetUserId)
         {
-            FeedInfo feedInfo = new FeedInfo(DataControllerCore.Current.GetPostsForUser(targetUserId));
-            return feedInfo;
+            TimeLineInfo timeLineInfo = new TimeLineInfo(DataControllerCore.Current.GetUserPosts(client.UserId,targetUserId));
+            return timeLineInfo;
+        }
+        internal UserInfo GetUserInfo(Client client, int targetUserId)
+        {
+            TimeLineInfo timeLineInfo = new TimeLineInfo(DataControllerCore.Current.GetUserPosts(client.UserId,targetUserId));
+            ProfileInfo profileInfo = new ProfileInfo(DataControllerCore.Current.GetProfile(targetUserId));
+            return new UserInfo(timeLineInfo, profileInfo);
+        }
+
+        public NewsFeedInfo GetUserNewsFeedInfo(Client client)
+        {
+            return new NewsFeedInfo(DataControllerCore.Current.GetFollowingPosts(client.UserId));
         }
     }
 }

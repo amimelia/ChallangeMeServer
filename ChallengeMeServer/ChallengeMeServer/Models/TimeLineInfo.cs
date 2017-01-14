@@ -5,9 +5,9 @@ using System.Web;
 
 namespace ChallengeMeServer.Models
 {
-    public class FeedInfo
+    public class TimeLineInfo
     {
-        public FeedInfo (List<post> posts)
+        public TimeLineInfo (List<post> posts)
         {
             Posts = new List<PostInfo>();
             posts.ForEach(post =>

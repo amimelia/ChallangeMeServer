@@ -22,7 +22,7 @@ namespace ChallengeMeServer
         public Nullable<int> PostID { get; set; }
         public string PostCommentContent { get; set; }
     
-        public virtual post post { get; set; }
         public virtual user user { get; set; }
+        public virtual post post { get; set; }
     }
 }

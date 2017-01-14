@@ -187,8 +187,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\NewsFeedInfo.cs" />
     <Compile Include="Models\ProfileInfo.cs" />
-    <Compile Include="Models\FeedInfo.cs" />
+    <Compile Include="Models\TimeLineInfo.cs" />
     <Compile Include="Models\PostCommentInfo.cs" />
     <Compile Include="Models\PostInfo.cs" />
     <Compile Include="Models\UserInfo.cs" />

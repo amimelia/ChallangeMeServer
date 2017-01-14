@@ -43,7 +43,7 @@
       <PropertyRef Name="FacebookTableID" />
     </Key>
     <Property Name="FacebookTableID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="FacebookID" Type="bigint" />
+    <Property Name="FacebookID" Type="varchar" MaxLength="100" />
     <Property Name="UserID" Type="int" />
   </EntityType>
   <EntityType Name="notification_users">
@@ -90,6 +90,7 @@
     <Property Name="PostCreateDate" Type="datetime" />
     <Property Name="ChallengeID" Type="int" />
     <Property Name="UserID" Type="int" />
+    <Property Name="postType" Type="varchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="profile_info">
     <Key>

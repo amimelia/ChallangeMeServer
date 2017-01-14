@@ -14,10 +14,10 @@ namespace ChallengeMeServer.Controllers
     public class NewsFeedController : CommonApiController
     {
 
-        [ActionName("GetUserPosts")]
+        [ActionName("GetUserTimeLine")]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
-        public FeedInfo GetUserPosts(Guid tokenKey, int targetUserId)
+        public TimeLineInfo GetUserTimeLine(Guid tokenKey, int targetUserId)
         {
             var challangeMeRequest = new ChallengeMeRequest(tokenKey, null);
             var validationResponse = ValidateRequest(challangeMeRequest);
@@ -26,44 +26,44 @@ namespace ChallengeMeServer.Controllers
             {
                 throw new ChallangeMeException("invalid.access.token").GetException(Request);
             }
-
-            FeedInfo postsForUser = null;
+            TimeLineInfo userTimeLine = null;
             try
             {
-                postsForUser = NewsFeedManager.Current.GetUserPosts(challangeMeRequest.Client, targetUserId);
+                userTimeLine = NewsFeedManager.Current.GetUserTimeLine(challangeMeRequest.Client, targetUserId);
             }
             catch (Exception ex)
             {
                 throw new ChallangeMeException(ex).GetException(Request);
             }
-            return postsForUser;
+            return userTimeLine;
         }
 
-        // GET: api/NewsFeed
-        public IEnumerable<string> Get()
+        [ActionName("GetUserInfo")]
+        [System.Web.Http.AcceptVerbs("GET", "POST")]
+        [System.Web.Http.HttpGet]
+        public UserInfo GetUserInfo(Guid tokenKey, int targetUserId)
         {
-            return new string[] { "value1", "value2" };
+            var challangeMeRequest = new ChallengeMeRequest(tokenKey, null);
+            var validationResponse = ValidateRequest(challangeMeRequest);
+            if (validationResponse != ValidRequest)
+            {
+                throw new ChallangeMeException("invalid.access.token").GetException(Request);
+            }
+            return NewsFeedManager.Current.GetUserInfo(challangeMeRequest.Client, targetUserId);
         }
 
-        // GET: api/NewsFeed/5
-        public string Get(int id)
+        [ActionName("GetUserNewsFeedInfo")]
+        [System.Web.Http.AcceptVerbs("GET", "POST")]
+        [System.Web.Http.HttpGet]
+        public NewsFeedInfo GetUserNewsFeedInfo(Guid tokenKey)
         {
-            return "value";
-        }
-
-        // POST: api/NewsFeed
-        public void Post([FromBody]string value)
-        {
-        }
-
-        // PUT: api/NewsFeed/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE: api/NewsFeed/5
-        public void Delete(int id)
-        {
+            var challangeMeRequest = new ChallengeMeRequest(tokenKey, null);
+            var validationResponse = ValidateRequest(challangeMeRequest);
+            if (validationResponse != ValidRequest)
+            {
+                throw new ChallangeMeException("invalid.access.token").GetException(Request);
+            }
+            return NewsFeedManager.Current.GetUserNewsFeedInfo(challangeMeRequest.Client);
         }
     }
 }

@@ -15,7 +15,7 @@ namespace ChallengeMeServer
     public partial class facebook_ids
     {
         public int FacebookTableID { get; set; }
-        public Nullable<long> FacebookID { get; set; }
+        public string FacebookID { get; set; }
         public Nullable<int> UserID { get; set; }
     
         public virtual user user { get; set; }

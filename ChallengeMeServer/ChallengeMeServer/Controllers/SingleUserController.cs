@@ -54,19 +54,7 @@ namespace ChallengeMeServer.Controllers
         }
 
 
-        [ActionName("GetUserInfo")]
-        [System.Web.Http.AcceptVerbs("GET", "POST")]
-        [System.Web.Http.HttpGet]
-        public UserInfo GetUserInfo(Guid tokenKey, int targetUserId)
-        {
-            var challangeMeRequest = new ChallengeMeRequest(tokenKey, null);
-            var validationResponse = ValidateRequest(challangeMeRequest);
-            if (validationResponse != ValidRequest)
-            {
-                throw new ChallangeMeException("invalid.access.token").GetException(Request);
-            }
-            return AccountManager.Current.GetUserInfo(challangeMeRequest.Client, targetUserId);
-        }
+        
 
         [ActionName("UpdateUserInfo")]
         [System.Web.Http.AcceptVerbs("GET", "POST")]

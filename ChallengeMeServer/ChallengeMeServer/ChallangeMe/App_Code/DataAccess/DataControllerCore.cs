@@ -55,7 +55,7 @@ namespace ChallengeMeServer.ChallengeMe.App_Code.DataAccess
             return user;
         }
 
-        public user GetUserByFacebookId(int facebookId)
+        public user GetUserByFacebookId(String facebookId)
         {
             user user;
             lock (_lockUserTable)
@@ -139,7 +139,7 @@ namespace ChallengeMeServer.ChallengeMe.App_Code.DataAccess
         }
 
 
-        public void AddFacebookId(int userId, long facebookId)
+        public void AddFacebookId(int userId, String facebookId)
         {
             lock (_lockFacebookIdTable)
             {
@@ -193,15 +193,15 @@ namespace ChallengeMeServer.ChallengeMe.App_Code.DataAccess
             }
         }
 
-        public List<post> GetPostsForUser(int targetUser)
+        public List<post> GetUserPosts(int userId, int targetUserId)
         {
-
             List<post> posts;
             lock (_lockPosts)
             {
                 using (var db = new ChallengeMeEntities())
                 {
-                    posts = db.posts.Where(post => post.UserID == targetUser).ToList();
+                    //todo publicis nacvlad constant unda ikos romelic calke klasshi ikneba.
+                    posts = db.user_followers.Any(x => x.UserFollowerID == userId && x.UserID == targetUserId) ? db.posts.Where(post => post.UserID == targetUserId).ToList() : db.posts.Where(post => post.UserID == targetUserId && post.postType == "Public").ToList();
                 }
             }
             return posts;
@@ -269,6 +269,21 @@ namespace ChallengeMeServer.ChallengeMe.App_Code.DataAccess
                     db.SaveChanges();
                 }
             }
+        }
+
+        public List<post> GetFollowingPosts(int userId)
+        {
+            List<post> getFollowingPosts;
+            using (var db = new ChallengeMeEntities())
+            {
+                //db.user_followers.Where(x => x.UserFollowerID == userId).ToList().ForEach(y =>
+                //    {
+                //        getFollowingPosts = getFollowingPosts.Union(db.posts.Where(post => post.UserID == y.UserID).ToList()).ToList();
+                //    });
+                var followers = db.user_followers.Where(y => y.UserFollowerID == userId).ToList();
+                getFollowingPosts = db.posts.Where(x => followers.Any(z => z.UserID == x.UserID)).ToList();
+            }
+            return getFollowingPosts;
         }
     }
 }

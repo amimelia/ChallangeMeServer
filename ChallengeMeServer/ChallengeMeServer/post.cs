@@ -29,6 +29,7 @@ namespace ChallengeMeServer
         public Nullable<System.DateTime> PostCreateDate { get; set; }
         public Nullable<int> ChallengeID { get; set; }
         public Nullable<int> UserID { get; set; }
+        public string postType { get; set; }
     
         public virtual challenge challenge { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
