@@ -11,7 +11,8 @@ using Facebook;
 namespace ChallengeMeServer.Controllers
 {
     public class AuthenticationController : CommonApiController
-    {
+    { 
+
         // GET: api/SignUp
         [ActionName("EmailSignIn")]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
